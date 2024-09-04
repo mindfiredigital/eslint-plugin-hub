@@ -24,7 +24,7 @@ Here are some ways you can contribute to the project:
 3. Create a new **branch** for your feature or fix:
 
    ```bash
-   git checkout -b feature-name
+   git checkout -b feature/new-login or bugfix/header-styling.
    ```
 
 4. **Make changes** and **test** to ensure they work as expected.
