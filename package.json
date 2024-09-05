@@ -7,7 +7,7 @@
     "test": "jest",
     "lint": "eslint .",
     "prepare": "husky",
-    "generate-rule": "node script/generate-rule.mjs"
+    "generate-rule": "node script/generate-rule.js"
   },
   "keywords": [],
   "author": "",

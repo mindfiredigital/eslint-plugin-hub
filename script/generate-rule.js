@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { ruleTemplate } = require('./templates/rule-template'); // Adjust path as needed
+const { ruleTemplate } = require('./templates/rule-template');
 const { testTemplate } = require('./templates/test-template');
 
 const ruleName = process.argv[2];
