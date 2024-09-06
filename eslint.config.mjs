@@ -1,5 +1,5 @@
 import globals from 'globals';
-import customPlugin from './index.js';
+import pluginHub from './index.js';
 
 export default [
   {
@@ -18,14 +18,14 @@ export default [
       },
     },
     plugins: {
-      custom: customPlugin,
+      pluginHub: pluginHub,
     },
     rules: {
-      'custom/filename-kebabcase': 'error',
+      'pluginHub/filename-kebabcase': 'error',
 
-      'custom/function-camelcase': 'error',
+      'pluginHub/function-camelcase': 'error',
 
-      'custom/vars-camelcase': 'error',
+      'pluginHub/vars-camelcase': 'error',
 
       //Detect and report unused variables
       'no-unused-vars': [

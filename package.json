@@ -9,9 +9,17 @@
     "prepare": "husky",
     "generate-rule": "node script/generate-rule.js"
   },
-  "keywords": [],
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
+    "coding-standards",
+    "pluginHub",
+    "linter",
+    "lint"
+  ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@commitlint/cli": "^19.4.0",
     "@commitlint/config-conventional": "^19.2.2",
