@@ -1,4 +1,7 @@
 const checkFilenames = require('./lib/rules/filename-kebabcase');
+const filenameCamelcase = require('./lib/rules/filename-camelcase');
+const functionPascalcase = require('./lib/rules/function-pascalcase');
+const filenamePascalcase = require('./lib/rules/filename-pascalcase');
 const varsSnakecase = require('./lib/rules/vars-snakecase');
 const varsPascalcase = require('./lib/rules/vars-pascalcase');
 const checkClass = require('./lib/rules/class-pascalcase');
@@ -17,5 +20,8 @@ module.exports = {
     ...descriptiveVars.rules,
     ...varsPascalcase.rules,
     ...varsSnakecase.rules,
+    ...filenamePascalcase.rules,
+    ...functionPascalcase.rules,
+    ...filenameCamelcase.rules,
   },
 };
