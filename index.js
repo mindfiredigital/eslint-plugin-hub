@@ -1,4 +1,5 @@
 const fileKebabcase = require('./lib/rules/file-kebabcase');
+const consistentReturn = require('./lib/rules/consistent-return');
 const maxFunctionParams = require('./lib/rules/max-function-params');
 const noSingleCharacterVars = require('./lib/rules/no-single-character-vars');
 const varsLowercase = require('./lib/rules/vars-lowercase');
@@ -39,5 +40,6 @@ module.exports = {
     ...varsLowercase.rules,
     ...noSingleCharacterVars.rules,
     ...maxFunctionParams.rules,
+    ...consistentReturn.rules,
   },
 };
