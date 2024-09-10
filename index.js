@@ -1,4 +1,6 @@
 const fileKebabcase = require('./lib/rules/file-kebabcase');
+const maxLinesPerFile = require('./lib/rules/max-lines-per-file');
+const maxLinesPerFunction = require('./lib/rules/max-lines-per-function');
 const consistentReturn = require('./lib/rules/consistent-return');
 const maxFunctionParams = require('./lib/rules/max-function-params');
 const noSingleCharacterVars = require('./lib/rules/no-single-character-vars');
@@ -41,5 +43,7 @@ module.exports = {
     ...noSingleCharacterVars.rules,
     ...maxFunctionParams.rules,
     ...consistentReturn.rules,
+    ...maxLinesPerFunction.rules,
+    ...maxLinesPerFile.rules,
   },
 };
