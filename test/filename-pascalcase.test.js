@@ -22,10 +22,6 @@ ruleTester.run('filename-pascalcase', rules['filename-pascalcase'], {
       filename: path.join(__dirname, 'ShortDir', 'ValidFileName.json'),
       code: 'console.log("Valid file name with short directory");',
     },
-    {
-      filename: path.join(__dirname, 'ValidDirName', 'File.js'),
-      code: 'console.log("Valid directory name");',
-    },
   ],
 
   invalid: [
@@ -40,20 +36,6 @@ ruleTester.run('filename-pascalcase', rules['filename-pascalcase'], {
       filename: path.join(__dirname, 'invalid.js'),
       code: 'console.log("Invalid short file name");',
       errors: [{ messageId: 'invalidFileName', data: { name: 'invalid.js' } }],
-    },
-    {
-      filename: path.join(__dirname, 'invalid-dir-name', 'ValidFileName.js'),
-      code: 'console.log("Valid file name in invalid directory");',
-      errors: [
-        { messageId: 'invalidFolderName', data: { name: 'invalid-dir-name' } },
-      ],
-    },
-    {
-      filename: path.join(__dirname, 'InvalidDirName', 'file.js'),
-      code: 'console.log("Invalid directory name");',
-      errors: [
-        { messageId: 'invalidFolderName', data: { name: 'InvalidDirName' } },
-      ],
     },
   ],
 });
