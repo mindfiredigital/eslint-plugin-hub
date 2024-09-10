@@ -1,4 +1,5 @@
 const fileKebabcase = require('./lib/rules/file-kebabcase');
+const noSingleCharacterVars = require('./lib/rules/no-single-character-vars');
 const varsLowercase = require('./lib/rules/vars-lowercase');
 const folderLowercase = require('./lib/rules/folder-lowercase');
 const fileLowercase = require('./lib/rules/file-lowercase');
@@ -35,5 +36,6 @@ module.exports = {
     ...fileLowercase.rules,
     ...folderLowercase.rules,
     ...varsLowercase.rules,
+    ...noSingleCharacterVars.rules,
   },
 };
