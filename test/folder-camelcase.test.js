@@ -4,7 +4,7 @@ const rules = require('../index').rules;
 
 const ruleTester = new RuleTester();
 
-ruleTester.run('foldername-camelcase', rules['foldername-camelcase'], {
+ruleTester.run('folder-camelcase', rules['folder-camelcase'], {
   valid: [
     {
       filename: path.join(__dirname, 'validDirName', 'file.js'),

@@ -25,10 +25,10 @@ ruleTester.run('folder-pascalcase', rules['folder-pascalcase'], {
       ],
     },
     {
-      filename: path.join(__dirname, 'InvalidDirName', 'file.js'),
+      filename: path.join(__dirname, 'invalidDirName', 'file.js'),
       code: 'console.log("Invalid directory name");',
       errors: [
-        { messageId: 'invalidFolderName', data: { name: 'InvalidDirName' } },
+        { messageId: 'invalidFolderName', data: { name: 'invalidDirName' } },
       ],
     },
   ],

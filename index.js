@@ -1,7 +1,9 @@
 const checkFilenames = require('./lib/rules/filename-kebabcase');
+const folderLowercase = require('./lib/rules/folder-lowercase');
+const filenameLowercase = require('./lib/rules/filename-lowercase');
 const folderPascalcase = require('./lib/rules/folder-pascalcase');
 const folderKebabcase = require('./lib/rules/folder-kebabcase');
-const foldernameCamelcase = require('./lib/rules/foldername-camelcase');
+const folderCamelcase = require('./lib/rules/folder-camelcase');
 const filenameCamelcase = require('./lib/rules/filename-camelcase');
 const functionPascalcase = require('./lib/rules/function-pascalcase');
 const filenamePascalcase = require('./lib/rules/filename-pascalcase');
@@ -26,8 +28,10 @@ module.exports = {
     ...filenamePascalcase.rules,
     ...functionPascalcase.rules,
     ...filenameCamelcase.rules,
-    ...foldernameCamelcase.rules,
+    ...folderCamelcase.rules,
     ...folderKebabcase.rules,
     ...folderPascalcase.rules,
+    ...filenameLowercase.rules,
+    ...folderLowercase.rules,
   },
 };
