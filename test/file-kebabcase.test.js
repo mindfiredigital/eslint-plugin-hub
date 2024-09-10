@@ -4,7 +4,7 @@ const rules = require('../index').rules;
 
 const ruleTester = new RuleTester();
 
-ruleTester.run('filename-kebabcase', rules['filename-kebabcase'], {
+ruleTester.run('file-kebabcase', rules['file-kebabcase'], {
   valid: [
     {
       filename: path.join(__dirname, 'valid-file-name.js'),

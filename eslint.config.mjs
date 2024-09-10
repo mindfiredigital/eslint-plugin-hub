@@ -21,7 +21,7 @@ export default [
       pluginHub: pluginHub,
     },
     rules: {
-      'pluginHub/filename-kebabcase': 'error',
+      'pluginHub/file-kebabcase': 'error',
 
       'pluginHub/function-camelcase': 'error',
 
