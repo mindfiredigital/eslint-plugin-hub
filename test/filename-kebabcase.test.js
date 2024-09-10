@@ -22,10 +22,6 @@ ruleTester.run('filename-kebabcase', rules['filename-kebabcase'], {
       filename: path.join(__dirname, 'shortdir', 'valid-file-name.json'),
       code: 'console.log("Valid file name with short directory");',
     },
-    {
-      filename: path.join(__dirname, 'valid-dir-name', 'file.js'),
-      code: 'console.log("Valid directory name");',
-    },
   ],
 
   invalid: [
@@ -40,20 +36,6 @@ ruleTester.run('filename-kebabcase', rules['filename-kebabcase'], {
       filename: path.join(__dirname, 'INVALID.js'),
       code: 'console.log("Invalid short file name");',
       errors: [{ messageId: 'invalidFileName', data: { name: 'INVALID.js' } }],
-    },
-    {
-      filename: path.join(__dirname, 'Invalid-Dir-Name', 'valid-file-name.js'),
-      code: 'console.log("Valid file name in invalid directory");',
-      errors: [
-        { messageId: 'invalidFolderName', data: { name: 'Invalid-Dir-Name' } },
-      ],
-    },
-    {
-      filename: path.join(__dirname, 'invalid_dir_name', 'file.js'),
-      code: 'console.log("Invalid directory name");',
-      errors: [
-        { messageId: 'invalidFolderName', data: { name: 'invalid_dir_name' } },
-      ],
     },
   ],
 });
