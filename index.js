@@ -1,4 +1,5 @@
 const checkFilenames = require('./lib/rules/filename-kebabcase');
+const foldernameCamelcase = require('./lib/rules/foldername-camelcase');
 const filenameCamelcase = require('./lib/rules/filename-camelcase');
 const functionPascalcase = require('./lib/rules/function-pascalcase');
 const filenamePascalcase = require('./lib/rules/filename-pascalcase');
@@ -23,5 +24,6 @@ module.exports = {
     ...filenamePascalcase.rules,
     ...functionPascalcase.rules,
     ...filenameCamelcase.rules,
+    ...foldernameCamelcase.rules,
   },
 };

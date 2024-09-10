@@ -41,19 +41,5 @@ ruleTester.run('filename-camelcase', rules['filename-camelcase'], {
       code: 'console.log("Invalid short file name");',
       errors: [{ messageId: 'invalidFileName', data: { name: 'INVALID.js' } }],
     },
-    {
-      filename: path.join(__dirname, 'Invalid-Dir-Name', 'validFileName.js'),
-      code: 'console.log("Valid file name in invalid directory");',
-      errors: [
-        { messageId: 'invalidFolderName', data: { name: 'Invalid-Dir-Name' } },
-      ],
-    },
-    {
-      filename: path.join(__dirname, 'invalid-dir-name', 'file.js'),
-      code: 'console.log("Invalid directory name");',
-      errors: [
-        { messageId: 'invalidFolderName', data: { name: 'invalid-dir-name' } },
-      ],
-    },
   ],
 });
