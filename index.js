@@ -1,4 +1,5 @@
 const fileKebabcase = require('./lib/rules/general/file-kebabcase');
+const angularFilenaming = require('./lib/rules/angular/angular-filenaming');
 const reactFilenamePascalCase = require('./lib/rules/react/react-filename-pascalcase');
 const maxLinesPerFile = require('./lib/rules/general/max-lines-per-file');
 const maxLinesPerFunction = require('./lib/rules/general/max-lines-per-function');
@@ -47,5 +48,6 @@ module.exports = {
     ...maxLinesPerFunction.rules,
     ...maxLinesPerFile.rules,
     ...reactFilenamePascalCase.rules,
+    ...angularFilenaming.rules,
   },
 };

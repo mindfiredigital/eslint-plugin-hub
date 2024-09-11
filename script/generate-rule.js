@@ -3,6 +3,8 @@ const path = require('path');
 const readline = require('readline');
 const { ruleTemplate } = require('./templates/rule-template');
 const { testTemplate } = require('./templates/test-template');
+const { reactTestTemplate } = require('./templates/react-test-template');
+const { angularTestTemplate } = require('./templates/angular-test-template');
 
 const ruleName = process.argv[2];
 
@@ -34,12 +36,23 @@ function createRule(ruleType) {
     fs.mkdirSync(rulesDir, { recursive: true });
   }
 
-  // Create rule file
+  // Create rule file (same for all types)
   fs.writeFileSync(ruleFile, ruleTemplate(ruleName).trim(), 'utf8');
   console.log(`Rule file created: ${ruleFile}`);
 
-  // Create test file
-  fs.writeFileSync(testFile, testTemplate(ruleName).trim(), 'utf8');
+  // Create test file based on rule type
+  let testContent;
+  switch (ruleType) {
+    case 'react':
+      testContent = reactTestTemplate(ruleName);
+      break;
+    case 'angular':
+      testContent = angularTestTemplate(ruleName);
+      break;
+    default:
+      testContent = testTemplate(ruleName);
+  }
+  fs.writeFileSync(testFile, testContent.trim(), 'utf8');
   console.log(`Test file created: ${testFile}`);
 
   // Update index.js
@@ -63,17 +76,22 @@ function createRule(ruleType) {
   rl.close();
 }
 
-// Prompt the user to choose between general and react if ruleType is not provided
+// Prompt the user to choose between general, react, and angular if ruleType is not provided
 if (!process.argv[3]) {
-  rl.question('Please choose the rule type (general/react): ', answer => {
-    const ruleType = answer.toLowerCase();
-    if (ruleType === 'general' || ruleType === 'react') {
-      createRule(ruleType);
-    } else {
-      console.error('Invalid rule type. Please choose "general" or "react".');
-      process.exit(1);
+  rl.question(
+    'Please choose the rule type (general/react/angular): ',
+    answer => {
+      const ruleType = answer.toLowerCase();
+      if (['general', 'react', 'angular'].includes(ruleType)) {
+        createRule(ruleType);
+      } else {
+        console.error(
+          'Invalid rule type. Please choose "general", "react", or "angular".'
+        );
+        process.exit(1);
+      }
     }
-  });
+  );
 } else {
   createRule(process.argv[3]);
 }
