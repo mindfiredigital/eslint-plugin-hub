@@ -4,7 +4,7 @@ module.exports = {
   },
   testEnvironment: 'node',
   verbose: true,
-  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node', 'mjs'], // Add 'mjs' to the list
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node', 'mjs'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
