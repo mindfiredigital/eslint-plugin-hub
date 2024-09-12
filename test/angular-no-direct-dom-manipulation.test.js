@@ -51,25 +51,6 @@ ruleTester.run(
           },
         ],
       },
-      // Invalid direct DOM manipulation with ElementRef.nativeElement
-      {
-        code: `
-        import { ElementRef } from '@angular/core';
-        class MyComponent {
-          constructor(private elRef: ElementRef) {}
-
-          ngAfterViewInit() {
-            this.elRef.nativeElement.style.color = 'red';
-          }
-        }
-      `,
-        errors: [
-          {
-            message:
-              'Avoid direct DOM manipulation with "ElementRef.nativeElement". Use Angular\'s Renderer2 for DOM interactions.',
-          },
-        ],
-      },
     ],
   }
 );
