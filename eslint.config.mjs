@@ -1,4 +1,4 @@
-import pluginHub from './index.js';
+import {pluginHub} from './index.js';
 import babelParser from '@babel/eslint-parser';
 import tsParser from '@typescript-eslint/parser';
 import globals from 'globals';

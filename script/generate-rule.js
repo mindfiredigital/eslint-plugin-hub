@@ -26,17 +26,37 @@ function toCamelCase(str) {
 // Function to create files and update index.js
 function createRule(ruleType) {
   // Define paths based on rule type
-  const rulesDir = path.join(__dirname, '..', 'lib', 'rules', ruleType);
+  const rulesDir = path.join(
+    __dirname,
+    '..',
+    'lib',
+    'rules',
+    ruleType,
+    'plugin'
+  );
   const ruleFile = path.join(rulesDir, `${ruleName}.js`);
-  const testFile = path.join(__dirname, '..', 'test', `${ruleName}.test.js`);
-  const indexFile = path.join(__dirname, '..', 'index.js');
+  const testFile = path.join(
+    __dirname,
+    '..',
+    'test',
+    ruleType,
+    `${ruleName}.test.js`
+  );
+  const indexFile = path.join(
+    __dirname,
+    '..',
+    'lib',
+    'rules',
+    ruleType,
+    'index.js'
+  );
 
   // Ensure the directory exists
   if (!fs.existsSync(rulesDir)) {
     fs.mkdirSync(rulesDir, { recursive: true });
   }
 
-  // Create rule file (same for all types)
+  // Create rule file
   fs.writeFileSync(ruleFile, ruleTemplate(ruleName).trim(), 'utf8');
   console.log(`Rule file created: ${ruleFile}`);
 
@@ -55,10 +75,10 @@ function createRule(ruleType) {
   fs.writeFileSync(testFile, testContent.trim(), 'utf8');
   console.log(`Test file created: ${testFile}`);
 
-  // Update index.js
+  // Update index.js for the specific rule type
   const indexContent = fs.readFileSync(indexFile, 'utf8');
   const camelCaseRuleName = toCamelCase(ruleName);
-  const ruleImport = `const ${camelCaseRuleName} = require('./lib/rules/${ruleType}/${ruleName}');`;
+  const ruleImport = `const ${camelCaseRuleName} = require('./plugin/${ruleName}');`;
 
   // New regex pattern to match the entire rules object
   const rulesObjectPattern = /(module\.exports\s*=\s*{\s*rules:\s*{[^}]*})/;
