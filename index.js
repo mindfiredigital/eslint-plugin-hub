@@ -1,4 +1,5 @@
 const fileKebabcase = require('./lib/rules/general/file-kebabcase');
+const angularNoForbiddenServices = require('./lib/rules/angular/angular-no-forbidden-services');
 const angularNoUnusedInputs = require('./lib/rules/angular/angular-no-unused-inputs');
 const angularNoDirectDomManipulation = require('./lib/rules/angular/angular-no-direct-dom-manipulation');
 const angularLimitInput = require('./lib/rules/angular/angular-limit-input');
@@ -55,5 +56,6 @@ module.exports = {
     ...angularLimitInput.rules,
     ...angularNoDirectDomManipulation.rules,
     ...angularNoUnusedInputs.rules,
+    ...angularNoForbiddenServices.rules,
   },
 };
