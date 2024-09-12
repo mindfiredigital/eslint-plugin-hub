@@ -1,4 +1,5 @@
 const fileKebabcase = require('./lib/rules/general/file-kebabcase');
+const angularNoUnusedInputs = require('./lib/rules/angular/angular-no-unused-inputs');
 const angularNoDirectDomManipulation = require('./lib/rules/angular/angular-no-direct-dom-manipulation');
 const angularLimitInput = require('./lib/rules/angular/angular-limit-input');
 const angularFilenaming = require('./lib/rules/angular/angular-filenaming');
@@ -53,5 +54,6 @@ module.exports = {
     ...angularFilenaming.rules,
     ...angularLimitInput.rules,
     ...angularNoDirectDomManipulation.rules,
+    ...angularNoUnusedInputs.rules,
   },
 };
