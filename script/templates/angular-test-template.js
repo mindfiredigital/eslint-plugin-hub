@@ -1,6 +1,6 @@
 const angularTestTemplate = ruleName => `
 const { RuleTester } = require('eslint');
-const rules = require('../index').rules;
+const rules = require('../../index').angularHub.rules;
 const tsParser = require('@typescript-eslint/parser');
 
 const ruleTester = new RuleTester({
