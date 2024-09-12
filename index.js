@@ -1,4 +1,5 @@
 const fileKebabcase = require('./lib/rules/general/file-kebabcase');
+const angularNoDirectDomManipulation = require('./lib/rules/angular/angular-no-direct-dom-manipulation');
 const angularLimitInput = require('./lib/rules/angular/angular-limit-input');
 const angularFilenaming = require('./lib/rules/angular/angular-filenaming');
 const reactFilenamePascalCase = require('./lib/rules/react/react-filename-pascalcase');
@@ -51,5 +52,6 @@ module.exports = {
     ...reactFilenamePascalCase.rules,
     ...angularFilenaming.rules,
     ...angularLimitInput.rules,
+    ...angularNoDirectDomManipulation.rules,
   },
 };
