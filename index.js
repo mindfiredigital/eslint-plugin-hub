@@ -1,4 +1,5 @@
 const fileKebabcase = require('./lib/rules/general/file-kebabcase');
+const reactComponentNameMatchFilename = require('./lib/rules/react/react-component-name-match-filename');
 const angularNoForbiddenServices = require('./lib/rules/angular/angular-no-forbidden-services');
 const angularNoUnusedInputs = require('./lib/rules/angular/angular-no-unused-inputs');
 const angularNoDirectDomManipulation = require('./lib/rules/angular/angular-no-direct-dom-manipulation');
@@ -57,5 +58,6 @@ module.exports = {
     ...angularNoDirectDomManipulation.rules,
     ...angularNoUnusedInputs.rules,
     ...angularNoForbiddenServices.rules,
+    ...reactComponentNameMatchFilename.rules,
   },
 };
