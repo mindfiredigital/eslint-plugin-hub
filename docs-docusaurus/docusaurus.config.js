@@ -7,9 +7,9 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production URL of your site here
-  url: 'https://eslint-plugin-hub.github.io', // Your GitHub Pages URL
+  url: 'https://mindfiredigital.github.io', // Your GitHub Pages URL
   // Set the /<baseUrl>/ pathname under which your site is served
-  baseUrl: '/', // The root URL for the site
+  baseUrl: '/eslint-plugin-hub/', // The root URL for the site
 
   // GitHub pages deployment config.
   organizationName: 'mindfiredigital', // Your GitHub org/user name.

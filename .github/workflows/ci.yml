@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: 'Build and Deploy Docusaurus Documentation'
+    name: 'Build Docusaurus Documentation'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -36,16 +36,60 @@ jobs:
           cd docs-docusaurus
           npm run build
 
+      - name: 'Fetch branches'
+        run: git fetch origin
+
       - name: 'Set Git user name and email'
         run: |
           git config --local user.email "github-actions@github.com"
           git config --local user.name "GitHub Actions"
 
-      - name: 'Deploy Docusaurus site'
+      - name: 'Copy Docusaurus build artifacts to gh-pages branch'
         run: |
-          cd docs-docusaurus
-          npm run deploy
+          # Create a temp directory to store the build files
+          mkdir -p /tmp/temp-directory
+          # Enable dotglob to copy hidden files (like .gitignore)
+          shopt -s dotglob
+          # Copy the build from the docs-docusaurus/build folder
+          cp -r docs-docusaurus/build/* /tmp/temp-directory/
+          shopt -u dotglob
+          # Switch to the gh-pages branch
+          git checkout gh-pages
+          # Remove all files from the gh-pages branch
+          rm -rf *
+          # Copy the build artifacts from the temp directory
+          cp -r /tmp/temp-directory/* .
+          # Check if there are any changes before committing
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add . -f
+            git commit -m "chore: Copy Docusaurus build artifacts to gh-pages branch"
+          else
+            echo "No changes to commit"
+          fi
+
+      - name: Push to gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GIT_USER: "GitHub Actions"
-          GIT_EMAIL: "github-actions@github.com"
+        run: |
+          git push origin gh-pages || echo "No changes to push"
+
+      - name: 'Switch back to docs branch'
+        run: |
+          git checkout docs/docusaurus
+          
+  create-github-release:
+    name: Create Github release document
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: build
+    steps: 
+      - name: Checkout code 
+        uses: actions/checkout@v2   
+        with:
+          node-version: 20.x
+
+      - name: Semantic Release
+        run: npx semantic-release@22
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
