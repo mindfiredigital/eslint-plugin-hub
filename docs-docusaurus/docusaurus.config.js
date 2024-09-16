@@ -12,6 +12,7 @@ const config = {
   baseUrl: '/', // The root URL for the site
 
   // GitHub pages deployment config.
+  organizationName: 'mindfiredigital', // Your GitHub org/user name.
   projectName: 'eslint-plugin-hub', // Your repo name.
 
   onBrokenLinks: 'throw',
@@ -29,7 +30,8 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/eslint-plugin-hub/edit/main/',
+          editUrl:
+            'https://github.com/mindfiredigital/eslint-plugin-hub/edit/main/',
         },
         blog: {
           showReadingTime: true,
@@ -37,7 +39,8 @@ const config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          editUrl: 'https://github.com/eslint-plugin-hub/edit/main/',
+          editUrl:
+            'https://github.com/mindfiredigital/eslint-plugin-hub/edit/main/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
