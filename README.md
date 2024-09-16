@@ -78,7 +78,7 @@ This plugin provides the following rules:
 
 ## Usage
 
-To enable the plugin and use the rules, add the following configuration to your ESLint configuration file (e.g., `.eslintrc.json`, `.eslintrc.js`, or `.eslintrc.yaml`):
+To enable the plugin and use the rules, add the following configuration to your ESLint configuration file (e.g., `.eslintrc.json`, `.eslintrc.js`, or `.eslint.config.mjs`):
 
 ### General
 
