@@ -3,7 +3,7 @@ name: Continuous Integration Workflow
 on:
   push:
     branches:
-      - main
+      - docs/docusaurus
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'  # Runs every night at 12 am UTC
