@@ -18,11 +18,6 @@ const config = {
   // For GitHub Pages deployment, it is often '/<projectName>/'
   baseUrl: '/', // The project name in the URL
 
-  // GitHub Pages deployment config.
-  // If you aren't using GitHub Pages, you don't need these.
-  organizationName: 'mindfiredigital', // Your GitHub org/user name.
-  projectName: 'eslint-plugin-hub', // Your repo name.
-
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
