@@ -2,7 +2,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'eslint-plugin-hub',
+  title: 'Eslint Plugin Hub',
   tagline: 'Linting rules for your projects',
   favicon: 'img/favicon.ico',
 
@@ -13,7 +13,7 @@ const config = {
 
   // GitHub pages deployment config.
   organizationName: 'mindfiredigital', // Your GitHub org/user name.
-  projectName: 'eslint-plugin-hub', // Your repo name.
+  projectName: 'Eslint-plugin-hub', // Your repo name.
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -54,7 +54,7 @@ const config = {
     ({
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'eslint-plugin-hub',
+        title: 'Eslint Plugin Hub',
         logo: {
           alt: 'eslint-plugin-hub Logo',
           src: 'img/logo.svg',

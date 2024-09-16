@@ -12,7 +12,11 @@ const sidebars = {
       label: 'Rules',
       items: ['general', 'react', 'angular'],
     },
-    'contributing',
+    {
+      type: 'category',
+      label: 'Contributing',
+      items: ['contributing', 'addnewrule'],
+    },
   ],
 };
 

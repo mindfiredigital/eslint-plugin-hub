@@ -80,6 +80,10 @@ For more details on Commitlint and conventional commits, please refer to [Commit
 - Ensure your code follows the project's coding style and conventions.
 - Include tests for any new rules or changes to existing ones.
 
+## Documentation Guidelines
+
+When contributing to the documentation, please add your updates in the `docs/docusaurus` branch inside the `docs-docusaurus` folder within the `docs` folder. This helps keep the documentation organized and easily accessible.
+
 ## Code of Conduct and Licensing
 
 Please ensure your contributions adhere to the project's [Code of Conduct](./CODE_OF_CONDUCT.md) and are licensed under the project's [License](./LICENSE).
