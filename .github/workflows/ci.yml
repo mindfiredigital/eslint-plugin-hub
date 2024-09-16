@@ -69,9 +69,9 @@ jobs:
         run: |
           git push origin gh-pages
 
-      - name: 'Switch back to main branch'
+      - name: 'Switch back to docs branch'
         run: |
-          git checkout main
+          git checkout docs/docusaurus
           
   create-github-release:
     name: Create Github release document
