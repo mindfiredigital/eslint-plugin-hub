@@ -9,11 +9,12 @@ on:
     - cron: '0 0 * * *'  # Runs every night at 12 am UTC
 
 jobs:
-  deploy:
-    name: 'Deploy Docusaurus Documentation'
+  build:
+    name: 'Build and Deploy Docusaurus Documentation'
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      packages: read
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v2
@@ -29,6 +30,16 @@ jobs:
         run: |
           cd docs-docusaurus
           npm install
+
+      - name: 'Build Docusaurus site'
+        run: |
+          cd docs-docusaurus
+          npm run build
+
+      - name: 'Set Git user name and email'
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "GitHub Actions"
 
       - name: 'Deploy Docusaurus site'
         run: |
