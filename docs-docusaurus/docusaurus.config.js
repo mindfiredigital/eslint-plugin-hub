@@ -1,9 +1,3 @@
-// @ts-check
-// `@type` JSDoc annotations allow editor autocompletion and type checking
-// (when paired with `@ts-check`).
-// There are various equivalent ways to declare your Docusaurus config.
-// See: https://docusaurus.io/docs/api/docusaurus-config
-
 import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
@@ -15,8 +9,11 @@ const config = {
   // Set the production URL of your site here
   url: 'https://eslint-plugin-hub.github.io', // Your GitHub Pages URL
   // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub Pages deployment, it is often '/<projectName>/'
-  baseUrl: '/', // The project name in the URL
+  baseUrl: '/', // The root URL for the site
+
+  // GitHub pages deployment config.
+  organizationName: 'mindfiredigital', // Your GitHub org/user name.
+  projectName: 'eslint-plugin-hub', // Your repo name.
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -33,8 +30,6 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/mindfiredigital/eslint-plugin-hub/edit/main/',
         },
