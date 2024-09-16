@@ -1,3 +1,7 @@
+Here's the updated contributing guide to reflect the new documentation folder structure:
+
+---
+
 # Contributing to ESLint Plugin Hub
 
 We welcome and appreciate your contributions to the ESLint Plugin Hub. To ensure a smooth and collaborative process, please follow these guidelines.
@@ -80,6 +84,10 @@ For more details on Commitlint and conventional commits, please refer to [Commit
 - Ensure your code follows the project's coding style and conventions.
 - Include tests for any new rules or changes to existing ones.
 
+## Documentation Guidelines
+
+When contributing to the documentation, please add your updates in the `docs/docusaurus` branch inside the `docs-docusaurus` folder within the `docs` folder. This helps keep the documentation organized and easily accessible.
+
 ## Code of Conduct and Licensing
 
 Please ensure your contributions adhere to the project's [Code of Conduct](./CODE_OF_CONDUCT.md) and are licensed under the project's [License](./LICENSE).
@@ -91,3 +99,7 @@ If you have questions or need assistance, feel free to create an issue or direct
 Thank you for your interest in contributing to ESLint Plugin Hub! We appreciate your efforts in making this project better.
 
 Happy contributing!
+
+---
+
+Feel free to adjust any specific details as needed!
