@@ -12,14 +12,14 @@ const config = {
   tagline: 'Linting rules for your projects',
   favicon: 'img/favicon.ico',
 
-  // Set the production url of your site here
+  // Set the production URL of your site here
   url: 'https://eslint-plugin-hub.github.io', // Your GitHub Pages URL
   // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
+  // For GitHub Pages deployment, it is often '/<projectName>/'
   baseUrl: '/', // The project name in the URL
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
+  // GitHub Pages deployment config.
+  // If you aren't using GitHub Pages, you don't need these.
   organizationName: 'mindfiredigital', // Your GitHub org/user name.
   projectName: 'eslint-plugin-hub', // Your repo name.
 
