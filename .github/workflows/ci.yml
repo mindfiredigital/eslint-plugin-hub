@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: 'Build Mindfire FOSS application'
+    name: 'Build Docusaurus Documentation'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -24,22 +24,17 @@ jobs:
         with:
           node-version: 20
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 'Install dependencies'
-        run: npm install
-
-      - name: 'Build application'
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run build
-      
-      - name: 'Restore changes in json'
         run: |
-          git restore src/app/projects/assets/upcomingProjects.json
-          git restore src/app/projects/assets/projects.json
-          git restore src/app/projects/assets/contributors.json
-          git restore src/app/projects/assets/stats.json
+          cd docs-docusaurus
+          npm install
+
+      - name: 'Build Docusaurus site'
+        run: |
+          cd docs-docusaurus
+          npm run build
 
       - name: 'Fetch branches'
         run: git fetch origin
@@ -49,30 +44,35 @@ jobs:
           git config --local user.email "github-actions@github.com"
           git config --local user.name "GitHub Actions"
 
-      - name: 'Copy build artifacts to gh-pages branch'
+      - name: 'Copy Docusaurus build artifacts to gh-pages branch'
         run: |
+          # Create a temp directory to store the build files
           mkdir /tmp/temp-directory
+          # Enable dotglob to copy hidden files (like .gitignore)
           shopt -s dotglob
-          cp -r build/* /tmp/temp-directory/
+          # Copy the build from the docs-docusaurus/build folder
+          cp -r docs-docusaurus/build/* /tmp/temp-directory/
           shopt -u dotglob
+          # Switch to the gh-pages branch
           git checkout gh-pages
+          # Remove all files from the gh-pages branch
           rm -rf *
-          rm -rf .nojekyll
-          shopt -s dotglob
+          # Copy the build artifacts from the temp directory
           cp -r /tmp/temp-directory/* .
-          shopt -u dotglob
-          git add . -f 
-          git commit -m "Copy build artifacts from main to gh-pages branch"
+          # Stage the changes and commit
+          git add . -f
+          git commit -m "Copy Docusaurus build artifacts to gh-pages branch"
 
       - name: Push to gh-pages
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git push origin gh-pages
 
       - name: 'Switch back to main branch'
         run: |
-          git checkout main 
+          git checkout main
+          
   create-github-release:
     name: Create Github release document
     runs-on: ubuntu-latest
