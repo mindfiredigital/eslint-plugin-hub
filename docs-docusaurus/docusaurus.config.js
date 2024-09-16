@@ -13,10 +13,10 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://mindfiredigital.github.io', // Your GitHub Pages URL
+  url: 'https://eslint-plugin-hub.github.io', // Your GitHub Pages URL
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/eslint-plugin-hub/', // The project name in the URL
+  baseUrl: '/', // The project name in the URL
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
