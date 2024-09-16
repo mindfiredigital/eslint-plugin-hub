@@ -47,3 +47,5 @@ jobs:
           npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_USER: "GitHub Actions"
+          GIT_EMAIL: "github-actions@github.com"
