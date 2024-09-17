@@ -11,6 +11,7 @@ A collection of custom ESLint rules to enforce coding standards and best practic
   - [React](#react)
   - [Angular](#angular)
 - [Contributing](#contributing)
+- [Issue Templates](#issue-templates)
 - [Documentation](#documentation)
 - [License](#license)
 
@@ -264,14 +265,34 @@ We welcome contributions to the ESLint Plugin Hub! Here's how you can contribute
 
 13. **Merge**: Once approved, your Pull Request will be merged into the main branch.
 
-Remember to adhere to the existing code style and follow ESLint Plugin Hub's best practices. If you're unsure about anything, don't hesitate to ask for help in your Pull
+Remember to adhere to the existing code style and follow ESLint Plugin Hub
 
-Please refer to our [contributing guidelines](CONTRIBUTING.md) for more detailed information on our development process, coding standards, and other guidelines.
+'s contribution guidelines.
+
+## Issue Templates
+
+If you encounter a bug or have a feature request, please check the available [Issue Templates](https://github.com/eslint-plugin-hub/issues) before opening a new issue.
+
+For bug reports, provide:
+
+1. A clear and descriptive title.
+2. Steps to reproduce the issue.
+3. Expected behavior and what happens instead.
+4. Any error messages or logs.
+
+For feature requests:
+
+1. Provide a detailed description of the feature.
+2. Explain the problem it solves or the improvement it brings.
+
+Make sure to check the **contributing guide** for additional instructions before submitting.
 
 ## Documentation
 
-For a detailed tutorial and comprehensive documentation on how to use ESLint Plugin Hub, please visit our [official documentation site](https://mindfiredigital.github.io/eslint-plugin-hub/).
+The documentation for each rule is available at our [official documentation site](https://eslint-plugin-hub.github.io). You can find detailed usage instructions, examples, and best practices for each rule.
+
+If you're contributing to the documentation, please follow the instructions in the `CONTRIBUTING.md` file for how to structure and update the documentation in the `docs/docusaurus` branch.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for details.
+ESLint Plugin Hub is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
