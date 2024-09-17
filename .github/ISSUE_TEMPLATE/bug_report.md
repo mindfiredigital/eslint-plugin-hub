@@ -1,7 +1,7 @@
 ---
  Name: Bug report  
  About: Create a report to help us improve
- Title: `[BUG]`
+ Title: '[BUG]'
  Labels: bug
 ---
 
