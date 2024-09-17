@@ -1,10 +1,8 @@
 ---
-
-**Name:** Bug report  
-**about:** Create a report to help us improve
-**title:** `[BUG]`
-**Labels:** bug
-
+ Name: Bug report  
+ About: Create a report to help us improve
+ Title: `[BUG]`
+ Labels: bug
 ---
 
 <!-- ✨ Thanks for reporting a bug! ➡️ Please follow this template to help us resolve the issue faster. -->
