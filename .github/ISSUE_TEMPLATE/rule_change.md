@@ -1,8 +1,8 @@
 ---
-**Name:** Rule Change  
-**About:** Propose a change to an existing rule  
-**Title:** `[RULE CHANGE]`  
-**Labels:** rule change  
+ name: Rule Change  
+ about: Propose a change to an existing rule  
+ title: '[RULE CHANGE]'  
+ labels: rule change  
 ---
 
 <!-- ✨ Thanks for suggesting a rule change! ➡️ Please follow this template to ensure we understand your proposal clearly. -->
