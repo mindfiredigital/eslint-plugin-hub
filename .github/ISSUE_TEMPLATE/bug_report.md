@@ -1,7 +1,8 @@
 ---
 
 **Name:** Bug report  
-**About:** A rule isn't working as it should?  
+**about:** Create a report to help us improve
+**title:** '[BUG] '
 **Labels:** bug
 
 ---
