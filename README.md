@@ -268,6 +268,10 @@ Remember to adhere to the existing code style and follow ESLint Plugin Hub's bes
 
 Please refer to our [contributing guidelines](CONTRIBUTING.md) for more detailed information on our development process, coding standards, and other guidelines.
 
+## Documentation
+
+For a detailed tutorial and comprehensive documentation on how to use ESLint Plugin Hub, please visit our [official documentation site](https://mindfiredigital.github.io/eslint-plugin-hub/).
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for details.
