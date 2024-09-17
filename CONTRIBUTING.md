@@ -1,7 +1,3 @@
-Here's the updated contributing guide to reflect the new documentation folder structure:
-
----
-
 # Contributing to ESLint Plugin Hub
 
 We welcome and appreciate your contributions to the ESLint Plugin Hub. To ensure a smooth and collaborative process, please follow these guidelines.
@@ -99,7 +95,3 @@ If you have questions or need assistance, feel free to create an issue or direct
 Thank you for your interest in contributing to ESLint Plugin Hub! We appreciate your efforts in making this project better.
 
 Happy contributing!
-
----
-
-Feel free to adjust any specific details as needed!
