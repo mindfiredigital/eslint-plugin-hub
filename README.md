@@ -6,12 +6,12 @@ A collection of custom ESLint rules to enforce coding standards and best practic
 
 - [Installation](#installation)
 - [Rules](#rules)
-
 - [Usage](#usage)
   - [General](#general)
   - [React](#react)
   - [Angular](#angular)
 - [Contributing](#contributing)
+- [Documentation](#documentation)
 - [License](#license)
 
 ## Installation
@@ -264,9 +264,7 @@ We welcome contributions to the ESLint Plugin Hub! Here's how you can contribute
 
 13. **Merge**: Once approved, your Pull Request will be merged into the main branch.
 
-Remember to adhere to the existing code style and follow ESLint Plugin Hub's best practices. If you're unsure about anything, don't hesitate to ask for help in your Pull Request or in the project's issues.
-
-Thank you for contributing to ESLint Plugin Hub!
+Remember to adhere to the existing code style and follow ESLint Plugin Hub's best practices. If you're unsure about anything, don't hesitate to ask for help in your Pull
 
 Please refer to our [contributing guidelines](CONTRIBUTING.md) for more detailed information on our development process, coding standards, and other guidelines.
 
