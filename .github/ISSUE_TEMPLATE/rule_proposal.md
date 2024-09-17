@@ -1,8 +1,8 @@
 ---
-**Name:** Rule Proposal  
-**About:** Suggest a new rule for this project  
-**Title:** `[NEW RULE]`  
-**Labels:** new rule
+ name: Rule Proposal  
+ about: Suggest a new rule for this project  
+ title: '[NEW RULE]'  
+ labels: new rule
 ---
 
 <!-- ✨ Thanks for proposing a new rule! ➡️ Please follow this template to provide all the necessary details for your suggestion. -->
