@@ -30,7 +30,6 @@
     "package.json",
     "tsconfig.json",
     "babel.config.js",
-    "eslint.config.mjs",
     "README.md",
     "LICENSE.md"
   ],
