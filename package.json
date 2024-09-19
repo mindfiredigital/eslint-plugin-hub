@@ -34,6 +34,13 @@
     "README.md",
     "LICENSE.md"
   ],
+  "dependencies": {
+    "compromise": "^14.0.1",
+    "@typescript-eslint/typescript-estree": "^5.0.1",
+    "@babel/parser": "^7.21.0",
+    "@babel/traverse": "^7.21.0",
+    "@babel/types": "^7.21.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/eslint-parser": "^7.25.1",
@@ -52,6 +59,9 @@
     "lint-staged": "^15.2.9",
     "prettier": "^3.3.3",
     "semantic-release": "^24.1.1"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.56.0"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
