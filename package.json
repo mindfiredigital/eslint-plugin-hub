@@ -22,7 +22,7 @@
     "linter",
     "lint"
   ],
-  "author": "",
+  "author": "mindfiredigital",
   "license": "MIT",
   "files": [
     "lib/",
