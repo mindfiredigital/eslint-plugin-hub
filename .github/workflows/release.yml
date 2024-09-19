@@ -31,9 +31,6 @@ jobs:
       - name: "Run tests"
         run: npm test
 
-      - name: "Build application"
-        run: npm run build
-
       - name: "Restore changes in json"
         run: |
           git restore package-lock.json
