@@ -1,0 +1,18 @@
+# Exclude everything by default
+*
+
+# Allow specific files and folders to be included
+!lib/
+!index.js
+!package.json
+!tsconfig.json
+!babel.config.js
+!eslint.config.mjs
+
+# Optional: You can explicitly ignore other config files or directories if needed
+# Ignore test files
+tests/
+*.test.js
+
+# Ignore node_modules if it's not already excluded
+node_modules/

@@ -1,7 +1,11 @@
 {
-  "name": "eslint-plugin-hub",
+  "name": "@mindfiredigital/eslint-plugin-hub",
   "version": "1.0.0",
-  "description": "",
+  "description": "eslint-plugin-hub is a powerful, flexible ESLint plugin that provides a curated set of rules to enhance code readability, maintainability, and prevent common errors. Whether you're working with vanilla JavaScript, TypeScript, React, or Angular, eslint-plugin-hub has you covered with ecosystem-specific rules and general best practices.",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -49,6 +53,20 @@
     ],
     "**/*.md": [
       "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "release": {
+    "repositoryUrl": "https://github.com/mindfiredigital/eslint-plugin-hub.git",
+    "branches": [
+      "master",
+      "next",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
     ]
   }
 }
