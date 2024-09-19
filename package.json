@@ -24,6 +24,16 @@
   ],
   "author": "",
   "license": "MIT",
+  "files": [
+    "lib/",
+    "index.js",
+    "package.json",
+    "tsconfig.json",
+    "babel.config.js",
+    "eslint.config.mjs",
+    "README.md",
+    "LICENSE.md"
+  ],
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/eslint-parser": "^7.25.1",
