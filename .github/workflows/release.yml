@@ -1,46 +1,70 @@
-name: Release Package
+name: Deployment Workflow
 
 on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
-  release:
-    name: Release
+  build:
+    name: "@mindfiredigital/eslint-plugin-hub"
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+      packages: read
     steps:
-      - name: Checkout repository
+      - name: "Checkout repository"
         uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-          cache: 'npm'
 
-      - name: Install dependencies
+      - name: "Install dependencies"
         run: npm ci
 
-      - name: Lint code
+      - name: "Lint code"
         run: npm run lint
 
-      - name: Run tests
+      - name: "Run tests"
         run: npm test
 
-      - name: Check GitHub Token Permissions
+      - name: "Build application"
+        run: npm run build
+
+      - name: "Restore changes in json"
         run: |
-          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/user
-      
-      - name: Publish package (semantic-release)
-        run: npx semantic-release
+          git restore package-lock.json
+
+      - name: "Set Git user name and email"
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "GitHub Actions"
+
+  create-github-release:
+    name: Create GitHub release document and publish to npm
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Semantic Release and npm release
+        run: |
+          npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify .npmignore files
         run: |
@@ -50,7 +74,7 @@ jobs:
   release-notes:
     name: Generate Release Notes
     runs-on: ubuntu-latest
-    needs: release
+    needs: create-github-release
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
