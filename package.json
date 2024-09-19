@@ -62,7 +62,6 @@
     "repositoryUrl": "https://github.com/mindfiredigital/eslint-plugin-hub.git",
     "branches": [
       "master",
-      "next",
       {
         "name": "beta",
         "prerelease": true
