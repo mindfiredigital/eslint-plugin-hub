@@ -34,11 +34,11 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "compromise": "^14.0.1",
-    "@typescript-eslint/typescript-estree": "^5.0.1",
     "@babel/parser": "^7.21.0",
     "@babel/traverse": "^7.21.0",
-    "@babel/types": "^7.21.0"
+    "@babel/types": "^7.21.0",
+    "@typescript-eslint/typescript-estree": "^5.0.1",
+    "compromise": "^14.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -48,6 +48,7 @@
     "@babel/preset-typescript": "^7.24.7",
     "@commitlint/cli": "^19.4.0",
     "@commitlint/config-conventional": "^19.2.2",
+    "@mindfiredigital/eslint-plugin-hub": "^1.0.4",
     "@typescript-eslint/parser": "^8.5.0",
     "babel-jest": "^29.7.0",
     "compromise": "^14.14.0",
