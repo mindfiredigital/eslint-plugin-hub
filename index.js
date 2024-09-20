@@ -15,7 +15,7 @@ const prefixRules = (rules, prefix) =>
   );
 
 // Meta information for the plugin
-const pluginHub = {
+const hub = {
   meta: {
     name,
     version,
@@ -36,13 +36,13 @@ const createConfig = (rules, isFlatConfig = false) => ({
 // Configurations for flat and legacy, including recommended
 const configs = {
   // Legacy format
-  all: createConfig(pluginHub.rules),
+  all: createConfig(hub.rules),
   general: createConfig(prefixRules(generalRules, 'general')),
   react: createConfig(prefixRules(reactRules, 'react')),
   angular: createConfig(prefixRules(angularRules, 'angular')),
 
   // Flat format
-  'flat/all': createConfig(pluginHub.rules, true),
+  'flat/all': createConfig(hub.rules, true),
   'flat/general': createConfig(prefixRules(generalRules, 'general'), true),
   'flat/react': createConfig(prefixRules(reactRules, 'react'), true),
   'flat/angular': createConfig(prefixRules(angularRules, 'angular'), true),
@@ -57,4 +57,4 @@ const configs = {
   ),
 };
 
-module.exports = { ...pluginHub, configs };
+module.exports = { ...hub, configs };

@@ -1,4 +1,4 @@
-import pluginHub from './index.js';
+import hub from './index.js';
 import babelParser from '@babel/eslint-parser';
 import tsParser from '@typescript-eslint/parser';
 import globals from 'globals';
@@ -33,12 +33,12 @@ export default [
       },
     },
     plugins: {
-      pluginHub: pluginHub,
+      hub: hub,
     },
   rules: {
-    'pluginHub/general/file-kebabcase': 'error',
-    'pluginHub/general/function-camelcase': 'error',
-    'pluginHub/general/vars-camelcase': 'error',
+    'hub/general/file-kebabcase': 'error',
+    'hub/general/function-camelcase': 'error',
+    'hub/general/vars-camelcase': 'error',
       'no-unused-vars': [
         'error',
         {
@@ -66,12 +66,12 @@ export default [
       },
     },
     plugins: {
-      pluginHub: pluginHub,
+      hub: hub,
     },
     rules: {
-      'pluginHub/general/file-kebabcase': 'error',
-      'pluginHub/general/function-camelcase': 'error',
-      'pluginHub/general/vars-camelcase': 'error',
+      'hub/general/file-kebabcase': 'error',
+      'hub/general/function-camelcase': 'error',
+      'hub/general/vars-camelcase': 'error',
     }
   },
 ];
