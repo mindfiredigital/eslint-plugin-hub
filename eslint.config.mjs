@@ -1,9 +1,11 @@
-import hub from './index.js'; // Import your plugin
-import babelParser from '@babel/eslint-parser'; // Babel parser for JS/JSX
-import tsParser from '@typescript-eslint/parser'; // TypeScript parser
-import globals from 'globals'; // Global variables
+import hub from './index.js';
+import babelParser from '@babel/eslint-parser';
+import tsParser from '@typescript-eslint/parser';
+import globals from 'globals';
 
 export default [
+  // Use the flat MERN configuration as the base
+  hub.configs['flat/mern'],
   {
     ignores: [
       '**/node_modules/**',
@@ -11,7 +13,6 @@ export default [
       '**/docs-docusaurus/**',
     ],
   },
-  // Configuration for JavaScript and JSX files
   {
     files: ['**/*.js', '**/*.jsx'],
     languageOptions: {
@@ -21,9 +22,9 @@ export default [
         babelOptions: {
           babelrc: false,
           configFile: false,
-          presets: ['@babel/preset-env', '@babel/preset-react'],
+          presets: ["@babel/preset-env", "@babel/preset-react"],
         },
-        ecmaVersion: 2024,
+        ecmaVersion: 2022,
         sourceType: 'module',
         ecmaFeatures: {
           jsx: true,
@@ -33,35 +34,34 @@ export default [
         ...globals.node,
       },
     },
-    plugins: {
-      hub, // Use the imported plugin
-    },
     rules: {
-      ...hub.configs.mern.rules, // Use the flat-config version of the recommended MERN rules
+      // You can override or add specific rules here if needed
+      'no-unused-vars': [
+        'error',
+        {
+          vars: 'all',
+          args: 'none',
+          ignoreRestSiblings: false,
+        },
+      ],
     },
   },
-  // Configuration for TypeScript and TSX files
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        ecmaVersion: 2024,
+        ecmaVersion: 2022,
         sourceType: 'module',
         ecmaFeatures: {
           jsx: true,
         },
-        project: './tsconfig.json', // Ensure TypeScript project file is set
+        project: './tsconfig.json',
       },
       globals: {
         ...globals.node,
       },
     },
-    plugins: {
-      hub, // Use the imported plugin
-    },
-    rules: {
-      ...hub.configs.mern.rules, // Use the flat-config version of the recommended MERN rules
-    },
+    // You can add TypeScript-specific rules here if needed
   },
 ];

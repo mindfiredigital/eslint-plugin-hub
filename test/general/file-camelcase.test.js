@@ -1,6 +1,6 @@
 const { RuleTester } = require('eslint');
 const path = require('path');
-const rules = require('../../index').pluginHub.rules;
+const rules = require('../../index').rules;
 
 const ruleTester = new RuleTester();
 

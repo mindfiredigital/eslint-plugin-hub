@@ -5,59 +5,61 @@ const flatConfigBase = require('./configs/flat-config-base.js');
 const legacyConfigBase = require('./configs/legacy-config-base.js');
 const { name, version } = require('./package.json');
 
-// Flatten and prefix rules
-const prefixRules = (rules, prefix) =>
-  Object.fromEntries(
-    Object.entries(rules.rules).map(([key, value]) => [
-      `${prefix}/${key}`,
-      value,
-    ])
-  );
+// Recommended rules for MERN in legacy (with @mindfiredigital prefix)
+const mernRecommendedRulesLegacy = {
+  '@mindfiredigital/hub/file-kebabcase': 'error',
+  '@mindfiredigital/hub/vars-camelcase': 'error',
+  '@mindfiredigital/hub/class-pascalcase': 'error',
+  '@mindfiredigital/hub/function-camelcase': 'error',
+  '@mindfiredigital/hub/function-descriptive': 'warn',
+};
 
-// Meta information for the plugin
+// Recommended rules for MERN in flat config (no need for @mindfiredigital prefix)
+const mernRecommendedRulesFlat = {
+  'hub/file-kebabcase': 'error',
+  'hub/vars-camelcase': 'error',
+  'hub/class-pascalcase': 'error',
+  'hub/function-camelcase': 'error',
+  'hub/function-descriptive': 'warn',
+};
+
+// Create configuration (legacy or flat)
+const createConfig = (rules, flatConfigName = false) => ({
+  ...(flatConfigName
+    ? { ...flatConfigBase, name: flatConfigName, plugins: { hub } }
+    : { ...legacyConfigBase, plugins: ['@mindfiredigital/eslint-plugin-hub'] }),
+  rules: { ...rules },
+});
+
+// Define the hub object with meta information and rules
 const hub = {
   meta: {
     name,
     version,
   },
   rules: {
-    ...prefixRules(generalRules, 'general'),
-    ...prefixRules(reactRules, 'react'),
-    ...prefixRules(angularRules, 'angular'),
+    ...generalRules.rules,
+    ...reactRules.rules,
+    ...angularRules.rules,
   },
 };
 
-// Create configurations for flat or legacy formats
-const createConfig = (rules, isFlatConfig = false) => ({
-  ...(isFlatConfig ? { ...flatConfigBase } : legacyConfigBase),
-  rules,
-});
-
-// Configurations for flat and legacy, including recommended
+// Configurations for flat and legacy, including recommended rules
 const configs = {
-  // Legacy format
+  // Legacy format configurations
   all: createConfig(hub.rules),
-  general: createConfig(prefixRules(generalRules, 'general')),
-  react: createConfig(prefixRules(reactRules, 'react')),
-  angular: createConfig(prefixRules(angularRules, 'angular')),
+  general: createConfig(generalRules.rules),
+  react: createConfig(reactRules.rules),
+  angular: createConfig(angularRules.rules),
+  mern: createConfig(mernRecommendedRulesLegacy),
 
-  // Flat format
-  'flat/all': createConfig(hub.rules, true),
-  'flat/general': createConfig(prefixRules(generalRules, 'general'), true),
-  'flat/react': createConfig(prefixRules(reactRules, 'react'), true),
-  'flat/angular': createConfig(prefixRules(angularRules, 'angular'), true),
-
-  // Recommended rules
-  mern: createConfig(
-    {
-      'hub/general/file-kebabcase': 'error', // File names must be kebab-case
-      'hub/general/vars-camelcase': 'error', // Variables must be camelCase
-      'hub/general/class-pascalcase': 'error', // Classes must be PascalCase
-      'hub/general/function-camelcase': 'error', // Functions must be camelCase
-      'hub/general/function-descriptive': 'warn', // Function names must be descriptive
-    },
-    false // Whether flat or not depends on how you want the recommended config to be
-  ),
+  // Flat format configurations
+  'flat/all': createConfig(hub.rules, 'hub/flat/all'),
+  'flat/general': createConfig(generalRules.rules, 'hub/flat/general'),
+  'flat/react': createConfig(reactRules.rules, 'hub/flat/react'),
+  'flat/angular': createConfig(angularRules.rules, 'hub/flat/angular'),
+  'flat/mern': createConfig(mernRecommendedRulesFlat, 'hub/flat/mern'),
 };
 
+// Export the hub and its configurations
 module.exports = { ...hub, configs };
