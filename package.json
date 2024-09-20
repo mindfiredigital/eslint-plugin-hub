@@ -25,6 +25,7 @@
   "author": "mindfiredigital",
   "license": "MIT",
   "files": [
+    "configs/",
     "lib/",
     "index.js",
     "package.json",
