@@ -39,7 +39,7 @@ The `@mindfiredigital/eslint-plugin-hub` aims to help maintain consistent code q
 
 ## Installation
 
-To install and use this ESLint plugin, make sure you have ESLint already set up in your project. Then add the plugin as a development dependency with npm or yarn:
+To install and use this ESLint plugin, make sure you have ESLint already set up in your project **Requires ESLint `>=8.56.0`.** Then add the plugin as a development dependency with npm or yarn:
 
 ```bash
 npm install @mindfiredigital/eslint-plugin-hub --save-dev
@@ -107,12 +107,33 @@ You can enable the plugin and configure the rules using either flat or legacy co
 
 This is for ESLint `>=8.56.0` using the new flat config format.
 
-#### General
+#### For ES Module
 
 ```js
-import { hub } from '@mindfiredigital/eslint-plugin-hub';
+import hub from '@mindfiredigital/eslint-plugin-hub';
 
 export default [
+  {
+    plugins: {
+      hub: hub,
+    },
+    rules: {
+      'hub/vars-camelcase': 'error',
+      'hub/class-pascalcase': 'error',
+      'hub/file-kebabcase': 'error',
+      'hub/function-camelcase': 'error',
+      'hub/function-descriptive': 'warn',
+    },
+  },
+];
+```
+
+#### For CommonJS
+
+```js
+const hub = require('@mindfiredigital/eslint-plugin-hub');
+
+module.exports = [
   {
     plugins: {
       hub: hub,
@@ -156,7 +177,7 @@ You can extend the `hub.configs` presets directly into your flat ESLint configur
 ##### Example: Extending General Config
 
 ```js
-import { hub } from '@mindfiredigital/eslint-plugin-hub';
+import hub from '@mindfiredigital/eslint-plugin-hub';
 
 export default [
   // Extends the general config preset from the plugin
@@ -176,7 +197,7 @@ export default [
 ##### Example: Extending React Config
 
 ```js
-import { hub } from '@mindfiredigital/eslint-plugin-hub';
+import hub from '@mindfiredigital/eslint-plugin-hub';
 
 export default [
   // Extends the react config preset from the plugin
@@ -193,7 +214,7 @@ export default [
 ##### Example: Extending Angular Config
 
 ```js
-import { hub } from '@mindfiredigital/eslint-plugin-hub';
+import hub from '@mindfiredigital/eslint-plugin-hub';
 
 export default [
   // Extends the angular config preset from the plugin
@@ -213,7 +234,7 @@ export default [
 ##### Example: Extending MERN Config
 
 ```js
-import { hub } from '@mindfiredigital/eslint-plugin-hub';
+import hub from '@mindfiredigital/eslint-plugin-hub';
 
 export default [
   // Extends the mern config preset from the plugin
