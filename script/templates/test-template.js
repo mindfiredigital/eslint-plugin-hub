@@ -1,6 +1,6 @@
 const testTemplate = ruleName => `
 const { RuleTester } = require('eslint');
-const rules = require('../../index').pluginHub.rules;
+const rules = require('../../index').rules;
 
 const ruleTester = new RuleTester();
 
