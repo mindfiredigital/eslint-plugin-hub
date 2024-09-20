@@ -1,32 +1,54 @@
-# ESLint Plugin Hub
+<h1 align="center">ESLint Plugin Hub</h1><br>
+<p align="center">
+<a href="https://www.npmjs.com/package/@mindfiredigital/eslint-plugin-hub"><img src="https://img.shields.io/npm/v/@mindfiredigital/eslint-plugin-hub.svg?sanitize=true" alt="Version"></a>
+<a href="https://www.npmjs.com/package/@mindfiredigital/eslint-plugin-hub"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs"></a>
+</p>
 
-A collection of custom ESLint rules to enforce coding standards and best practices in your JavaScript projects. This plugin aims to help maintain consistent code quality and readability by providing rules for variable names, class names, file names, and function naming conventions.
+<p align="center">
+  <img src="https://mindfiredigital.github.io/_next/static/media/mindfire_foss_logo.0c507a60.png" alt="Mindfire Logo" width="200">
+</p>
+<p align="center"> A collection of custom ESLint rules to enforce coding standards and best practices in your JavaScript projects. </p>
+
+The `@mindfiredigital/eslint-plugin-hub` aims to help maintain consistent code quality and readability by providing rules for variable names, class names, file names, and function naming conventions.
+<br>
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Rules](#rules)
+  - [General Rules](#general-rules)
+  - [React Rules](#react-rules)
+  - [Angular Rules](#angular-rules)
 - [Usage](#usage)
-  - [General](#general)
-  - [React](#react)
-  - [Angular](#angular)
-- [Contributing](#contributing)
-- [Issue Templates](#issue-templates)
+  - [Flat Configuration (`eslint.config.js`)](#flat-configuration-eslintconfigjs)
+    - [General](#general)
+    - [Extending Presets in Flat Configuration](#extending-presets-in-flat-configuration-eslintconfigjs)
+      - [Extending General Config](#example-extending-general-config)
+      - [Extending React Config](#example-extending-react-config)
+      - [Extending Angular Config](#example-extending-angular-config)
+      - [Extending MERN Config](#example-extending-mern-config)
+  - [Legacy Configuration (`.eslintrc.*`, `package.json`)](#legacy-configuration-eslintrc-or-packagejson)
+    - [General](#general-1)
+    - [Extending Presets in Legacy Configuration](#extending-presets-in-legacy-configuration-eslintrc-packagejson)
+      - [Extending General Config](#example-extending-general-config-1)
+      - [Extending React Config](#example-extending-react-config-1)
+      - [Extending Angular Config](#example-extending-angular-config-1)
+      - [Extending MERN Config](#example-extending-mern-config-1)
 - [Documentation](#documentation)
 - [License](#license)
 
 ## Installation
 
-To install and use this ESLint plugin, you need to have ESLint already set up in your project. You can then add the plugin as a development dependency with npm or yarn:
+To install and use this ESLint plugin, make sure you have ESLint already set up in your project. Then add the plugin as a development dependency with npm or yarn:
 
 ```bash
-npm install eslint-plugin-hub --save-dev
+npm install @mindfiredigital/eslint-plugin-hub --save-dev
 ```
 
 or
 
 ```bash
-yarn add eslint-plugin-hub --dev
+yarn add @mindfiredigital/eslint-plugin-hub --dev
 ```
 
 ## Rules
@@ -79,217 +101,201 @@ This plugin provides the following rules:
 
 ## Usage
 
-To enable the plugin and use the rules, add the following configuration to your ESLint configuration file (e.g., `.eslintrc.json`, `.eslintrc.js`, or `.eslint.config.mjs`):
+You can enable the plugin and configure the rules using either flat or legacy configurations.
 
-### General
+### Flat Configuration (`eslint.config.js`)
+
+This is for ESLint `>=8.56.0` using the new flat config format.
+
+#### General
+
+```js
+import { hub } from '@mindfiredigital/eslint-plugin-hub';
+
+export default [
+  {
+    plugins: {
+      hub: hub,
+    },
+    rules: {
+      'hub/vars-camelcase': 'error',
+      'hub/class-pascalcase': 'error',
+      'hub/file-kebabcase': 'error',
+      'hub/function-camelcase': 'error',
+      'hub/function-descriptive': 'warn',
+    },
+  },
+];
+```
+
+### Legacy Configuration (`.eslintrc.*` or `package.json`)
+
+If you're using the legacy ESLint configuration format, here’s how to use the plugin.
+
+#### General
 
 ```json
 {
-  "plugins": ["hub"],
+  "plugins": ["@mindfiredigital/eslint-plugin-hub"],
   "rules": {
-    "hub/vars-camelcase": "error",
-    "hub/vars-descriptive": "warn",
-    "hub/class-pascalcase": "error",
-    "hub/filename-kebabcase": "error",
-    "hub/function-camelcase": "error",
-    "hub/function-descriptive": "warn"
+    "@mindfiredigital/hub/vars-camelcase": "error",
+    "@mindfiredigital/hub/class-pascalcase": "error",
+    "@mindfiredigital/hub/file-kebabcase": "error",
+    "@mindfiredigital/hub/function-camelcase": "error",
+    "@mindfiredigital/hub/function-descriptive": "warn"
   }
 }
 ```
 
-### React
+For ESLint versions `>=8.56.0`, using flat configuration, you can extend from predefined config presets such as **general**, **react**, **angular**, and **mern**.
 
-For React-specific rules, add:
+#### Extending Presets in Flat Configuration (`eslint.config.js`)
+
+You can extend the `hub.configs` presets directly into your flat ESLint configuration.
+
+##### Example: Extending General Config
+
+```js
+import { hub } from '@mindfiredigital/eslint-plugin-hub';
+
+export default [
+  // Extends the general config preset from the plugin
+  hub.configs['flat/general'],
+  {
+    rules: {
+      'hub/vars-camelcase': 'error',
+      'hub/class-pascalcase': 'error',
+      'hub/file-kebabcase': 'error',
+      'hub/function-camelcase': 'error',
+      'hub/function-descriptive': 'warn',
+    },
+  },
+];
+```
+
+##### Example: Extending React Config
+
+```js
+import { hub } from '@mindfiredigital/eslint-plugin-hub';
+
+export default [
+  // Extends the react config preset from the plugin
+  hub.configs['flat/react'],
+  {
+    rules: {
+      'hub/react-component-name-match-filename': 'error',
+      'hub/react-filename-pascalcase': 'error',
+    },
+  },
+];
+```
+
+##### Example: Extending Angular Config
+
+```js
+import { hub } from '@mindfiredigital/eslint-plugin-hub';
+
+export default [
+  // Extends the angular config preset from the plugin
+  hub.configs['flat/angular'],
+  {
+    rules: {
+      'hub/angular-no-forbidden-services': 'error',
+      'hub/angular-no-unused-inputs': 'warn',
+      'hub/angular-no-direct-dom-manipulation': 'error',
+      'hub/angular-limit-input': 'warn',
+      'hub/angular-filenaming': 'error',
+    },
+  },
+];
+```
+
+##### Example: Extending MERN Config
+
+```js
+import { hub } from '@mindfiredigital/eslint-plugin-hub';
+
+export default [
+  // Extends the mern config preset from the plugin
+  hub.configs['flat/mern'],
+  {
+    rules: {
+      'hub/file-kebabcase': 'error',
+      'hub/vars-camelcase': 'error',
+      'hub/class-pascalcase': 'error',
+      'hub/function-camelcase': 'error',
+      'hub/function-descriptive': 'warn',
+    },
+  },
+];
+```
+
+For older versions of ESLint, or if you're using the **legacy** configuration format, you can extend the same configs with the `extends` field. This will inherit the rules from the plugin presets.
+
+#### Extending Presets in Legacy Configuration (`.eslintrc.*`,`.eslintrc.js` or `package.json`)
+
+You can extend any of the provided presets directly into your `.eslintrc.json`, `.eslintrc.js`, or `package.json` ESLint configuration.
+
+##### Example: Extending General Config
 
 ```json
 {
-  "plugins": ["hub"],
+  "extends": ["@mindfiredigital/hub/general"],
   "rules": {
-    "hub/react-component-name-match-filename": "error",
-    "hub/react-filename-pascalcase": "error"
+    "@mindfiredigital/hub/vars-camelcase": "error",
+    "@mindfiredigital/hub/class-pascalcase": "error",
+    "@mindfiredigital/hub/file-kebabcase": "error",
+    "@mindfiredigital/hub/function-camelcase": "error",
+    "@mindfiredigital/hub/function-descriptive": "warn"
   }
 }
 ```
 
-### Angular
-
-For Angular-specific rules, add:
+##### Example: Extending React Config
 
 ```json
 {
-  "plugins": ["hub"],
+  "extends": ["@mindfiredigital/hub/react"],
   "rules": {
-    "hub/angular-no-forbidden-services": "error",
-    "hub/angular-no-unused-inputs": "warn",
-    "hub/angular-no-direct-dom-manipulation": "error",
-    "hub/angular-limit-input": "warn",
-    "hub/angular-filenaming": "error"
+    "@mindfiredigital/hub/react-component-name-match-filename": "error",
+    "@mindfiredigital/hub/react-filename-pascalcase": "error"
   }
 }
 ```
 
-## Importing Rules Separately
+##### Example: Extending Angular Config
 
-If you want to import and use the rules separately in your code, you can do so by importing from the respective modules. Here's how you can import the rules for General, React, and Angular:
-
-### Import General Rules
-
-```javascript
-const { pluginHub } = require('eslint-plugin-hub');
-const generalRules = pluginHub.rules;
-
-// Example usage in ESLint configuration
-module.exports = {
-  plugins: ['hub'],
-  rules: {
-    ...generalRules,
-  },
-};
+```json
+{
+  "extends": ["@mindfiredigital/hub/angular"],
+  "rules": {
+    "@mindfiredigital/hub/angular-no-forbidden-services": "error",
+    "@mindfiredigital/hub/angular-no-unused-inputs": "warn",
+    "@mindfiredigital/hub/angular-no-direct-dom-manipulation": "error",
+    "@mindfiredigital/hub/angular-limit-input": "warn",
+    "@mindfiredigital/hub/angular-filenaming": "error"
+  }
+}
 ```
 
-### Import React Rules
+##### Example: Extending MERN Config
 
-```javascript
-const { reactHub } = require('eslint-plugin-hub');
-const reactRules = reactHub.rules;
-
-// Example usage in ESLint configuration
-module.exports = {
-  plugins: ['hub'],
-  rules: {
-    ...reactRules,
-  },
-};
+```json
+{
+  "extends": ["@mindfiredigital/hub/mern"],
+  "rules": {
+    "@mindfiredigital/hub/file-kebabcase": "error",
+    "@mindfiredigital/hub/vars-camelcase": "error",
+    "@mindfiredigital/hub/class-pascalcase": "error",
+    "@mindfiredigital/hub/function-camelcase": "error",
+    "@mindfiredigital/hub/function-descriptive": "warn"
+  }
+}
 ```
-
-### Import Angular Rules
-
-```javascript
-const { angularHub } = require('eslint-plugin-hub');
-const angularRules = angularHub.rules;
-
-// Example usage in ESLint configuration
-module.exports = {
-  plugins: ['hub'],
-  rules: {
-    ...angularRules,
-  },
-};
-```
-
-## Contributing
-
-We welcome contributions to the ESLint Plugin Hub! Here's how you can contribute:
-
-1. **Fork the repository**: Start by forking the ESLint Plugin Hub repository to your GitHub account.
-
-2. **Clone your fork**: Clone your forked repository to your local machine.
-
-   ```bash
-   git clone https://github.com/your-username/eslint-plugin-hub.git
-   cd eslint-plugin-hub
-   ```
-
-3. **Install dependencies**: Install the project dependencies.
-
-   ```bash
-   npm install
-   ```
-
-   or if you use yarn:
-
-   ```bash
-   yarn install
-   ```
-
-4. **Create a new branch**: Create a new branch for your feature or bugfix.
-
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-5. **Use the Rule Generator**: If you're adding a new rule, use our Rule Generator script to scaffold the necessary files:
-
-   ```bash
-   npm run generate-rule your-rule-name [rule-type]
-   ```
-
-   or if you use yarn:
-
-   ```bash
-   yarn generate-rule your-rule-name [rule-type]
-   ```
-
-   Replace `your-rule-name` with the name of your new rule (in kebab-case), and `[rule-type]` with either 'general', 'react', or 'angular'. If you don't specify a rule type, the script will prompt you to choose one.
-
-   The Rule Generator will:
-
-   - Create a new rule file in `lib/rules/<rule-type>/`
-   - Create a new test file in `test/`
-   - Update the `index.js` file to include your new rule
-
-6. **Implement your changes**:
-
-   - If you've generated a new rule, implement the rule logic in the generated rule file and add tests in the generated test file.
-   - For other changes, make your code changes and add or update tests as necessary.
-
-7. **Update documentation**: Update the README.md file to include documentation for your new rule or changes.
-
-8. **Run tests**: Ensure all tests pass.
-
-   ```bash
-   npm test
-   ```
-
-   or:
-
-   ```bash
-   yarn test
-   ```
-
-9. **Commit your changes**: Commit your changes with a clear and descriptive commit message.
-
-   ```bash
-   git commit -m "Add new rule: your-rule-name"
-   ```
-
-10. **Push to your fork**: Push your changes to your GitHub fork.
-
-    ```bash
-    git push origin feature/your-feature-name
-    ```
-
-11. **Create a Pull Request**: Go to the original ESLint Plugin Hub repository on GitHub and create a new Pull Request from your fork. Provide a clear description of your changes in the Pull Request.
-
-12. **Code Review**: Wait for the maintainers to review your Pull Request. Be open to feedback and make any requested changes.
-
-13. **Merge**: Once approved, your Pull Request will be merged into the main branch.
-
-Remember to adhere to the existing code style and follow ESLint Plugin Hub
-
-'s contribution guidelines.
-
-## Issue Templates
-
-If you encounter a bug or have a feature request, please check the available [Issue Templates](https://github.com/eslint-plugin-hub/issues) before opening a new issue.
-
-For bug reports, provide:
-
-1. A clear and descriptive title.
-2. Steps to reproduce the issue.
-3. Expected behavior and what happens instead.
-4. Any error messages or logs.
-
-For feature requests:
-
-1. Provide a detailed description of the feature.
-2. Explain the problem it solves or the improvement it brings.
-
-Make sure to check the **contributing guide** for additional instructions before submitting.
 
 ## Documentation
 
-The documentation for each rule is available at our [official documentation site](https://eslint-plugin-hub.github.io). You can find detailed usage instructions, examples, and best practices for each rule.
+The documentation for each rule is available at our [official documentation site](https://mindfiredigital.github.io/eslint-plugin-hub/). You can find detailed usage instructions, examples, and best practices for each rule.
 
 If you're contributing to the documentation, please follow the instructions in the `CONTRIBUTING.md` file for how to structure and update the documentation in the `docs/docusaurus` branch.
 
