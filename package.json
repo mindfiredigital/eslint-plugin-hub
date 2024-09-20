@@ -2,6 +2,10 @@
   "name": "@mindfiredigital/eslint-plugin-hub",
   "version": "1.0.0-development",
   "description": "eslint-plugin-hub is a powerful, flexible ESLint plugin that provides a curated set of rules to enhance code readability, maintainability, and prevent common errors. Whether you're working with vanilla JavaScript, TypeScript, React, or Angular, eslint-plugin-hub has you covered with ecosystem-specific rules and general best practices.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mindfiredigital/eslint-plugin-hub.git"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
