@@ -1,5 +1,5 @@
 const { RuleTester } = require('eslint');
-const rules = require('../../index').reactHub.rules;
+const rules = require('../../index').rules;
 const babelParser = require('@babel/eslint-parser');
 
 const ruleTester = new RuleTester({
