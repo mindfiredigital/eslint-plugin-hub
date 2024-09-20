@@ -2,7 +2,7 @@
 *
 
 # Allow specific files and folders to be included
-!configs/
+!configs
 !lib/
 !index.js
 !package.json
