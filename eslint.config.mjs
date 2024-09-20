@@ -1,7 +1,7 @@
-import hub from './index.js';
-import babelParser from '@babel/eslint-parser';
-import tsParser from '@typescript-eslint/parser';
-import globals from 'globals';
+import hub from './index.js'; // Import your plugin
+import babelParser from '@babel/eslint-parser'; // Babel parser for JS/JSX
+import tsParser from '@typescript-eslint/parser'; // TypeScript parser
+import globals from 'globals'; // Global variables
 
 export default [
   {
@@ -11,6 +11,7 @@ export default [
       '**/docs-docusaurus/**',
     ],
   },
+  // Configuration for JavaScript and JSX files
   {
     files: ['**/*.js', '**/*.jsx'],
     languageOptions: {
@@ -20,9 +21,9 @@ export default [
         babelOptions: {
           babelrc: false,
           configFile: false,
-          presets: ["@babel/preset-env", "@babel/preset-react"],
+          presets: ['@babel/preset-env', '@babel/preset-react'],
         },
-        ecmaVersion: 2022,
+        ecmaVersion: 2024,
         sourceType: 'module',
         ecmaFeatures: {
           jsx: true,
@@ -33,45 +34,34 @@ export default [
       },
     },
     plugins: {
-      hub: hub,
+      hub, // Use the imported plugin
     },
-  rules: {
-    'hub/general/file-kebabcase': 'error',
-    'hub/general/function-camelcase': 'error',
-    'hub/general/vars-camelcase': 'error',
-      'no-unused-vars': [
-        'error',
-        {
-          vars: 'all',
-          args: 'none',
-          ignoreRestSiblings: false,
-        },
-      ],
+    rules: {
+      ...hub.configs.mern.rules, // Use the flat-config version of the recommended MERN rules
     },
   },
+  // Configuration for TypeScript and TSX files
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        ecmaVersion: 2022,
+        ecmaVersion: 2024,
         sourceType: 'module',
         ecmaFeatures: {
           jsx: true,
         },
-        project: './tsconfig.json',
+        project: './tsconfig.json', // Ensure TypeScript project file is set
       },
       globals: {
         ...globals.node,
       },
     },
     plugins: {
-      hub: hub,
+      hub, // Use the imported plugin
     },
     rules: {
-      'hub/general/file-kebabcase': 'error',
-      'hub/general/function-camelcase': 'error',
-      'hub/general/vars-camelcase': 'error',
-    }
+      ...hub.configs.mern.rules, // Use the flat-config version of the recommended MERN rules
+    },
   },
 ];

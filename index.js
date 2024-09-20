@@ -48,10 +48,13 @@ const configs = {
   'flat/angular': createConfig(prefixRules(angularRules, 'angular'), true),
 
   // Recommended rules
-  recommended: createConfig(
+  mern: createConfig(
     {
-      'general/file-kebabcase': 'error',
-      // Add more recommended rules as necessary
+      'hub/general/file-kebabcase': 'error', // File names must be kebab-case
+      'hub/general/vars-camelcase': 'error', // Variables must be camelCase
+      'hub/general/class-pascalcase': 'error', // Classes must be PascalCase
+      'hub/general/function-camelcase': 'error', // Functions must be camelCase
+      'hub/general/function-descriptive': 'warn', // Function names must be descriptive
     },
     false // Whether flat or not depends on how you want the recommended config to be
   ),
