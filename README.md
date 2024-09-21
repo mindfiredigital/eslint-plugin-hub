@@ -111,18 +111,22 @@ This is for ESLint `>=8.56.0` using the new flat config format.
 
 ```js
 import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
 
 export default [
   {
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+    },
     plugins: {
       hub: hub,
     },
     rules: {
-      'hub/vars-camelcase': 'error',
-      'hub/class-pascalcase': 'error',
-      'hub/file-kebabcase': 'error',
-      'hub/function-camelcase': 'error',
-      'hub/function-descriptive': 'warn',
+      // Add your custom rules here
     },
   },
 ];
@@ -132,18 +136,22 @@ export default [
 
 ```js
 const hub = require('@mindfiredigital/eslint-plugin-hub');
+const globals = require('globals');
 
 module.exports = [
   {
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+    },
     plugins: {
       hub: hub,
     },
     rules: {
-      'hub/vars-camelcase': 'error',
-      'hub/class-pascalcase': 'error',
-      'hub/file-kebabcase': 'error',
-      'hub/function-camelcase': 'error',
-      'hub/function-descriptive': 'warn',
+      // Add your custom rules here
     },
   },
 ];
@@ -151,45 +159,48 @@ module.exports = [
 
 ### Legacy Configuration (`.eslintrc.*` or `package.json`)
 
-If you're using the legacy ESLint configuration format, here’s how to use the plugin.
+If you're using the legacy ESLint configuration format, here's how to use the plugin.
 
 #### General
 
 ```json
 {
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
   "plugins": ["@mindfiredigital/eslint-plugin-hub"],
   "rules": {
-    "@mindfiredigital/hub/vars-camelcase": "error",
-    "@mindfiredigital/hub/class-pascalcase": "error",
-    "@mindfiredigital/hub/file-kebabcase": "error",
-    "@mindfiredigital/hub/function-camelcase": "error",
-    "@mindfiredigital/hub/function-descriptive": "warn"
+    // Add your custom rules here
   }
 }
 ```
 
-For ESLint versions `>=8.56.0`, using flat configuration, you can extend from predefined config presets such as **general**, **react**, **angular**, and **mern**.
-
 #### Extending Presets in Flat Configuration (`eslint.config.js`)
 
-You can extend the `hub.configs` presets directly into your flat ESLint configuration.
+You can extend the `hub.configs` presets directly into your flat ESLint configuration. When extending these presets, all rules in the respective category will be automatically added with their default configurations.
 
 ##### Example: Extending General Config
 
 ```js
 import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
 
 export default [
   // Extends the general config preset from the plugin
   hub.configs['flat/general'],
   {
-    rules: {
-      'hub/vars-camelcase': 'error',
-      'hub/class-pascalcase': 'error',
-      'hub/file-kebabcase': 'error',
-      'hub/function-camelcase': 'error',
-      'hub/function-descriptive': 'warn',
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
     },
+    // Add any additional rules or overrides here
   },
 ];
 ```
@@ -198,15 +209,23 @@ export default [
 
 ```js
 import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
 
 export default [
   // Extends the react config preset from the plugin
   hub.configs['flat/react'],
   {
-    rules: {
-      'hub/react-component-name-match-filename': 'error',
-      'hub/react-filename-pascalcase': 'error',
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
     },
+    // Add any additional rules or overrides here
   },
 ];
 ```
@@ -215,18 +234,20 @@ export default [
 
 ```js
 import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
 
 export default [
   // Extends the angular config preset from the plugin
   hub.configs['flat/angular'],
   {
-    rules: {
-      'hub/angular-no-forbidden-services': 'error',
-      'hub/angular-no-unused-inputs': 'warn',
-      'hub/angular-no-direct-dom-manipulation': 'error',
-      'hub/angular-limit-input': 'warn',
-      'hub/angular-filenaming': 'error',
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
     },
+    // Add any additional rules or overrides here
   },
 ];
 ```
@@ -235,40 +256,46 @@ export default [
 
 ```js
 import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
 
 export default [
   // Extends the mern config preset from the plugin
   hub.configs['flat/mern'],
   {
-    rules: {
-      'hub/file-kebabcase': 'error',
-      'hub/vars-camelcase': 'error',
-      'hub/class-pascalcase': 'error',
-      'hub/function-camelcase': 'error',
-      'hub/function-descriptive': 'warn',
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
     },
+    // Add any additional rules or overrides here
   },
 ];
 ```
 
-For older versions of ESLint, or if you're using the **legacy** configuration format, you can extend the same configs with the `extends` field. This will inherit the rules from the plugin presets.
+The `flat/mern` config is recommended for MERN (MongoDB, Express, React, Node.js) stack projects and includes a set of rules optimized for this technology stack.
 
 #### Extending Presets in Legacy Configuration (`.eslintrc.*`,`.eslintrc.js` or `package.json`)
 
-You can extend any of the provided presets directly into your `.eslintrc.json`, `.eslintrc.js`, or `package.json` ESLint configuration.
+For older versions of ESLint, or if you're using the legacy configuration format, you can extend the same configs with the `extends` field. This will inherit all the rules from the plugin presets for the respective category.
 
 ##### Example: Extending General Config
 
 ```json
 {
-  "extends": ["@mindfiredigital/hub/general"],
-  "rules": {
-    "@mindfiredigital/hub/vars-camelcase": "error",
-    "@mindfiredigital/hub/class-pascalcase": "error",
-    "@mindfiredigital/hub/file-kebabcase": "error",
-    "@mindfiredigital/hub/function-camelcase": "error",
-    "@mindfiredigital/hub/function-descriptive": "warn"
-  }
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "extends": ["@mindfiredigital/hub/general"]
+  // Add any additional rules or overrides here
 }
 ```
 
@@ -276,11 +303,18 @@ You can extend any of the provided presets directly into your `.eslintrc.json`, 
 
 ```json
 {
-  "extends": ["@mindfiredigital/hub/react"],
-  "rules": {
-    "@mindfiredigital/hub/react-component-name-match-filename": "error",
-    "@mindfiredigital/hub/react-filename-pascalcase": "error"
-  }
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": ["@mindfiredigital/hub/react"]
+  // Add any additional rules or overrides here
 }
 ```
 
@@ -288,14 +322,15 @@ You can extend any of the provided presets directly into your `.eslintrc.json`, 
 
 ```json
 {
-  "extends": ["@mindfiredigital/hub/angular"],
-  "rules": {
-    "@mindfiredigital/hub/angular-no-forbidden-services": "error",
-    "@mindfiredigital/hub/angular-no-unused-inputs": "warn",
-    "@mindfiredigital/hub/angular-no-direct-dom-manipulation": "error",
-    "@mindfiredigital/hub/angular-limit-input": "warn",
-    "@mindfiredigital/hub/angular-filenaming": "error"
-  }
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "extends": ["@mindfiredigital/hub/angular"]
+  // Add any additional rules or overrides here
 }
 ```
 
@@ -303,16 +338,22 @@ You can extend any of the provided presets directly into your `.eslintrc.json`, 
 
 ```json
 {
-  "extends": ["@mindfiredigital/hub/mern"],
-  "rules": {
-    "@mindfiredigital/hub/file-kebabcase": "error",
-    "@mindfiredigital/hub/vars-camelcase": "error",
-    "@mindfiredigital/hub/class-pascalcase": "error",
-    "@mindfiredigital/hub/function-camelcase": "error",
-    "@mindfiredigital/hub/function-descriptive": "warn"
-  }
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": ["@mindfiredigital/hub/mern"]
+  // Add any additional rules or overrides here
 }
 ```
+
+The `/mern` config is recommended for MERN (MongoDB, Express, React, Node.js) stack projects and includes a set of rules optimized for this technology stack.
 
 ## Documentation
 

@@ -31,7 +31,7 @@ export default [
         },
       },
       globals: {
-        ...globals.node,
+        ...globals.builtin,
       },
     },
     rules: {
@@ -59,7 +59,7 @@ export default [
         project: './tsconfig.json',
       },
       globals: {
-        ...globals.node,
+        ...globals.builtin,
       },
     },
     // You can add TypeScript-specific rules here if needed
