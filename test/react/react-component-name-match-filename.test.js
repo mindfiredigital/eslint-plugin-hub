@@ -1,10 +1,8 @@
 const { RuleTester } = require('eslint');
 const rules = require('../../index').rules;
-const babelParser = require('@babel/eslint-parser');
 
 const ruleTester = new RuleTester({
   languageOptions: {
-    parser: babelParser,
     parserOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -45,6 +43,15 @@ ruleTester.run(
         export default MyComponent;
       `,
         filename: 'MyComponent.tsx',
+      },
+      // Files without React or JSX (non-React)
+      {
+        code: 'const myVariable = 42;',
+        filename: 'myVariable.js', // No JSX, should not trigger PascalCase check
+      },
+      {
+        code: 'function helperFunction() { return true; }',
+        filename: 'helperFunction.ts', // No JSX, should not trigger PascalCase check
       },
     ],
     invalid: [
