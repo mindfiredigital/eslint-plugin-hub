@@ -12,6 +12,8 @@ const mernRecommendedRulesLegacy = {
   '@mindfiredigital/hub/class-pascalcase': 'error',
   '@mindfiredigital/hub/function-camelcase': 'error',
   '@mindfiredigital/hub/function-descriptive': 'warn',
+  '@mindfiredigital/hub/react-component-name-match-filename': 'error',
+  '@mindfiredigital/hub/react-filename-pascalcase': 'error',
 };
 
 // Recommended rules for MERN in flat config (no need for @mindfiredigital prefix)
@@ -21,6 +23,8 @@ const mernRecommendedRulesFlat = {
   'hub/class-pascalcase': 'error',
   'hub/function-camelcase': 'error',
   'hub/function-descriptive': 'warn',
+  'hub/react-component-name-match-filename': 'error',
+  'hub/react-filename-pascalcase': 'error',
 };
 
 // Create configuration (legacy or flat)
