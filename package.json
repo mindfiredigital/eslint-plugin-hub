@@ -19,8 +19,12 @@
   },
   "keywords": [
     "eslint",
-    "eslintplugin",
     "eslint-plugin",
+    "eslintplugin",
+    "hub",
+    "react",
+    "angular",
+    "mern",
     "coding-standards",
     "pluginHub",
     "linter",
