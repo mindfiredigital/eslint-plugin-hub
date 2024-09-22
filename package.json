@@ -11,6 +11,7 @@
     "access": "public"
   },
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
