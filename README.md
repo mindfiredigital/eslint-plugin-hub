@@ -103,7 +103,7 @@ This plugin provides the following rules:
 
 You can enable the plugin and configure the rules using either flat or legacy configurations.
 
-### Flat Configuration (`eslint.config.js`)
+### Flat Configuration (`eslint.config.mjs`)
 
 This is for ESLint `>=8.56.0` using the new flat config format.
 
@@ -126,7 +126,11 @@ export default [
       hub: hub,
     },
     rules: {
-      // Add your custom rules here
+      'hub/vars-camelcase': 'error',
+      'hub/class-pascalcase': 'error',
+      'hub/file-kebabcase': 'error',
+      'hub/function-camelcase': 'error',
+      'hub/function-descriptive': 'warn',
     },
   },
 ];
@@ -151,17 +155,21 @@ module.exports = [
       hub: hub,
     },
     rules: {
-      // Add your custom rules here
+      'hub/vars-camelcase': 'error',
+      'hub/class-pascalcase': 'error',
+      'hub/file-kebabcase': 'error',
+      'hub/function-camelcase': 'error',
+      'hub/function-descriptive': 'warn',
     },
   },
 ];
 ```
 
-### Legacy Configuration (`.eslintrc.*` or `package.json`)
+### Legacy Configuration (`.eslintrc.*` or `eslintrc.json`)
 
 If you're using the legacy ESLint configuration format, here's how to use the plugin.
 
-#### General
+#### For `.eslintrc.json`:
 
 ```json
 {
@@ -174,12 +182,141 @@ If you're using the legacy ESLint configuration format, here's how to use the pl
   },
   "plugins": ["@mindfiredigital/eslint-plugin-hub"],
   "rules": {
-    // Add your custom rules here
+    "@mindfiredigital/hub/file-kebabcase": "error",
+    "@mindfiredigital/hub/function-camelcase": "error",
+    "@mindfiredigital/hub/vars-camelcase": "error"
   }
 }
 ```
 
-#### Extending Presets in Flat Configuration (`eslint.config.js`)
+#### For ES Module `.eslintrc.js`:
+
+```javascript
+export default [
+  {
+  env: {
+    browser: true,
+    es2024: true,
+  },
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+  },
+  rules: {
+    "@mindfiredigital/hub/file-kebabcase": "error",
+    "@mindfiredigital/hub/function-camelcase": "error",
+    "@mindfiredigital/hub/vars-camelcase": "error",
+  },
+};
+];
+```
+
+#### For CommonJS `.eslintrc.cjs`:
+
+```javascript
+module.exports = {
+  env: {
+    browser: true,
+    es2024: true,
+  },
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+  rules: {
+    '@mindfiredigital/hub/file-kebabcase': 'error',
+    '@mindfiredigital/hub/function-camelcase': 'error',
+    '@mindfiredigital/hub/vars-camelcase': 'error',
+  },
+};
+```
+
+### MERN Recommended Rules
+
+The MERN configuration includes a set of recommended rules optimized for MongoDB, Express, React, and Node.js stack projects. Below is a table showing the recommended rules for both legacy and flat configurations:
+
+| Rule Description                                       | Legacy Configuration                                       | Flat Configuration                        | Severity |
+| ------------------------------------------------------ | ---------------------------------------------------------- | ----------------------------------------- | -------- |
+| Enforce kebab-case for filenames                       | `@mindfiredigital/hub/file-kebabcase`                      | `hub/file-kebabcase`                      | error    |
+| Enforce camelCase for variables                        | `@mindfiredigital/hub/vars-camelcase`                      | `hub/vars-camelcase`                      | error    |
+| Enforce PascalCase for class names                     | `@mindfiredigital/hub/class-pascalcase`                    | `hub/class-pascalcase`                    | error    |
+| Enforce camelCase for function names                   | `@mindfiredigital/hub/function-camelcase`                  | `hub/function-camelcase`                  | error    |
+| Enforce descriptive function names                     | `@mindfiredigital/hub/function-descriptive`                | `hub/function-descriptive`                | warn     |
+| Enforce React component names to match their filenames | `@mindfiredigital/hub/react-component-name-match-filename` | `hub/react-component-name-match-filename` | error    |
+| Enforce PascalCase for React component filenames       | `@mindfiredigital/hub/react-filename-pascalcase`           | `hub/react-filename-pascalcase`           | error    |
+
+These rules are automatically included when you extend the MERN configuration in your ESLint setup.
+
+##### Example: Extending MERN Config
+
+#### For `eslint.config.mjs`:
+
+```js
+import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
+
+export default [
+  // Extends the mern config preset from the plugin
+  hub.configs['flat/mern'],
+  {
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    // Add any additional rules or overrides here
+  },
+];
+```
+
+#### For `.eslintrc.cjs`:
+
+```javascript
+module.exports = {
+  env: {
+    browser: true,
+    es2024: true,
+  },
+  extends: ['plugin:@mindfiredigital/hub/mern'],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+  rules: {
+    '@mindfiredigital/hub/file-kebabcase': 'error',
+    '@mindfiredigital/hub/function-camelcase': 'error',
+    '@mindfiredigital/hub/vars-camelcase': 'error',
+  },
+};
+```
+
+#### For `.eslintrc.json`:
+
+```json
+{
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": ["plugin:@mindfiredigital/hub/mern"]
+  // Add any additional rules or overrides here
+}
+```
+
+The MERN config includes the recommended rules listed in the table above. When extending this configuration, all these rules will be automatically applied to your project. You can override or add additional rules as needed in your specific configuration file.
+
+#### Extending Presets in Flat Configuration (`eslint.config.mjs`)
 
 You can extend the `hub.configs` presets directly into your flat ESLint configuration. When extending these presets, all rules in the respective category will be automatically added with their default configurations.
 
@@ -252,33 +389,6 @@ export default [
 ];
 ```
 
-##### Example: Extending MERN Config
-
-```js
-import hub from '@mindfiredigital/eslint-plugin-hub';
-import globals from 'globals';
-
-export default [
-  // Extends the mern config preset from the plugin
-  hub.configs['flat/mern'],
-  {
-    languageOptions: {
-      globals: globals.builtin,
-      parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: 'module',
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
-    // Add any additional rules or overrides here
-  },
-];
-```
-
-The `flat/mern` config is recommended for MERN (MongoDB, Express, React, Node.js) stack projects and includes a set of rules optimized for this technology stack.
-
 #### Extending Presets in Legacy Configuration (`.eslintrc.*`,`.eslintrc.js` or `package.json`)
 
 For older versions of ESLint, or if you're using the legacy configuration format, you can extend the same configs with the `extends` field. This will inherit all the rules from the plugin presets for the respective category.
@@ -294,7 +404,7 @@ For older versions of ESLint, or if you're using the legacy configuration format
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "extends": ["@mindfiredigital/hub/general"]
+  "extends": ["plugin:@mindfiredigital/hub/general"]
   // Add any additional rules or overrides here
 }
 ```
@@ -313,7 +423,7 @@ For older versions of ESLint, or if you're using the legacy configuration format
       "jsx": true
     }
   },
-  "extends": ["@mindfiredigital/hub/react"]
+  "extends": ["plugin:@mindfiredigital/hub/react"]
   // Add any additional rules or overrides here
 }
 ```
@@ -329,31 +439,10 @@ For older versions of ESLint, or if you're using the legacy configuration format
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "extends": ["@mindfiredigital/hub/angular"]
+  "extends": ["plugin:@mindfiredigital/hub/angular"]
   // Add any additional rules or overrides here
 }
 ```
-
-##### Example: Extending MERN Config
-
-```json
-{
-  "env": {
-    "es2024": true
-  },
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "extends": ["@mindfiredigital/hub/mern"]
-  // Add any additional rules or overrides here
-}
-```
-
-The `/mern` config is recommended for MERN (MongoDB, Express, React, Node.js) stack projects and includes a set of rules optimized for this technology stack.
 
 ## Documentation
 
@@ -363,4 +452,4 @@ If you're contributing to the documentation, please follow the instructions in t
 
 ## License
 
-ESLint Plugin Hub is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+ESLint Plugin Hub is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.
