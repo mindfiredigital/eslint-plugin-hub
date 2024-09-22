@@ -52,6 +52,7 @@
     "configs/",
     "lib/",
     "index.js",
+    "index.d.js",
     "package.json",
     "tsconfig.json",
     "babel.config.js",
