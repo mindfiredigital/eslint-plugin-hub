@@ -45,7 +45,7 @@ The `@mindfiredigital/eslint-plugin-hub` aims to help maintain consistent code q
 
 ## Installation
 
-To install and use this ESLint plugin, make sure you have ESLint already set up in your project **Requires ESLint `>=8.56.0`.** Then add the plugin as a development dependency with npm or yarn:
+To install and use this ESLint plugin, make sure you have ESLint already set up in your project **Requires ESLint `>=8.56.0`.** Then add the plugin as a dependency with npm or yarn:
 
 ```bash
 npm install @mindfiredigital/eslint-plugin-hub --save-dev
