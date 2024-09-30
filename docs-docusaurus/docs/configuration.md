@@ -129,7 +129,3 @@ module.exports = {
   },
 };
 ```
-
-## Next Steps
-
-After configuring the plugin, you can start using the rules in your project. Check out our [Rules](rules/general.md) section for detailed information on each available rule.
