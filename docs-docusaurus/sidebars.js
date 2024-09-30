@@ -14,9 +14,10 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Contributing',
+      label: 'How To Contribute',
       items: ['contributing', 'addnewrule'],
     },
+    'our-contributors',
   ],
 };
 

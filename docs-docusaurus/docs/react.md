@@ -11,27 +11,44 @@ To enable the React-specific rules, add them to your ESLint configuration file (
 ### Import React Rules
 
 ```javascript
-const { reactHub } = require('eslint-plugin-hub');
-const reactRules = reactHub.rules;
+import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
 
-// Example usage in ESLint configuration
-module.exports = {
-  plugins: ['hub'],
-  rules: {
-    ...reactRules,
+export default [
+  // Extends the react config preset from the plugin
+  hub.configs['flat/react'],
+  {
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    // Add any additional rules or overrides here
   },
-};
+];
 ```
 
 or
 
 ```json
 {
-  "plugins": ["hub"],
-  "rules": {
-    "hub/react-component-name-match-filename": "error",
-    "hub/react-filename-pascalcase": "error"
-  }
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": ["plugin:@mindfiredigital/hub/react"]
+  // Add any additional rules or overrides here
 }
 ```
 
@@ -45,7 +62,7 @@ This rule ensures that the React component name matches the filename. For exampl
 - **Rationale**: Matching component names with filenames creates clarity in large codebases and prevents mismatches that can cause confusion or issues when refactoring.
 
 ```json
-"hub/react-component-name-match-filename": "error"
+"@mindfiredigital/hub/react-component-name-match-filename": "error"
 ```
 
 ##### Example of Incorrect Code:
@@ -78,7 +95,7 @@ This rule enforces that React component filenames follow PascalCase convention. 
 - **Rationale**: Using PascalCase for React component filenames aligns with common React best practices and helps with consistency across projects.
 
 ```json
-"hub/react-filename-pascalcase": "error"
+"@mindfiredigital/hub/react-filename-pascalcase": "error"
 ```
 
 ##### Example of Incorrect Code:

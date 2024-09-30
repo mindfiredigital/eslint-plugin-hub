@@ -13,30 +13,38 @@ Here’s how to configure the Angular-specific rules:
 ### Import Angular Rules
 
 ```javascript
-const { angularHub } = require('eslint-plugin-hub');
-const angularRules = angularHub.rules;
+import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
 
-// Example usage in ESLint configuration
-module.exports = {
-  plugins: ['hub'],
-  rules: {
-    ...angularRules,
+export default [
+  // Extends the angular config preset from the plugin
+  hub.configs['flat/angular'],
+  {
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+    },
+    // Add any additional rules or overrides here
   },
-};
+];
 ```
 
 or
 
 ```json
 {
-  "plugins": ["hub"],
-  "rules": {
-    "hub/angular-no-forbidden-services": "error",
-    "hub/angular-no-unused-inputs": "warn",
-    "hub/angular-no-direct-dom-manipulation": "error",
-    "hub/angular-limit-input": "warn",
-    "hub/angular-filenaming": "error"
-  }
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "extends": ["plugin:@mindfiredigital/hub/angular"]
+  // Add any additional rules or overrides here
 }
 ```
 
@@ -50,7 +58,7 @@ This rule disallows the usage of forbidden Angular services in your project. You
 - **Rationale**: Some services, such as certain legacy or deprecated ones, should not be used in new codebases.
 
 ```json
-"hub/angular-no-forbidden-services": ["error", { "forbiddenServices": ["$http", "$scope"] }]
+"@mindfiredigital/hub/angular-no-forbidden-services": ["error", { "forbiddenServices": ["$http", "$scope"] }]
 ```
 
 #### `angular-no-unused-inputs`
@@ -61,7 +69,7 @@ This rule checks for unused inputs in Angular components. It warns when an `@Inp
 - **Rationale**: Unused inputs add unnecessary complexity and can lead to confusion.
 
 ```json
-"hub/angular-no-unused-inputs": "warn"
+"@mindfiredigital/hub/angular-no-unused-inputs": "warn"
 ```
 
 #### `angular-no-direct-dom-manipulation`
@@ -72,7 +80,7 @@ This rule disallows direct DOM manipulation within Angular components. Angular p
 - **Rationale**: Direct DOM manipulation is discouraged in Angular since it goes against Angular's reactive, declarative architecture.
 
 ```json
-"hub/angular-no-direct-dom-manipulation": "error"
+"@mindfiredigital/hub/angular-no-direct-dom-manipulation": "error"
 ```
 
 #### `angular-limit-input`
@@ -83,7 +91,7 @@ This rule enforces a limit on the number of `@Input()` properties that can be de
 - **Rationale**: A large number of inputs can make a component difficult to manage and maintain. Limiting inputs encourages better component design.
 
 ```json
-"hub/angular-limit-input": ["warn", { "maxInputs": 5 }]
+"@mindfiredigital/hub/angular-limit-input": ["warn", { "maxInputs": 5 }]
 ```
 
 #### `angular-filenaming`
@@ -94,7 +102,7 @@ This rule enforces a consistent naming convention for Angular files. By default,
 - **Rationale**: Consistent naming conventions help in organizing and maintaining code in large projects.
 
 ```json
-"hub/angular-filenaming": ["error", { "namingConvention": "kebab-case" }]
+"@mindfiredigital/hub/angular-filenaming": ["error", { "namingConvention": "kebab-case" }]
 ```
 
 ### Example ESLint Configuration for Angular Projects

@@ -1,118 +1,135 @@
 # Configuration
 
-Here's how you can integrate the `pluginHub`, `reactHub`, and `angularHub` plugins with the necessary imports for your ESLint configuration.
+ESLint Plugin Hub supports both flat and legacy configurations. Choose the appropriate method based on your ESLint version and project setup.
 
-### General Configuration
+## Flat Configuration (ESLint >=8.56.0)
 
-For general JavaScript and TypeScript projects using `pluginHub`:
+For projects using ESLint 8.56.0 or later, you can use the new flat config format.
+
+### For ES Module (`eslint.config.mjs`)
+
+```js
+import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
+
+export default [
+  {
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+    },
+    plugins: {
+      hub: hub,
+    },
+    rules: {
+      'hub/vars-camelcase': 'error',
+      'hub/class-pascalcase': 'error',
+      'hub/file-kebabcase': 'error',
+      'hub/function-camelcase': 'error',
+      'hub/function-descriptive': 'warn',
+    },
+  },
+];
+```
+
+### For CommonJS (`eslint.config.js`)
+
+```js
+const hub = require('@mindfiredigital/eslint-plugin-hub');
+const globals = require('globals');
+
+module.exports = [
+  {
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+    },
+    plugins: {
+      hub: hub,
+    },
+    rules: {
+      'hub/vars-camelcase': 'error',
+      'hub/class-pascalcase': 'error',
+      'hub/file-kebabcase': 'error',
+      'hub/function-camelcase': 'error',
+      'hub/function-descriptive': 'warn',
+    },
+  },
+];
+```
+
+## Legacy Configuration
+
+For older ESLint versions or projects using the legacy configuration format, you can use `.eslintrc.*` files or the `eslintrc` field in `package.json`.
+
+### For `.eslintrc.json`
+
+```json
+{
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@mindfiredigital/eslint-plugin-hub"],
+  "rules": {
+    "@mindfiredigital/hub/file-kebabcase": "error",
+    "@mindfiredigital/hub/function-camelcase": "error",
+    "@mindfiredigital/hub/vars-camelcase": "error"
+  }
+}
+```
+
+### For ES Module `.eslintrc.js`
 
 ```javascript
-const { pluginHub } = require('eslint-plugin-hub');
-
-module.exports = {
-  plugins: ['pluginHub'],
+export default {
+  env: {
+    browser: true,
+    es2024: true,
+  },
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+  plugins: ['@mindfiredigital/eslint-plugin-hub'],
   rules: {
-    'pluginHub/vars-camelcase': 'error',
-    'pluginHub/vars-descriptive': 'warn',
-    'pluginHub/class-pascalcase': 'error',
-    'pluginHub/file-kebabcase': 'error',
-    'pluginHub/function-camelcase': 'error',
-    'pluginHub/function-descriptive': 'warn',
+    '@mindfiredigital/hub/file-kebabcase': 'error',
+    '@mindfiredigital/hub/function-camelcase': 'error',
+    '@mindfiredigital/hub/vars-camelcase': 'error',
   },
 };
 ```
 
-### React-Specific Configuration
-
-For React applications using `reactHub`:
+### For CommonJS `.eslintrc.cjs`
 
 ```javascript
-const { reactHub } = require('eslint-plugin-hub');
-
 module.exports = {
-  plugins: ['reactHub'],
+  env: {
+    browser: true,
+    es2024: true,
+  },
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+  plugins: ['@mindfiredigital/eslint-plugin-hub'],
   rules: {
-    'reactHub/react-component-name-match-filename': 'error',
-    'reactHub/react-filename-pascalcase': 'error',
+    '@mindfiredigital/hub/file-kebabcase': 'error',
+    '@mindfiredigital/hub/function-camelcase': 'error',
+    '@mindfiredigital/hub/vars-camelcase': 'error',
   },
 };
 ```
 
-### Angular-Specific Configuration
+## Next Steps
 
-For Angular projects using `angularHub`:
-
-```javascript
-const { angularHub } = require('eslint-plugin-hub');
-
-module.exports = {
-  plugins: ['angularHub'],
-  rules: {
-    'angularHub/angular-no-forbidden-services': 'error',
-    'angularHub/angular-no-unused-inputs': 'warn',
-    'angularHub/angular-no-direct-dom-manipulation': 'error',
-    'angularHub/angular-limit-input': 'warn',
-    'angularHub/angular-filenaming': 'error',
-  },
-};
-```
-
-### Example ESLint Configuration (Combined for JavaScript/TypeScript, React, and Angular)
-
-If your project includes JavaScript/TypeScript, React, and Angular, you can combine the configurations like this:
-
-```javascript
-const { pluginHub } = require('eslint-plugin-hub');
-const { reactHub } = require('eslint-plugin-hub');
-const { angularHub } = require('eslint-plugin-hub');
-
-module.exports = {
-  plugins: ['pluginHub', 'reactHub', 'angularHub'],
-  overrides: [
-    // General JavaScript/TypeScript rules
-    {
-      files: ['**/*.js', '**/*.ts'],
-      plugins: ['pluginHub'],
-      rules: {
-        'pluginHub/vars-camelcase': 'error',
-        'pluginHub/vars-descriptive': 'warn',
-        'pluginHub/class-pascalcase': 'error',
-        'pluginHub/file-kebabcase': 'error',
-        'pluginHub/function-camelcase': 'error',
-        'pluginHub/function-descriptive': 'warn',
-      },
-    },
-    // React-specific rules
-    {
-      files: ['**/*.jsx', '**/*.tsx'],
-      plugins: ['reactHub'],
-      rules: {
-        'reactHub/react-component-name-match-filename': 'error',
-        'reactHub/react-filename-pascalcase': 'error',
-      },
-    },
-    // Angular-specific rules
-    {
-      files: ['**/*.ts', '**/*.html'],
-      plugins: ['angularHub'],
-      rules: {
-        'angularHub/angular-no-forbidden-services': 'error',
-        'angularHub/angular-no-unused-inputs': 'warn',
-        'angularHub/angular-no-direct-dom-manipulation': 'error',
-        'angularHub/angular-limit-input': 'warn',
-        'angularHub/angular-filenaming': 'error',
-      },
-    },
-  ],
-};
-```
-
-### Explanation
-
-1. **Imports**: Import the specific hubs (`pluginHub`, `reactHub`, and `angularHub`) from `eslint-plugin-hub`.
-
-2. **Plugins**: Add the respective plugins to the `plugins` array in the configuration.
-
-3. **Rules**: Define rules specific to each hub under the `rules` section for each relevant file type.
-
-This setup ensures that the ESLint configuration is properly organized and integrates the rules from the different hubs as needed.
+After configuring the plugin, you can start using the rules in your project. Check out our [Rules](rules/general.md) section for detailed information on each available rule.

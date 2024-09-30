@@ -7,30 +7,49 @@ These rules are applicable to `.js`, `.ts`, and `.mjs` files to ensure consisten
 ### Import General Rules
 
 ```javascript
-const { pluginHub } = require('eslint-plugin-hub');
-const generalRules = pluginHub.rules;
+import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
 
 // Example usage in ESLint configuration
-module.exports = {
-  plugins: ['hub'],
-  rules: {
-    ...generalRules,
+export default [
+  {
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+    },
+    plugins: {
+      hub: hub,
+    },
+    rules: {
+      'hub/vars-camelcase': 'error',
+      'hub/class-pascalcase': 'error',
+      'hub/file-kebabcase': 'error',
+      'hub/function-camelcase': 'error',
+      'hub/function-descriptive': 'warn',
+    },
   },
-};
+];
 ```
 
 or
 
 ```json
 {
-  "plugins": ["hub"],
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@mindfiredigital/eslint-plugin-hub"],
   "rules": {
-    "hub/vars-camelcase": "error",
-    "hub/vars-descriptive": "warn",
-    "hub/class-pascalcase": "error",
-    "hub/filename-kebabcase": "error",
-    "hub/function-camelcase": "error",
-    "hub/function-descriptive": "warn"
+    "@mindfiredigital/hub/file-kebabcase": "error",
+    "@mindfiredigital/hub/function-camelcase": "error",
+    "@mindfiredigital/hub/vars-camelcase": "error"
   }
 }
 ```
