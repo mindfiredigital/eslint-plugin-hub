@@ -36,41 +36,43 @@ Each category comes with a set of rules that you can enable or configure based o
 
 This plugin provides the following rules:
 
-| Rule                                 | Description                                               | Fixable |
-| ------------------------------------ | --------------------------------------------------------- | ------- |
-| `vars-camelcase`                     | Enforces camelCase naming convention for variables.       | true    |
-| `vars-descriptive`                   | Enforces variable names to start with a verb.             | false   |
-| `class-pascalcase`                   | Enforces PascalCase naming convention for class names.    | true    |
-| `filename-kebabcase`                 | Enforces kebab-case naming convention for filenames.      | true    |
-| `function-camelcase`                 | Enforces camelCase naming convention for function names.  | true    |
-| `function-descriptive`               | Enforces function names to start with a verb.             | false   |
-| `angular-no-forbidden-services`      | Disallows the use of forbidden Angular services.          | true    |
-| `angular-no-unused-inputs`           | Disallows unused inputs in Angular components.            | false   |
-| `angular-no-direct-dom-manipulation` | Disallows direct DOM manipulation in Angular.             | true    |
-| `angular-limit-input`                | Enforces a limit on the number of inputs in Angular.      | false   |
-| `angular-filenaming`                 | Enforces naming conventions for Angular files.            | true    |
-| `file-kebabcase`                     | Enforces kebab-case naming convention for files.          | true    |
-| `max-lines-per-file`                 | Enforces a maximum number of lines per file.              | false   |
-| `max-lines-per-function`             | Enforces a maximum number of lines per function.          | false   |
-| `consistent-return`                  | Enforces consistent return statements.                    | true    |
-| `max-function-params`                | Enforces a maximum number of parameters per function.     | true    |
-| `no-single-character-vars`           | Disallows single character variable names.                | true    |
-| `vars-lowercase`                     | Enforces lowercase naming convention for variables.       | false   |
-| `folder-lowercase`                   | Enforces lowercase naming convention for folders.         | true    |
-| `file-lowercase`                     | Enforces lowercase naming convention for filenames.       | true    |
-| `folder-pascalcase`                  | Enforces PascalCase naming convention for folders.        | true    |
-| `folder-kebabcase`                   | Enforces kebab-case naming convention for folders.        | true    |
-| `folder-camelcase`                   | Enforces camelCase naming convention for folders.         | true    |
-| `file-camelcase`                     | Enforces camelCase naming convention for filenames.       | true    |
-| `function-pascalcase`                | Enforces PascalCase naming convention for function names. | true    |
-| `file-pascalcase`                    | Enforces PascalCase naming convention for filenames.      | true    |
-| `vars-snakecase`                     | Enforces snake_case naming convention for variables.      | true    |
-| `vars-pascalcase`                    | Enforces PascalCase naming convention for variables.      | true    |
-| `class-pascalcase`                   | Enforces PascalCase naming convention for classes.        | true    |
-| `function-camelcase`                 | Enforces camelCase naming convention for functions.       | true    |
-| `function-descriptive`               | Enforces descriptive names for functions.                 | false   |
-| `vars-camelcase`                     | Enforces camelCase naming convention for variables.       | true    |
-| `vars-descriptive`                   | Enforces descriptive names for variables.                 | false   |
+| Rule                                  | Description                                                | Fixable |
+| ------------------------------------- | ---------------------------------------------------------- | ------- |
+| `vars-camelcase`                      | Enforces camelCase naming convention for variables.        | true    |
+| `vars-descriptive`                    | Enforces variable names to start with a verb.              | false   |
+| `class-pascalcase`                    | Enforces PascalCase naming convention for class names.     | true    |
+| `filename-kebabcase`                  | Enforces kebab-case naming convention for filenames.       | true    |
+| `function-camelcase`                  | Enforces camelCase naming convention for function names.   | true    |
+| `function-descriptive`                | Enforces function names to start with a verb.              | false   |
+| `react-component-name-match-filename` | Enforces that React component names match their filenames. | false   |
+| `react-filename-pascalcase`           | Enforces PascalCase naming convention for React component. | false   |
+| `angular-no-forbidden-services`       | Disallows the use of forbidden Angular services.           | true    |
+| `angular-no-unused-inputs`            | Disallows unused inputs in Angular components.             | false   |
+| `angular-no-direct-dom-manipulation`  | Disallows direct DOM manipulation in Angular.              | true    |
+| `angular-limit-input`                 | Enforces a limit on the number of inputs in Angular.       | false   |
+| `angular-filenaming`                  | Enforces naming conventions for Angular files.             | true    |
+| `file-kebabcase`                      | Enforces kebab-case naming convention for files.           | true    |
+| `max-lines-per-file`                  | Enforces a maximum number of lines per file.               | false   |
+| `max-lines-per-function`              | Enforces a maximum number of lines per function.           | false   |
+| `consistent-return`                   | Enforces consistent return statements.                     | true    |
+| `max-function-params`                 | Enforces a maximum number of parameters per function.      | true    |
+| `no-single-character-vars`            | Disallows single character variable names.                 | true    |
+| `vars-lowercase`                      | Enforces lowercase naming convention for variables.        | false   |
+| `folder-lowercase`                    | Enforces lowercase naming convention for folders.          | true    |
+| `file-lowercase`                      | Enforces lowercase naming convention for filenames.        | true    |
+| `folder-pascalcase`                   | Enforces PascalCase naming convention for folders.         | true    |
+| `folder-kebabcase`                    | Enforces kebab-case naming convention for folders.         | true    |
+| `folder-camelcase`                    | Enforces camelCase naming convention for folders.          | true    |
+| `file-camelcase`                      | Enforces camelCase naming convention for filenames.        | true    |
+| `function-pascalcase`                 | Enforces PascalCase naming convention for function names.  | true    |
+| `file-pascalcase`                     | Enforces PascalCase naming convention for filenames.       | true    |
+| `vars-snakecase`                      | Enforces snake_case naming convention for variables.       | true    |
+| `vars-pascalcase`                     | Enforces PascalCase naming convention for variables.       | true    |
+| `class-pascalcase`                    | Enforces PascalCase naming convention for classes.         | true    |
+| `function-camelcase`                  | Enforces camelCase naming convention for functions.        | true    |
+| `function-descriptive`                | Enforces descriptive names for functions.                  | false   |
+| `vars-camelcase`                      | Enforces camelCase naming convention for variables.        | true    |
+| `vars-descriptive`                    | Enforces descriptive names for variables.                  | false   |
 
 ---
 
