@@ -14,6 +14,11 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Recomended Rules',
+      items: ['mern'],
+    },
+    {
+      type: 'category',
       label: 'How To Contribute',
       items: ['contributing', 'addnewrule'],
     },

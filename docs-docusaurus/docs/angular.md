@@ -16,7 +16,7 @@ To ensure consistent coding standards and best practices in Angular projects, th
 
 ### Configuration
 
-After installing the plugin, you'll need to add the Angular-specific rules from `eslint-plugin-hub` to your ESLint configuration file (e.g., `.eslintrc.json`, `.eslintrc.js`, or `.eslintrc.yaml`).
+After installing the plugin, you'll need to add the Angular-specific rules from `eslint-plugin-hub` to your ESLint configuration file (e.g., `eslintrc.config.mjs`,`.eslintrc.json`, `.eslintrc.js`, or `.eslintrc.yaml`).
 
 Here’s how to configure the Angular-specific rules:
 
@@ -68,7 +68,7 @@ This rule disallows the usage of forbidden Angular services in your project. You
 - **Rationale**: Some services, such as certain legacy or deprecated ones, should not be used in new codebases.
 
 ```json
-"@mindfiredigital/hub/angular-no-forbidden-services": ["error", { "forbiddenServices": ["$http", "$scope"] }]
+"hub/angular-no-forbidden-services": ["error", { "forbiddenServices": ["$http", "$scope"] }]
 ```
 
 #### `angular-no-unused-inputs`
@@ -79,7 +79,7 @@ This rule checks for unused inputs in Angular components. It warns when an `@Inp
 - **Rationale**: Unused inputs add unnecessary complexity and can lead to confusion.
 
 ```json
-"@mindfiredigital/hub/angular-no-unused-inputs": "warn"
+"hub/angular-no-unused-inputs": "warn"
 ```
 
 #### `angular-no-direct-dom-manipulation`
@@ -90,7 +90,7 @@ This rule disallows direct DOM manipulation within Angular components. Angular p
 - **Rationale**: Direct DOM manipulation is discouraged in Angular since it goes against Angular's reactive, declarative architecture.
 
 ```json
-"@mindfiredigital/hub/angular-no-direct-dom-manipulation": "error"
+"hub/angular-no-direct-dom-manipulation": "error"
 ```
 
 #### `angular-limit-input`
@@ -101,7 +101,7 @@ This rule enforces a limit on the number of `@Input()` properties that can be de
 - **Rationale**: A large number of inputs can make a component difficult to manage and maintain. Limiting inputs encourages better component design.
 
 ```json
-"@mindfiredigital/hub/angular-limit-input": ["warn", { "maxInputs": 5 }]
+"hub/angular-limit-input": ["warn", { "maxInputs": 5 }]
 ```
 
 #### `angular-filenaming`
@@ -112,7 +112,7 @@ This rule enforces a consistent naming convention for Angular files. By default,
 - **Rationale**: Consistent naming conventions help in organizing and maintaining code in large projects.
 
 ```json
-"@mindfiredigital/hub/angular-filenaming": ["error", { "namingConvention": "kebab-case" }]
+"hub/angular-filenaming": ["error", { "namingConvention": "kebab-case" }]
 ```
 
 ### Conclusion
