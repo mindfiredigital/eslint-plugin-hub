@@ -9,6 +9,8 @@ ESLint is a powerful tool for identifying and fixing problems in JavaScript code
 
 <!-- truncate -->
 
+![Welcome Image](https://miro.medium.com/v2/resize:fit:720/format:webp/0*-mrLZrmaR5Y2IxXm.png)
+
 ### Why Use ESLint?
 
 1. **Enforces Coding Standards**:

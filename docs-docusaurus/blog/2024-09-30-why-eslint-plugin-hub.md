@@ -5,7 +5,7 @@ authors: [anand-kumar]
 tags: [eslint, javascript, best-practices, plugin]
 ---
 
-### What is ESLint Plugin Hub?
+### Why ESLint Plugin Hub?
 
 When building large-scale JavaScript projects, maintaining consistent code quality is essential. The `@mindfiredigital/eslint-plugin-hub` is designed to solve this challenge by enforcing best practices in naming conventions, file organization, and function structure. It provides a robust set of rules for JavaScript, React, Angular, and more, helping developers write cleaner, more readable, and maintainable code.
 
