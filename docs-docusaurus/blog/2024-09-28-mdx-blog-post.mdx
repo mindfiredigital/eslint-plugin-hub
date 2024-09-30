@@ -1,0 +1,64 @@
+---
+slug: eslint-plugin-hub-interactive
+title: Interactive ESLint Plugin Hub Demo
+authors: [anand-kumar]
+tags: [eslint, coding-standards, best-practices]
+---
+
+`@mindfiredigital/eslint-plugin-hub` is a powerful tool that enforces consistent coding practices across your JavaScript, React, Angular, and TypeScript projects.
+
+:::tip What does this plugin do?
+It automatically checks your code for common errors and enforces best practices, like proper naming conventions and code organization. This helps keep your code clean, readable, and maintainable.
+:::
+
+<!-- truncate -->
+
+### Key Features of the Plugin
+
+- **Naming Conventions**: Enforces PascalCase for classes, camelCase for variables, and kebab-case for filenames.
+- **Function Complexity**: Restricts the number of lines per function and limits the number of function parameters.
+- **Consistency**: Ensures that your entire team follows the same coding standards.
+
+### Try an Example of an ESLint Rule
+
+Let's take a look at how `@mindfiredigital/eslint-plugin-hub` enforces naming conventions. Here's a small piece of code:
+
+```js
+class userprofile {
+  getuserdata() {
+    return 'data';
+  }
+}
+```
+
+This code violates the **PascalCase** naming convention for class names and the **camelCase** convention for function names.
+
+<button onClick={() => alert('Violations: Class name and function names should be PascalCase and camelCase respectively.')}>Check Violations</button>
+
+### Correct Code
+
+Here’s how the code should look after applying the rules enforced by the plugin:
+
+```js
+class UserProfile {
+  getUserData() {
+    return 'data';
+  }
+}
+```
+
+By using `@mindfiredigital/eslint-plugin-hub`, your team can ensure that everyone writes code in a uniform way, making it easier to read and maintain.
+
+---
+
+Feel free to play around with these rules in your project by installing the plugin:
+
+```bash
+npm install @mindfiredigital/eslint-plugin-hub --save-dev
+```
+
+### Conclusion
+
+Consistent code not only helps avoid errors but also makes onboarding new developers easier. With this ESLint plugin, you can enforce these best practices automatically.
+
+``` 

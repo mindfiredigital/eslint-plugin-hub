@@ -1,23 +1,16 @@
-yangshun:
-  name: Yangshun Tay
-  title: Front End Engineer @ Facebook
-  url: https://github.com/yangshun
-  image_url: https://github.com/yangshun.png
+anand-kumar:
+  name: Anand Kumar
+  title: Software Engineer @ Mindfire Solutions
+  url: https://github.com/anandmindfire
+  image_url: https://github.com/anandmindfire.png
   page: true
   socials:
-    x: yangshunz
-    github: yangshun
+    github: anandmindfire
 
-slorber:
-  name: Sébastien Lorber
-  title: Docusaurus maintainer
-  url: https://sebastienlorber.com
-  image_url: https://github.com/slorber.png
-  page:
-    # customize the url of the author page at /blog/authors/<permalink>
-    permalink: '/all-sebastien-lorber-articles'
+lakin-mohapatra:
+  name: Lakin Mohapatra
+  title: Tech Lead @ Mindfire Solutions
+  image_url: https://github.com/lakinmindfire.png
+  page: true
   socials:
-    x: sebastienlorber
-    linkedin: sebastienlorber
-    github: slorber
-    newsletter: https://thisweekinreact.com
+    github: lakinmindfire

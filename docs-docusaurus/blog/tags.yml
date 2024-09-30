@@ -1,19 +1,24 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+eslint:
+  label: ESLint
+  permalink: /eslint
+  description: ESLint tag description
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+coding-standards:
+  label: Coding Standards
+  permalink: /coding-standards
+  description: Best practices and standards for coding.
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+naming-conventions:
+  label: Naming Conventions
+  permalink: /naming-conventions
+  description: Best practices for naming conventions in code.
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+best-practices:
+  label: Best Practices
+  permalink: /best-practices
+  description: Coding best practices and guidelines.
+
+code-quality:
+  label: Code Quality
+  permalink: /code-quality
+  description: Techniques to improve code quality and maintainability.

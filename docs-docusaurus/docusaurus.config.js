@@ -68,6 +68,16 @@ const config = {
           },
           { to: '/blog', label: 'Blog', position: 'left' },
           {
+            href: 'https://www.npmjs.com/package/@mindfiredigital/eslint-plugin-hub',
+            position: 'right',
+            html: `
+              <a href="https://www.npmjs.com/package/@mindfiredigital/eslint-plugin-hub" style="display: flex; align-items: center;">
+                <img src="https://img.shields.io/npm/v/@mindfiredigital/eslint-plugin-hub.svg" alt="npm version" style="vertical-align: middle; margin-right: 5px;" />
+                <img src="https://img.shields.io/npm/dt/@mindfiredigital/eslint-plugin-hub.svg" alt="total downloads" style="vertical-align: middle;" />
+              </a>
+            `,
+          },
+          {
             href: 'https://github.com/mindfiredigital/eslint-plugin-hub',
             label: 'GitHub',
             position: 'right',
