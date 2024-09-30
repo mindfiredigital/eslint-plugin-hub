@@ -4,6 +4,16 @@
 
 To ensure consistent coding standards and best practices in Angular projects, the ESLint Plugin Hub provides several Angular-specific rules. These rules enforce best practices for naming conventions, component structure, and the usage of services, inputs, and DOM manipulation within Angular projects.
 
+### Angular Rules
+
+| Rule Name                            | Description                                                     |
+| ------------------------------------ | --------------------------------------------------------------- |
+| `angular-no-forbidden-services`      | Disallows usage of forbidden Angular services.                  |
+| `angular-no-unused-inputs`           | Disallows unused inputs in Angular components.                  |
+| `angular-no-direct-dom-manipulation` | Disallows direct DOM manipulation in Angular components.        |
+| `angular-limit-input`                | Enforces a limit on the number of inputs in Angular components. |
+| `angular-filenaming`                 | Enforces consistent naming conventions for Angular files.       |
+
 ### Configuration
 
 After installing the plugin, you'll need to add the Angular-specific rules from `eslint-plugin-hub` to your ESLint configuration file (e.g., `.eslintrc.json`, `.eslintrc.js`, or `.eslintrc.yaml`).
@@ -103,35 +113,6 @@ This rule enforces a consistent naming convention for Angular files. By default,
 
 ```json
 "@mindfiredigital/hub/angular-filenaming": ["error", { "namingConvention": "kebab-case" }]
-```
-
-### Example ESLint Configuration for Angular Projects
-
-Here’s a full example of an `.eslintrc.js` configuration that includes the Angular plugin and rules:
-
-```js
-module.exports = {
-  extends: ['eslint:recommended', 'plugin:@angular-eslint/recommended'],
-  plugins: ['hub'],
-  parserOptions: {
-    ecmaVersion: 2021,
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
-  rules: {
-    // Angular-specific rules from the ESLint Plugin Hub
-    'hub/angular-no-forbidden-services': [
-      'error',
-      { forbiddenServices: ['$http', '$scope'] },
-    ],
-    'hub/angular-no-unused-inputs': 'warn',
-    'hub/angular-no-direct-dom-manipulation': 'error',
-    'hub/angular-limit-input': ['warn', { maxInputs: 5 }],
-    'hub/angular-filenaming': ['error', { namingConvention: 'kebab-case' }],
-  },
-};
 ```
 
 ### Conclusion

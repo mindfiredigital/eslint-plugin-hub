@@ -4,6 +4,33 @@
 
 These rules are applicable to `.js`, `.ts`, and `.mjs` files to ensure consistent coding standards and best practices across different file types.
 
+### General Rules
+
+| Rule Name                  | Description                                               |
+| -------------------------- | --------------------------------------------------------- |
+| `file-kebabcase`           | Enforces kebab-case naming convention for filenames.      |
+| `max-lines-per-file`       | Enforces a maximum number of lines per file.              |
+| `max-lines-per-function`   | Enforces a maximum number of lines per function.          |
+| `consistent-return`        | Enforces consistent return statements in functions.       |
+| `max-function-params`      | Enforces a maximum number of parameters in functions.     |
+| `no-single-character-vars` | Disallows single-character variable names.                |
+| `vars-lowercase`           | Enforces lowercase naming convention for variables.       |
+| `folder-lowercase`         | Enforces lowercase naming convention for folder names.    |
+| `file-lowercase`           | Enforces lowercase naming convention for filenames.       |
+| `folder-pascalcase`        | Enforces PascalCase naming convention for folder names.   |
+| `folder-kebabcase`         | Enforces kebab-case naming convention for folder names.   |
+| `folder-camelcase`         | Enforces camelCase naming convention for folder names.    |
+| `file-camelcase`           | Enforces camelCase naming convention for filenames.       |
+| `function-pascalcase`      | Enforces PascalCase naming convention for function names. |
+| `file-pascalcase`          | Enforces PascalCase naming convention for filenames.      |
+| `vars-snakecase`           | Enforces snake_case naming convention for variables.      |
+| `vars-pascalcase`          | Enforces PascalCase naming convention for variables.      |
+| `class-pascalcase`         | Enforces PascalCase naming convention for class names.    |
+| `function-camelcase`       | Enforces camelCase naming convention for function names.  |
+| `function-descriptive`     | Enforces descriptive names for functions.                 |
+| `vars-camelcase`           | Enforces camelCase naming convention for variables.       |
+| `vars-descriptive`         | Enforces descriptive names for variables.                 |
+
 ### Import General Rules
 
 ```javascript

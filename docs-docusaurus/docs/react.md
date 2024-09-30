@@ -4,6 +4,13 @@
 
 The React-specific rules in the ESLint Plugin Hub enforce naming conventions and best practices that ensure consistency and clarity in your React components and file structure. Below are detailed configurations and explanations of each rule provided by the plugin.
 
+### React Rules
+
+| Rule Name                             | Description                                                          |
+| ------------------------------------- | -------------------------------------------------------------------- |
+| `react-component-name-match-filename` | Enforces that React component names match their filenames.           |
+| `react-filename-pascalcase`           | Enforces PascalCase naming convention for React component filenames. |
+
 ### Configuration
 
 To enable the React-specific rules, add them to your ESLint configuration file (`.eslintrc.json`, `.eslintrc.js`, or `.eslintrc.yaml`), as shown below:
