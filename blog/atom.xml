@@ -14,6 +14,7 @@
         <updated>2024-10-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[ESLint is a powerful tool for identifying and fixing problems in JavaScript code. It is a static code analysis tool designed to help developers enforce coding standards and find potential issues in their code before it runs.]]></summary>
         <content type="html"><![CDATA[<p>ESLint is a powerful tool for identifying and fixing problems in JavaScript code. It is a <strong>static code analysis tool</strong> designed to help developers enforce coding standards and find potential issues in their code before it runs.</p>
+<p><img decoding="async" loading="lazy" src="https://miro.medium.com/v2/resize:fit:720/format:webp/0*-mrLZrmaR5Y2IxXm.png" alt="Welcome Image" class="img_ev3q"></p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-use-eslint">Why Use ESLint?<a href="https://mindfiredigital.github.io/eslint-plugin-hub/blog/what-is-eslint#why-use-eslint" class="hash-link" aria-label="Direct link to Why Use ESLint?" title="Direct link to Why Use ESLint?">​</a></h3>
 <ol>
 <li>
@@ -152,8 +153,8 @@ ESLint can automatically fix some issues. Use the <code>--fix</code> flag to app
         <id>https://mindfiredigital.github.io/eslint-plugin-hub/blog/why-eslint-plugin-hub</id>
         <link href="https://mindfiredigital.github.io/eslint-plugin-hub/blog/why-eslint-plugin-hub"/>
         <updated>2024-09-30T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[What is ESLint Plugin Hub?]]></summary>
-        <content type="html"><![CDATA[<h3 class="anchor anchorWithStickyNavbar_LWe7" id="what-is-eslint-plugin-hub">What is ESLint Plugin Hub?<a href="https://mindfiredigital.github.io/eslint-plugin-hub/blog/why-eslint-plugin-hub#what-is-eslint-plugin-hub" class="hash-link" aria-label="Direct link to What is ESLint Plugin Hub?" title="Direct link to What is ESLint Plugin Hub?">​</a></h3>
+        <summary type="html"><![CDATA[Why ESLint Plugin Hub?]]></summary>
+        <content type="html"><![CDATA[<h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-eslint-plugin-hub">Why ESLint Plugin Hub?<a href="https://mindfiredigital.github.io/eslint-plugin-hub/blog/why-eslint-plugin-hub#why-eslint-plugin-hub" class="hash-link" aria-label="Direct link to Why ESLint Plugin Hub?" title="Direct link to Why ESLint Plugin Hub?">​</a></h3>
 <p>When building large-scale JavaScript projects, maintaining consistent code quality is essential. The <code>@mindfiredigital/eslint-plugin-hub</code> is designed to solve this challenge by enforcing best practices in naming conventions, file organization, and function structure. It provides a robust set of rules for JavaScript, React, Angular, and more, helping developers write cleaner, more readable, and maintainable code.</p>
 <p><img decoding="async" loading="lazy" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDhoODZneDZlOTV0cTdheWVqam51ZDY5MmNkcGpjOG5zcXo5OGgxYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hrSFdM4rg8VFpXyz2m/giphy.webp" alt="Welcome Image" class="img_ev3q"></p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-should-you-use-it">Why Should You Use It?<a href="https://mindfiredigital.github.io/eslint-plugin-hub/blog/why-eslint-plugin-hub#why-should-you-use-it" class="hash-link" aria-label="Direct link to Why Should You Use It?" title="Direct link to Why Should You Use It?">​</a></h3>
