@@ -17,7 +17,8 @@
     "test": "jest",
     "lint": "eslint .",
     "prepare": "husky",
-    "generate-rule": "node script/generate-rule.js"
+    "generate-rule": "node script/generate-rule.js",
+    "postinstall": "node lib/utils/check-eslint-config.js"
   },
   "keywords": [
     "eslint",
