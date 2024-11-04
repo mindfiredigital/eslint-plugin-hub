@@ -10,7 +10,7 @@
 <p align="center">
   <img src="https://mindfiredigital.github.io/_next/static/media/mindfire_foss_logo.0c507a60.png" alt="Mindfire Logo" width="200">
 </p>
-<p align="center"> A collection of custom ESLint rules to enforce coding standards and best practices in your JavaScript projects. </p>
+<p align="center"> A collection of custom ESLint rules to enforce coding standards and best practices in your projects. </p>
 
 The `@mindfiredigital/eslint-plugin-hub` aims to help maintain consistent code quality and readability by providing rules for variable names, class names, file names, and function naming conventions.
 <br>
