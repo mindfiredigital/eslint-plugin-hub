@@ -11,6 +11,7 @@
     "access": "public"
   },
   "main": "index.js",
+  "module": "./index.mjs",
   "types": "index.d.ts",
   "sideEffects": false,
   "scripts": {
@@ -54,6 +55,7 @@
     "configs/",
     "lib/",
     "index.js",
+    "index.mjs",
     "index.d.ts",
     "package.json",
     "tsconfig.json",
