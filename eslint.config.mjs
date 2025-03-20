@@ -11,7 +11,7 @@ export default [
       '**/node_modules/**',
       '**/test/**',
       '**/docs-docusaurus/**',
-      'index.mjs',
+      '**/*.mjs',
     ],
   },
   {
