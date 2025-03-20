@@ -5,6 +5,24 @@ const flatConfigBase = require('./configs/flat-config-base.js');
 const legacyConfigBase = require('./configs/legacy-config-base.js');
 const { name, version } = require('./package.json');
 
+// Helper function to convert rule definitions to rule configurations for legacy config
+const convertRulesToLegacyConfig = rules => {
+  const config = {};
+  Object.entries(rules).forEach(([key, rule]) => {
+    config[`@mindfiredigital/hub/${key}`] = ['error', rule];
+  });
+  return config;
+};
+
+// Helper function to convert rule definitions to rule configurations for flat config
+const convertRulesToFlatConfig = rules => {
+  const config = {};
+  Object.entries(rules).forEach(([key]) => {
+    config[`hub/${key}`] = 'error';
+  });
+  return config;
+};
+
 // Recommended rules for MERN in legacy (with @mindfiredigital prefix)
 const mernRecommendedRulesLegacy = {
   '@mindfiredigital/hub/file-kebabcase': 'error',
@@ -51,17 +69,26 @@ const hub = {
 // Configurations for flat and legacy, including recommended rules
 const configs = {
   // Legacy format configurations
-  all: createConfig(hub.rules),
-  general: createConfig(generalRules.rules),
-  react: createConfig(reactRules.rules),
-  angular: createConfig(angularRules.rules),
+  all: createConfig(convertRulesToLegacyConfig(hub.rules)),
+  general: createConfig(convertRulesToLegacyConfig(generalRules.rules)),
+  react: createConfig(convertRulesToLegacyConfig(reactRules.rules)),
+  angular: createConfig(convertRulesToLegacyConfig(angularRules.rules)),
   mern: createConfig(mernRecommendedRulesLegacy),
 
   // Flat format configurations
-  'flat/all': createConfig(hub.rules, 'hub/flat/all'),
-  'flat/general': createConfig(generalRules.rules, 'hub/flat/general'),
-  'flat/react': createConfig(reactRules.rules, 'hub/flat/react'),
-  'flat/angular': createConfig(angularRules.rules, 'hub/flat/angular'),
+  'flat/all': createConfig(convertRulesToFlatConfig(hub.rules), 'hub/flat/all'),
+  'flat/general': createConfig(
+    convertRulesToFlatConfig(generalRules.rules),
+    'hub/flat/general'
+  ),
+  'flat/react': createConfig(
+    convertRulesToFlatConfig(reactRules.rules),
+    'hub/flat/react'
+  ),
+  'flat/angular': createConfig(
+    convertRulesToFlatConfig(angularRules.rules),
+    'hub/flat/angular'
+  ),
   'flat/mern': createConfig(mernRecommendedRulesFlat, 'hub/flat/mern'),
 };
 
