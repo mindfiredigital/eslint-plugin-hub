@@ -75,6 +75,7 @@ const configs = {
   general: createConfig(convertRulesToLegacyConfig(generalRules.rules)),
   react: createConfig(convertRulesToLegacyConfig(reactRules.rules)),
   angular: createConfig(convertRulesToLegacyConfig(angularRules.rules)),
+  node: createConfig(convertRulesToLegacyConfig(nodeRules.rules)),
   mern: createConfig(mernRecommendedRulesLegacy),
 
   // Flat format configurations
@@ -90,6 +91,10 @@ const configs = {
   'flat/angular': createConfig(
     convertRulesToFlatConfig(angularRules.rules),
     'hub/flat/angular'
+  ),
+  'flat/node': createConfig(
+    convertRulesToFlatConfig(nodeRules.rules),
+    'hub/flat/node'
   ),
   'flat/mern': createConfig(mernRecommendedRulesFlat, 'hub/flat/mern'),
 };
