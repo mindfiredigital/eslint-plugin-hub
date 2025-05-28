@@ -1,0 +1,6502 @@
+Directory structure:
+└── eslint-plugin-hub/
+    ├── README.md
+    ├── CODE_OF_CONDUCT.md
+    ├── CONTRIBUTING.md
+    ├── LICENSE.md
+    ├── SECURITY.md
+    ├── babel.config.js
+    ├── commitlint.config.js
+    ├── eslint.config.mjs
+    ├── index.d.ts
+    ├── index.js
+    ├── index.mjs
+    ├── jest.config.js
+    ├── package.json
+    ├── tsconfig.json
+    ├── .npmignore
+    ├── .prettierignore
+    ├── .prettierrc
+    ├── configs/
+    │   ├── flat-config-base.js
+    │   └── legacy-config-base.js
+    ├── lib/
+    │   ├── rules/
+    │   │   ├── angular/
+    │   │   │   ├── index.js
+    │   │   │   └── plugin/
+    │   │   │       ├── angular-filenaming.js
+    │   │   │       ├── angular-limit-input.js
+    │   │   │       ├── angular-no-direct-dom-manipulation.js
+    │   │   │       ├── angular-no-forbidden-services.js
+    │   │   │       └── angular-no-unused-inputs.js
+    │   │   ├── general/
+    │   │   │   ├── index.js
+    │   │   │   └── plugin/
+    │   │   │       ├── class-pascalcase.js
+    │   │   │       ├── consistent-return.js
+    │   │   │       ├── file-camelcase.js
+    │   │   │       ├── file-kebabcase.js
+    │   │   │       ├── file-lowercase.js
+    │   │   │       ├── file-pascalcase.js
+    │   │   │       ├── folder-camelcase.js
+    │   │   │       ├── folder-kebabcase.js
+    │   │   │       ├── folder-lowercase.js
+    │   │   │       ├── folder-pascalcase.js
+    │   │   │       ├── function-camelcase.js
+    │   │   │       ├── function-descriptive.js
+    │   │   │       ├── function-pascalcase.js
+    │   │   │       ├── max-function-params.js
+    │   │   │       ├── max-lines-per-file.js
+    │   │   │       ├── max-lines-per-function.js
+    │   │   │       ├── no-single-character-vars.js
+    │   │   │       ├── vars-camelcase.js
+    │   │   │       ├── vars-descriptive.js
+    │   │   │       ├── vars-lowercase.js
+    │   │   │       ├── vars-pascalcase.js
+    │   │   │       └── vars-snakecase.js
+    │   │   ├── node/
+    │   │   │   ├── indes.js
+    │   │   │   ├── index.js
+    │   │   │   └── plugin/
+    │   │   │       └── limit-data-scope.js
+    │   │   └── react/
+    │   │       ├── index.js
+    │   │       └── plugin/
+    │   │           ├── react-component-name-match-filename.js
+    │   │           └── react-filename-pascalcase.js
+    │   └── utils/
+    │       ├── check-eslint-config.js
+    │       └── check-verb.js
+    ├── script/
+    │   ├── generate-rule.js
+    │   └── templates/
+    │       ├── angular-test-template.js
+    │       ├── react-test-template.js
+    │       ├── rule-template.js
+    │       └── test-template.js
+    ├── test/
+    │   ├── angular/
+    │   │   ├── angular-filenaming.test.js
+    │   │   ├── angular-limit-input.test.js
+    │   │   ├── angular-no-direct-dom-manipulation.test.js
+    │   │   ├── angular-no-forbidden-services.test.js
+    │   │   └── angular-no-unused-inputs.test.js
+    │   ├── general/
+    │   │   ├── class-pascalcase.test.js
+    │   │   ├── consistent-return.test.js
+    │   │   ├── file-camelcase.test.js
+    │   │   ├── file-kebabcase.test.js
+    │   │   ├── file-lowercase.test.js
+    │   │   ├── file-pascalcase.test.js
+    │   │   ├── folder-camelcase.test.js
+    │   │   ├── folder-kebabcase.test.js
+    │   │   ├── folder-lowercase.test.js
+    │   │   ├── folder-pascalcase.test.js
+    │   │   ├── function-camelcase.test.js
+    │   │   ├── function-descriptive.test.js
+    │   │   ├── function-pascalcase.test.js
+    │   │   ├── max-function-params.test.js
+    │   │   ├── max-lines-per-file.test.js
+    │   │   ├── max-lines-per-function.test.js
+    │   │   ├── no-single-character-vars.test.js
+    │   │   ├── vars-camelcase.test.js
+    │   │   ├── vars-descriptive.test.js
+    │   │   ├── vars-lowercase.test.js
+    │   │   ├── vars-pascalcase.test.js
+    │   │   └── vars-snakecase.test.js
+    │   ├── node/
+    │   │   └── limit-data-scope.test.js
+    │   └── react/
+    │       ├── react-component-name-match-filename.test.js
+    │       └── react-filename-pascalcase.test.js
+    ├── .github/
+    │   ├── PULL_REQUEST_TEMPLATE.md
+    │   ├── ISSUE_TEMPLATE/
+    │   │   ├── bug_report.md
+    │   │   ├── rule_change.md
+    │   │   └── rule_proposal.md
+    │   └── workflows/
+    │       └── release.yml
+    └── .husky/
+        ├── commit-msg
+        └── pre-commit
+
+================================================
+File: README.md
+================================================
+<h1 align="center">ESLint Plugin Hub</h1><br>
+<p align="center">
+<a href="https://www.npmjs.com/package/@mindfiredigital/eslint-plugin-hub"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs"></a>
+<a href="https://www.npmjs.com/package/@mindfiredigital/eslint-plugin-hub">
+  <img src="https://img.shields.io/npm/dt/@mindfiredigital/eslint-plugin-hub.svg" alt="Total Downloads">
+</a>
+</p>
+
+<p align="center">
+  <img src="https://mindfiredigital.github.io/_next/static/media/mindfire_foss_logo.0c507a60.png" alt="Mindfire Logo" width="200">
+</p>
+<p align="center"> A collection of custom ESLint rules to enforce coding standards and best practices in your projects. </p>
+
+The `@mindfiredigital/eslint-plugin-hub` aims to help maintain consistent code quality and readability by providing rules for variable names, class names, file names, function naming conventions etc.
+<br>
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Rules](#rules)
+  - [General Rules](#general-rules)
+  - [React Rules](#react-rules)
+  - [Angular Rules](#angular-rules)
+- [Usage](#usage)
+  - [Flat Configuration (`eslint.config.js`)](#flat-configuration-eslintconfigjs)
+    - [For ES Module](#for-es-module)
+    - [For CommonJS](#for-commonjs)
+  - [Legacy Configuration (`.eslintrc.*`, `package.json`)](#legacy-configuration-eslintrc-or-eslintrcjson)
+    - [For `.eslintrc.json`](#for-eslintrcjson)
+    - [For ES Module `.eslintrc.js`](#for-es-module-eslintrcjs)
+    - [For CommonJS `.eslintrc.cjs`](#for-commonjs-eslintrcjs)
+  - [MERN Recommended Rules](#mern-recommended-rules)
+    - [Example: Extending MERN Config](#example-extending-mern-config)
+      - [For `eslint.config.mjs`](#for-eslintconfigmjs)
+      - [For `.eslintrc.cjs`](#for-eslintrccjs)
+      - [For `.eslintrc.json`](#for-eslintrcjson-1)
+  - [Extending Presets in Flat Configuration (`eslint.config.mjs`)](#extending-presets-in-flat-configuration-eslintconfigmjs)
+    - [Example: Extending General Config](#example-extending-general-config)
+    - [Example: Extending React Config](#example-extending-react-config)
+    - [Example: Extending Angular Config](#example-extending-angular-config)
+  - [Extending Presets in Legacy Configuration (`.eslintrc.*`, `.eslintrc.js` or `package.json`)](#extending-presets-in-legacy-configuration-eslintrc-or-packagejson)
+    - [Example: Extending General Config](#example-extending-general-config-1)
+    - [Example: Extending React Config](#example-extending-react-config-1)
+    - [Example: Extending Angular Config](#example-extending-angular-config-1)
+- [Documentation](#documentation)
+- [License](#license)
+
+## Installation
+
+To install and use this ESLint plugin, make sure you have ESLint already set up in your project **Requires ESLint `>=8.56.0`.** Then add the plugin as a dependency with npm or yarn:
+
+```bash
+npm install @mindfiredigital/eslint-plugin-hub --save-dev
+```
+
+or
+
+```bash
+yarn add @mindfiredigital/eslint-plugin-hub --dev
+```
+
+## Rules
+
+This plugin provides the following rules:
+
+### General Rules
+
+| Rule Name                  | Description                                               |
+| -------------------------- | --------------------------------------------------------- |
+| `file-kebabcase`           | Enforces kebab-case naming convention for filenames.      |
+| `max-lines-per-file`       | Enforces a maximum number of lines per file.              |
+| `max-lines-per-function`   | Enforces a maximum number of lines per function.          |
+| `consistent-return`        | Enforces consistent return statements in functions.       |
+| `max-function-params`      | Enforces a maximum number of parameters in functions.     |
+| `no-single-character-vars` | Disallows single-character variable names.                |
+| `vars-lowercase`           | Enforces lowercase naming convention for variables.       |
+| `folder-lowercase`         | Enforces lowercase naming convention for folder names.    |
+| `file-lowercase`           | Enforces lowercase naming convention for filenames.       |
+| `folder-pascalcase`        | Enforces PascalCase naming convention for folder names.   |
+| `folder-kebabcase`         | Enforces kebab-case naming convention for folder names.   |
+| `folder-camelcase`         | Enforces camelCase naming convention for folder names.    |
+| `file-camelcase`           | Enforces camelCase naming convention for filenames.       |
+| `function-pascalcase`      | Enforces PascalCase naming convention for function names. |
+| `file-pascalcase`          | Enforces PascalCase naming convention for filenames.      |
+| `vars-snakecase`           | Enforces snake_case naming convention for variables.      |
+| `vars-pascalcase`          | Enforces PascalCase naming convention for variables.      |
+| `class-pascalcase`         | Enforces PascalCase naming convention for class names.    |
+| `function-camelcase`       | Enforces camelCase naming convention for function names.  |
+| `function-descriptive`     | Enforces descriptive names for functions.                 |
+| `vars-camelcase`           | Enforces camelCase naming convention for variables.       |
+| `vars-descriptive`         | Enforces descriptive names for variables.                 |
+
+### React Rules
+
+| Rule Name                             | Description                                                          |
+| ------------------------------------- | -------------------------------------------------------------------- |
+| `react-component-name-match-filename` | Enforces that React component names match their filenames.           |
+| `react-filename-pascalcase`           | Enforces PascalCase naming convention for React component filenames. |
+
+### Angular Rules
+
+| Rule Name                            | Description                                                     |
+| ------------------------------------ | --------------------------------------------------------------- |
+| `angular-no-forbidden-services`      | Disallows usage of forbidden Angular services.                  |
+| `angular-no-unused-inputs`           | Disallows unused inputs in Angular components.                  |
+| `angular-no-direct-dom-manipulation` | Disallows direct DOM manipulation in Angular components.        |
+| `angular-limit-input`                | Enforces a limit on the number of inputs in Angular components. |
+| `angular-filenaming`                 | Enforces consistent naming conventions for Angular files.       |
+
+## Usage
+
+You can enable the plugin and configure the rules using either flat or legacy configurations.
+
+### Flat Configuration (`eslint.config.mjs`)
+
+This is for ESLint `>=8.56.0` using the new flat config format.
+
+#### For ES Module
+
+```js
+import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
+
+export default [
+  {
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+    },
+    plugins: {
+      hub: hub,
+    },
+    rules: {
+      'hub/vars-camelcase': 'error',
+      'hub/class-pascalcase': 'error',
+      'hub/file-kebabcase': 'error',
+      'hub/function-camelcase': 'error',
+      'hub/function-descriptive': 'warn',
+    },
+  },
+];
+```
+
+#### For CommonJS
+
+```js
+const hub = require('@mindfiredigital/eslint-plugin-hub');
+const globals = require('globals');
+
+module.exports = [
+  {
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+    },
+    plugins: {
+      hub: hub,
+    },
+    rules: {
+      'hub/vars-camelcase': 'error',
+      'hub/class-pascalcase': 'error',
+      'hub/file-kebabcase': 'error',
+      'hub/function-camelcase': 'error',
+      'hub/function-descriptive': 'warn',
+    },
+  },
+];
+```
+
+### Legacy Configuration (`.eslintrc.*` or `eslintrc.json`)
+
+If you're using the legacy ESLint configuration format, here's how to use the plugin.
+
+#### For `.eslintrc.json`:
+
+```json
+{
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@mindfiredigital/eslint-plugin-hub"],
+  "rules": {
+    "@mindfiredigital/hub/file-kebabcase": "error",
+    "@mindfiredigital/hub/function-camelcase": "error",
+    "@mindfiredigital/hub/vars-camelcase": "error"
+  }
+}
+```
+
+#### For ES Module `.eslintrc.js`:
+
+```javascript
+export default [
+  {
+  env: {
+    browser: true,
+    es2024: true,
+  },
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+  },
+  rules: {
+    "@mindfiredigital/hub/file-kebabcase": "error",
+    "@mindfiredigital/hub/function-camelcase": "error",
+    "@mindfiredigital/hub/vars-camelcase": "error",
+  },
+};
+];
+```
+
+#### For CommonJS `.eslintrc.cjs`:
+
+```javascript
+module.exports = {
+  env: {
+    browser: true,
+    es2024: true,
+  },
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+  rules: {
+    '@mindfiredigital/hub/file-kebabcase': 'error',
+    '@mindfiredigital/hub/function-camelcase': 'error',
+    '@mindfiredigital/hub/vars-camelcase': 'error',
+  },
+};
+```
+
+### MERN Recommended Rules
+
+The MERN configuration includes a set of recommended rules optimized for MongoDB, Express, React, and Node.js stack projects. Below is a table showing the recommended rules for both legacy and flat configurations:
+
+| Rule Description                                       | Legacy Configuration                                       | Flat Configuration                        | Severity |
+| ------------------------------------------------------ | ---------------------------------------------------------- | ----------------------------------------- | -------- |
+| Enforce kebab-case for filenames                       | `@mindfiredigital/hub/file-kebabcase`                      | `hub/file-kebabcase`                      | error    |
+| Enforce camelCase for variables                        | `@mindfiredigital/hub/vars-camelcase`                      | `hub/vars-camelcase`                      | error    |
+| Enforce PascalCase for class names                     | `@mindfiredigital/hub/class-pascalcase`                    | `hub/class-pascalcase`                    | error    |
+| Enforce camelCase for function names                   | `@mindfiredigital/hub/function-camelcase`                  | `hub/function-camelcase`                  | error    |
+| Enforce descriptive function names                     | `@mindfiredigital/hub/function-descriptive`                | `hub/function-descriptive`                | warn     |
+| Enforce React component names to match their filenames | `@mindfiredigital/hub/react-component-name-match-filename` | `hub/react-component-name-match-filename` | error    |
+| Enforce PascalCase for React component filenames       | `@mindfiredigital/hub/react-filename-pascalcase`           | `hub/react-filename-pascalcase`           | error    |
+
+These rules are automatically included when you extend the MERN configuration in your ESLint setup.
+
+##### Example: Extending MERN Config
+
+#### For `eslint.config.mjs`:
+
+```js
+import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
+
+export default [
+  // Extends the mern config preset from the plugin
+  hub.configs['flat/mern'],
+  {
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    // Add any additional rules or overrides here
+  },
+];
+```
+
+#### For `.eslintrc.cjs`:
+
+```javascript
+module.exports = {
+  env: {
+    browser: true,
+    es2024: true,
+  },
+  extends: ['plugin:@mindfiredigital/hub/mern'],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+  rules: {
+    '@mindfiredigital/hub/file-kebabcase': 'error',
+    '@mindfiredigital/hub/function-camelcase': 'error',
+    '@mindfiredigital/hub/vars-camelcase': 'error',
+  },
+};
+```
+
+#### For `.eslintrc.json`:
+
+```json
+{
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": ["plugin:@mindfiredigital/hub/mern"]
+  // Add any additional rules or overrides here
+}
+```
+
+The MERN config includes the recommended rules listed in the table above. When extending this configuration, all these rules will be automatically applied to your project. You can override or add additional rules as needed in your specific configuration file.
+
+#### Extending Presets in Flat Configuration (`eslint.config.mjs`)
+
+You can extend the `hub.configs` presets directly into your flat ESLint configuration. When extending these presets, all rules in the respective category will be automatically added with their default configurations.
+
+##### Example: Extending General Config
+
+```js
+import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
+
+export default [
+  // Extends the general config preset from the plugin
+  hub.configs['flat/general'],
+  {
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+    },
+    // Add any additional rules or overrides here
+  },
+];
+```
+
+##### Example: Extending React Config
+
+```js
+import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
+
+export default [
+  // Extends the react config preset from the plugin
+  hub.configs['flat/react'],
+  {
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    // Add any additional rules or overrides here
+  },
+];
+```
+
+##### Example: Extending Angular Config
+
+```js
+import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
+
+export default [
+  // Extends the angular config preset from the plugin
+  hub.configs['flat/angular'],
+  {
+    languageOptions: {
+      globals: globals.builtin,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+    },
+    // Add any additional rules or overrides here
+  },
+];
+```
+
+#### Extending Presets in Legacy Configuration (`.eslintrc.*`,`.eslintrc.js` or `package.json`)
+
+For older versions of ESLint, or if you're using the legacy configuration format, you can extend the same configs with the `extends` field. This will inherit all the rules from the plugin presets for the respective category.
+
+##### Example: Extending General Config
+
+```json
+{
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "extends": ["plugin:@mindfiredigital/hub/general"]
+  // Add any additional rules or overrides here
+}
+```
+
+##### Example: Extending React Config
+
+```json
+{
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": ["plugin:@mindfiredigital/hub/react"]
+  // Add any additional rules or overrides here
+}
+```
+
+##### Example: Extending Angular Config
+
+```json
+{
+  "env": {
+    "es2024": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "extends": ["plugin:@mindfiredigital/hub/angular"]
+  // Add any additional rules or overrides here
+}
+```
+
+## Documentation
+
+The documentation for each rule is available at our [official documentation site](https://mindfiredigital.github.io/eslint-plugin-hub/). You can find detailed usage instructions, examples, and best practices for each rule.
+
+If you're contributing to the documentation, please follow the instructions in the `CONTRIBUTING.md` file for how to structure and update the documentation in the `docs/docusaurus` branch.
+
+## License
+
+ESLint Plugin Hub is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.
+
+
+
+================================================
+File: CODE_OF_CONDUCT.md
+================================================
+# Code of Conduct - eslint plugin hub
+
+## Our Pledge
+
+In the interest of fostering an open and welcoming environment, we as
+contributors and maintainers pledge to make participation in our project and
+our community a harassment-free experience for everyone, regardless of age, body
+size, disability, ethnicity, sex characteristics, gender identity and expression,
+level of experience, education, socio-economic status, nationality, personal
+appearance, race, religion, or sexual identity and orientation.
+
+## Our Standards
+
+Examples of behavior that contributes to a positive environment for our
+community include:
+
+- Demonstrating empathy and kindness toward other people
+- Being respectful of differing opinions, viewpoints, and experiences
+- Giving and gracefully accepting constructive feedback
+- Accepting responsibility and apologizing to those affected by our mistakes,
+  and learning from the experience
+- Focusing on what is best not just for us as individuals, but for the
+  overall community
+
+Examples of unacceptable behavior include:
+
+- The use of sexualized language or imagery, and sexual attention or
+  advances
+- Trolling, insulting or derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing others' private information, such as a physical or email
+  address, without their explicit permission
+- Other conduct which could reasonably be considered inappropriate in a
+  professional setting
+
+## Our Responsibilities
+
+Project maintainers are responsible for clarifying and enforcing our standards of
+acceptable behavior and will take appropriate and fair corrective action in
+response to any instances of unacceptable behavior.
+
+Project maintainers have the right and responsibility to remove, edit, or reject
+comments, commits, code, wiki edits, issues, and other contributions that are
+not aligned to this Code of Conduct, or to ban
+temporarily or permanently any contributor for other behaviors that they deem
+inappropriate, threatening, offensive, or harmful.
+
+## Scope
+
+This Code of Conduct applies within all community spaces, and also applies when
+an individual is officially representing the community in public spaces.
+Examples of representing our community include using an official e-mail address,
+posting via an official social media account, or acting as an appointed
+representative at an online or offline event.
+
+## Enforcement
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may be
+reported to the community leaders responsible for enforcement at <>.
+All complaints will be reviewed and investigated promptly and fairly.
+
+All community leaders are obligated to respect the privacy and security of the
+reporter of any incident.
+
+## Attribution
+
+This Code of Conduct is adapted from the [Contributor Covenant](https://contributor-covenant.org/), version
+[1.4](https://www.contributor-covenant.org/version/1/4/code-of-conduct/code_of_conduct.md) and
+[2.0](https://www.contributor-covenant.org/version/2/0/code_of_conduct/code_of_conduct.md),
+and was generated by [contributing-gen](https://github.com/bttger/contributing-gen).
+
+
+
+================================================
+File: CONTRIBUTING.md
+================================================
+# Contributing to ESLint Plugin Hub
+
+We welcome and appreciate your contributions to the ESLint Plugin Hub. To ensure a smooth and collaborative process, please follow these guidelines.
+
+## How Can You Contribute?
+
+Here are some ways you can contribute to the project:
+
+- Reporting bugs or issues
+- Suggesting new rules or features
+- Writing or improving documentation
+- Fixing bugs
+- Implementing new rules or features
+
+## Steps for Contributing
+
+1. **Fork** the repository to your GitHub account.
+2. **Clone** the forked repository to your local machine:
+
+   ```bash
+   git clone https://github.com/mindfiredigital/eslint-plugin-hub.git
+   ```
+
+3. Create a new **branch** for your feature or fix:
+
+   ```bash
+   git checkout -b feature/new-login or bugfix/header-styling.
+   ```
+
+4. **Make changes** and **test** to ensure they work as expected.
+5. **Commit** your changes:
+
+   ```bash
+   git commit -m 'Your descriptive commit message'
+   ```
+
+6. **Push** your branch to your GitHub repository:
+
+   ```bash
+   git push origin feature-name
+   ```
+
+7. Create a **Pull Request (PR)** from your branch to the original repository's `main` branch.
+
+## Commit Message Format
+
+We follow the conventional commit message format to ensure consistent and meaningful commit messages. This format helps in automated versioning and release notes generation.
+
+### Commit Types
+
+- **feat:** A new feature or significant change.
+- **fix:** A bug fix or issue resolution.
+- **docs:** Documentation changes.
+- **chore:** Routine tasks, maintenance, or tooling changes.
+
+### How to Write Commit Messages
+
+- Start the commit message with the type, followed by a colon and a space (e.g., `feat: Add new rule`).
+- Provide a concise and descriptive commit message.
+- If the commit addresses an issue or feature request, include the issue number in the message (e.g., `fix: Resolve issue #123`).
+
+### Example Commit Messages
+
+- feat: Add new rule for variable naming
+- fix: Correct issue #456 with class name validation
+- docs: Update usage instructions in README
+- chore: Upgrade dependencies to latest versions
+
+### Commitlint Configuration
+
+We use Commitlint to enforce the commit message format. Ensure that your commits adhere to the specified format. You can find the Commitlint configuration in the repository.
+
+For more details on Commitlint and conventional commits, please refer to [Commitlint Documentation](https://commitlint.js.org/).
+
+## Pull Request Guidelines
+
+- Make sure your PR addresses an issue or feature request.
+- Provide a clear description of your PR and any relevant context.
+- Keep your PR focused on a single change to facilitate review.
+- Ensure your code follows the project's coding style and conventions.
+- Include tests for any new rules or changes to existing ones.
+
+## Documentation Guidelines
+
+When contributing to the documentation, please add your updates in the `docs/docusaurus` branch inside the `docs-docusaurus` folder within the `docs` folder. This helps keep the documentation organized and easily accessible.
+
+## Code of Conduct and Licensing
+
+Please ensure your contributions adhere to the project's [Code of Conduct](./CODE_OF_CONDUCT.md) and are licensed under the project's [License](./LICENSE).
+
+## Need Help?
+
+If you have questions or need assistance, feel free to create an issue or directly contact the maintainers.
+
+Thank you for your interest in contributing to ESLint Plugin Hub! We appreciate your efforts in making this project better.
+
+Happy contributing!
+
+
+
+================================================
+File: LICENSE.md
+================================================
+MIT License
+
+Copyright (c) 2024 Mindfire Digital LLP
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+================================================
+File: SECURITY.md
+================================================
+# Security Policy
+
+## Reporting a Vulnerability
+
+If you discover a security vulnerability in this project, please follow these steps:
+
+1. **Do not report security vulnerabilities in public**: Please report security vulnerabilities privately. Publicly disclosing vulnerabilities can lead to potential risks and exploits.
+
+2. **Contact us directly**: Send a detailed report to our security team at [security@yourdomain.com](mailto:security@yourdomain.com). Provide as much detail as possible, including:
+
+   - Description of the vulnerability
+   - Steps to reproduce the issue
+   - The impact of the vulnerability
+   - Any potential exploits or examples
+
+3. **Be patient**: Our team will review your report and respond as quickly as possible. We appreciate your patience as we work to address the issue.
+
+4. **Security Bug Bounty**: If you are interested in participating in our bug bounty program, you can find more information at [GitHub Security Bug Bounty](https://bounty.github.com/).
+
+## Security Updates
+
+We are committed to maintaining the security of this project. When a vulnerability is confirmed, we will:
+
+- **Acknowledge receipt of your report**: Confirm that we have received and are investigating the issue.
+- **Work to resolve the vulnerability**: Develop and test a fix for the reported issue.
+- **Release a patch**: Publish a new version of the project with the fix included.
+- **Notify the community**: Announce the fix in our release notes and update the documentation as necessary.
+
+## Best Practices
+
+While we work on security improvements, we recommend that users follow these best practices:
+
+- Keep your dependencies up to date.
+- Regularly review your code and configurations for security vulnerabilities.
+- Follow security guidelines and best practices relevant to your project.
+
+## Additional Resources
+
+For more information on security practices, you may find these resources helpful:
+
+- [OWASP Top Ten](https://owasp.org/www-project-top-ten/)
+- [GitHub Security Advisories](https://docs.github.com/en/code-security/supply-chain-security/working-with-security-advisories/about-security-advisories)
+- [CVE Details](https://www.cvedetails.com/)
+
+If you have any questions or need further assistance, please contact us at [security@yourdomain.com](mailto:security@yourdomain.com).
+
+Thank you for helping us keep this project secure!
+
+
+
+================================================
+File: babel.config.js
+================================================
+module.exports = {
+  presets: [
+    '@babel/preset-env',
+    '@babel/preset-react',
+    '@babel/preset-typescript',
+  ],
+};
+
+
+
+================================================
+File: commitlint.config.js
+================================================
+module.exports = {
+  extends: ['@commitlint/config-conventional'],
+  ignores: [message => message.includes('[skip-commitlint]')],
+  rules: {
+    'type-enum': [
+      2,
+      'always',
+      ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore'],
+    ],
+    'subject-empty': [2, 'never'],
+    'type-empty': [2, 'never'],
+    'subject-full-stop': [2, 'never', '.'],
+    'subject-max-length': [2, 'always', 100],
+    'subject-case': [0, 'never'],
+  },
+};
+
+
+
+================================================
+File: eslint.config.mjs
+================================================
+import hub from './index.js';
+import babelParser from '@babel/eslint-parser';
+import tsParser from '@typescript-eslint/parser';
+import globals from 'globals';
+
+export default [
+  // Use the flat MERN configuration as the base
+  hub.configs['flat/mern'],
+  {
+    ignores: [
+      '**/node_modules/**',
+      '**/test/**',
+      '**/docs-docusaurus/**',
+      '**/*.mjs',
+    ],
+  },
+  {
+    files: ['**/*.js', '**/*.jsx'],
+    languageOptions: {
+      parser: babelParser,
+      parserOptions: {
+        requireConfigFile: false,
+        babelOptions: {
+          babelrc: false,
+          configFile: false,
+          presets: ["@babel/preset-env", "@babel/preset-react"],
+        },
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        ...globals.builtin,
+      },
+    },
+    rules: {
+      // You can override or add specific rules here if needed
+      'no-unused-vars': [
+        'error',
+        {
+          vars: 'all',
+          args: 'none',
+          ignoreRestSiblings: false,
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+        project: './tsconfig.json',
+      },
+      globals: {
+        ...globals.builtin,
+      },
+    },
+    // You can add TypeScript-specific rules here if needed
+  },
+];
+
+
+================================================
+File: index.d.ts
+================================================
+import type { ESLint, Linter } from 'eslint';
+
+declare module '@mindfiredigital/eslint-plugin-hub' {
+  // Type for individual rule
+  export interface ESLintRule extends Linter.RuleEntry {
+    meta?: {
+      docs?: {
+        description?: string;
+        category?: string;
+        recommended?: boolean;
+        url?: string;
+      };
+      schema?: object[];
+      messages?: Record<string, string>;
+    };
+  }
+
+  // General rules
+  export const generalRules: Record<string, ESLintRule>;
+
+  // React rules
+  export const reactRules: Record<string, ESLintRule>;
+
+  // Angular rules
+  export const angularRules: Record<string, ESLintRule>;
+
+  // Flat and legacy configurations
+  export const flatConfigBase: ESLint.ConfigData;
+
+  export const legacyConfigBase: ESLint.ConfigData;
+
+  // MERN Recommended Rules (Legacy)
+  export const mernRecommendedRulesLegacy: Record<
+    string,
+    Linter.RuleLevel | Linter.RuleLevelAndOptions
+  >;
+
+  // MERN Recommended Rules (Flat Config)
+  export const mernRecommendedRulesFlat: Record<
+    string,
+    Linter.RuleLevel | Linter.RuleLevelAndOptions
+  >;
+
+  // The hub object with meta and rules
+  export const hub: {
+    meta: {
+      name: string;
+      version: string;
+    };
+    rules: Record<string, ESLintRule>;
+  };
+
+  // Configurations for flat and legacy formats
+  export const configs: {
+    all: ESLint.ConfigData;
+    general: ESLint.ConfigData;
+    react: ESLint.ConfigData;
+    angular: ESLint.ConfigData;
+    mern: ESLint.ConfigData;
+    'flat/all': ESLint.ConfigData;
+    'flat/general': ESLint.ConfigData;
+    'flat/react': ESLint.ConfigData;
+    'flat/angular': ESLint.ConfigData;
+    'flat/mern': ESLint.ConfigData;
+  };
+}
+
+
+
+================================================
+File: index.js
+================================================
+const generalRules = require('./lib/rules/general/index.js');
+const reactRules = require('./lib/rules/react/index.js');
+const angularRules = require('./lib/rules/angular/index.js');
+const nodeRules = require('./lib/rules/node/index.js');
+const flatConfigBase = require('./configs/flat-config-base.js');
+const legacyConfigBase = require('./configs/legacy-config-base.js');
+const { name, version } = require('./package.json');
+
+// Helper function to convert rule definitions to rule configurations for legacy config
+const convertRulesToLegacyConfig = rules => {
+  const config = {};
+  Object.entries(rules).forEach(([key, rule]) => {
+    config[`@mindfiredigital/hub/${key}`] = ['error', rule];
+  });
+  return config;
+};
+
+// Helper function to convert rule definitions to rule configurations for flat config
+const convertRulesToFlatConfig = rules => {
+  const config = {};
+  Object.entries(rules).forEach(([key]) => {
+    config[`hub/${key}`] = 'error';
+  });
+  return config;
+};
+
+// Recommended rules for MERN in legacy (with @mindfiredigital prefix)
+const mernRecommendedRulesLegacy = {
+  '@mindfiredigital/hub/file-kebabcase': 'error',
+  '@mindfiredigital/hub/vars-camelcase': 'error',
+  '@mindfiredigital/hub/class-pascalcase': 'error',
+  '@mindfiredigital/hub/function-camelcase': 'error',
+  '@mindfiredigital/hub/function-descriptive': 'warn',
+  '@mindfiredigital/hub/react-component-name-match-filename': 'error',
+  '@mindfiredigital/hub/react-filename-pascalcase': 'error',
+};
+
+// Recommended rules for MERN in flat config (no need for @mindfiredigital prefix)
+const mernRecommendedRulesFlat = {
+  'hub/file-kebabcase': 'error',
+  'hub/vars-camelcase': 'error',
+  'hub/class-pascalcase': 'error',
+  'hub/function-camelcase': 'error',
+  'hub/function-descriptive': 'warn',
+  'hub/react-component-name-match-filename': 'error',
+  'hub/react-filename-pascalcase': 'error',
+};
+
+// Create configuration (legacy or flat)
+const createConfig = (rules, flatConfigName = false) => ({
+  ...(flatConfigName
+    ? { ...flatConfigBase, name: flatConfigName, plugins: { hub } }
+    : { ...legacyConfigBase, plugins: ['@mindfiredigital/eslint-plugin-hub'] }),
+  rules: { ...rules },
+});
+
+// Define the hub object with meta information and rules
+const hub = {
+  meta: {
+    name,
+    version,
+  },
+  rules: {
+    ...generalRules.rules,
+    ...reactRules.rules,
+    ...angularRules.rules,
+    ...nodeRules.rules,
+  },
+};
+
+// Configurations for flat and legacy, including recommended rules
+const configs = {
+  // Legacy format configurations
+  all: createConfig(convertRulesToLegacyConfig(hub.rules)),
+  general: createConfig(convertRulesToLegacyConfig(generalRules.rules)),
+  react: createConfig(convertRulesToLegacyConfig(reactRules.rules)),
+  angular: createConfig(convertRulesToLegacyConfig(angularRules.rules)),
+  mern: createConfig(mernRecommendedRulesLegacy),
+
+  // Flat format configurations
+  'flat/all': createConfig(convertRulesToFlatConfig(hub.rules), 'hub/flat/all'),
+  'flat/general': createConfig(
+    convertRulesToFlatConfig(generalRules.rules),
+    'hub/flat/general'
+  ),
+  'flat/react': createConfig(
+    convertRulesToFlatConfig(reactRules.rules),
+    'hub/flat/react'
+  ),
+  'flat/angular': createConfig(
+    convertRulesToFlatConfig(angularRules.rules),
+    'hub/flat/angular'
+  ),
+  'flat/mern': createConfig(mernRecommendedRulesFlat, 'hub/flat/mern'),
+};
+
+// Export the hub and its configurations
+module.exports = { ...hub, configs };
+
+
+
+================================================
+File: index.mjs
+================================================
+/* eslint-disable hub/vars-camelcase */
+import generalRules from './lib/rules/general/index.js';
+import reactRules from './lib/rules/react/index.js';
+import angularRules from './lib/rules/angular/index.js';
+import nodeRules from './lib/rules/node/index.js';
+import flatConfigBase from './configs/flat-config-base.mjs';
+import legacyConfigBase from './configs/legacy-config-base.mjs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import { readFileSync } from 'fs';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const packageJson = JSON.parse(
+  readFileSync(join(__dirname, 'package.json'), 'utf8')
+);
+
+// Helper function to convert rule definitions to rule configurations for legacy config
+const convertRulesToLegacyConfig = rules => {
+  const config = {};
+  Object.entries(rules).forEach(([key, rule]) => {
+    config[`@mindfiredigital/hub/${key}`] = ['error', rule];
+  });
+  return config;
+};
+
+// Helper function to convert rule definitions to rule configurations for flat config
+const convertRulesToFlatConfig = rules => {
+  const config = {};
+  Object.entries(rules).forEach(([key]) => {
+    config[`hub/${key}`] = 'error';
+  });
+  return config;
+};
+
+// Recommended rules for MERN in legacy (with @mindfiredigital prefix)
+const mernRecommendedRulesLegacy = {
+  '@mindfiredigital/hub/file-kebabcase': 'error',
+  '@mindfiredigital/hub/vars-camelcase': 'error',
+  '@mindfiredigital/hub/class-pascalcase': 'error',
+  '@mindfiredigital/hub/function-camelcase': 'error',
+  '@mindfiredigital/hub/function-descriptive': 'warn',
+  '@mindfiredigital/hub/react-component-name-match-filename': 'error',
+  '@mindfiredigital/hub/react-filename-pascalcase': 'error',
+};
+
+// Recommended rules for MERN in flat config (no need for @mindfiredigital prefix)
+const mernRecommendedRulesFlat = {
+  'hub/file-kebabcase': 'error',
+  'hub/vars-camelcase': 'error',
+  'hub/class-pascalcase': 'error',
+  'hub/function-camelcase': 'error',
+  'hub/function-descriptive': 'warn',
+  'hub/react-component-name-match-filename': 'error',
+  'hub/react-filename-pascalcase': 'error',
+};
+
+// Create configuration (legacy or flat)
+const createConfig = (rules, flatConfigName = false) => ({
+  ...(flatConfigName
+    ? { ...flatConfigBase, name: flatConfigName, plugins: { hub } }
+    : { ...legacyConfigBase, plugins: ['@mindfiredigital/eslint-plugin-hub'] }),
+  rules: { ...rules },
+});
+
+// Define the hub object with meta information and rules
+const hub = {
+  meta: {
+    name: packageJson.name,
+    version: packageJson.version,
+  },
+  rules: {
+    ...generalRules.rules,
+    ...reactRules.rules,
+    ...angularRules.rules,
+    ...nodeRules,
+  },
+};
+
+// Configurations for flat and legacy, including recommended rules
+const configs = {
+  // Legacy format configurations
+  all: createConfig(convertRulesToLegacyConfig(hub.rules)),
+  general: createConfig(convertRulesToLegacyConfig(generalRules.rules)),
+  react: createConfig(convertRulesToLegacyConfig(reactRules.rules)),
+  angular: createConfig(convertRulesToLegacyConfig(angularRules.rules)),
+  mern: createConfig(mernRecommendedRulesLegacy),
+
+  // Flat format configurations
+  'flat/all': createConfig(convertRulesToFlatConfig(hub.rules), 'hub/flat/all'),
+  'flat/general': createConfig(
+    convertRulesToFlatConfig(generalRules.rules),
+    'hub/flat/general'
+  ),
+  'flat/react': createConfig(
+    convertRulesToFlatConfig(reactRules.rules),
+    'hub/flat/react'
+  ),
+  'flat/angular': createConfig(
+    convertRulesToFlatConfig(angularRules.rules),
+    'hub/flat/angular'
+  ),
+  'flat/mern': createConfig(mernRecommendedRulesFlat, 'hub/flat/mern'),
+};
+
+// Export the hub and its configurations
+export { hub, configs };
+export default { ...hub, configs };
+
+
+
+================================================
+File: jest.config.js
+================================================
+module.exports = {
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx|mjs)$': 'babel-jest', // Combine the two transform rules
+  },
+  testEnvironment: 'node',
+  verbose: true,
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node', 'mjs'],
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+  },
+};
+
+
+
+================================================
+File: package.json
+================================================
+{
+  "name": "@mindfiredigital/eslint-plugin-hub",
+  "version": "1.0.0-development",
+  "description": "eslint-plugin-hub is a powerful, flexible ESLint plugin that provides a curated set of rules to enhance code readability, maintainability, and prevent common errors. Whether you're working with vanilla JavaScript, TypeScript, React, or Angular, eslint-plugin-hub has you covered with ecosystem-specific rules and general best practices.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mindfiredigital/eslint-plugin-hub.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "main": "index.js",
+  "module": "./index.mjs",
+  "types": "index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint .",
+    "prepare": "husky",
+    "generate-rule": "node script/generate-rule.js",
+    "postinstall": "node lib/utils/check-eslint-config.js"
+  },
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "eslintplugin",
+    "hub",
+    "eslint-plugin-react",
+    "eslint-plugin-angular",
+    "eslint-plugin-typescript",
+    "eslint-plugin-js",
+    "coding-standards",
+    "pluginHub",
+    "linter",
+    "lint",
+    "react",
+    "angular",
+    "node",
+    "mern",
+    "typescript",
+    "javascript",
+    "code-quality",
+    "frontend",
+    "backend",
+    "custom-rules",
+    "camelcase",
+    "kebabcase",
+    "pascalcase",
+    "function-naming"
+  ],
+  "author": "mindfiredigital",
+  "license": "MIT",
+  "files": [
+    "configs/",
+    "lib/",
+    "index.js",
+    "index.mjs",
+    "index.d.ts",
+    "package.json",
+    "tsconfig.json",
+    "babel.config.js",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "dependencies": {
+    "@babel/parser": "^7.21.0",
+    "@babel/traverse": "^7.21.0",
+    "@babel/types": "^7.21.0",
+    "@typescript-eslint/typescript-estree": "^5.0.1",
+    "compromise": "^14.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/eslint-parser": "^7.25.1",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
+    "@commitlint/cli": "^19.4.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@typescript-eslint/parser": "^8.5.0",
+    "babel-jest": "^29.7.0",
+    "compromise": "^14.14.0",
+    "eslint": "^9.10.0",
+    "globals": "^15.9.0",
+    "husky": "^9.1.5",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.2.9",
+    "prettier": "^3.3.3",
+    "semantic-release": "^24.1.1"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.56.0"
+  },
+  "lint-staged": {
+    "**/*.{js,ts}": [
+      "prettier --write",
+      "eslint ."
+    ],
+    "**/*.json": [
+      "prettier --write"
+    ],
+    "**/*.md": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "release": {
+    "repositoryUrl": "https://github.com/mindfiredigital/eslint-plugin-hub.git",
+    "branches": [
+      "master",
+      "next",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ]
+  }
+}
+
+
+
+================================================
+File: tsconfig.json
+================================================
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "exclude": ["node_modules"]
+}
+
+
+
+================================================
+File: .npmignore
+================================================
+# Exclude everything by default
+*
+
+# Allow specific files and folders to be included
+!configs
+!lib/
+!index.js
+!package.json
+!tsconfig.json
+!babel.config.js
+!eslint.config.mjs
+
+# Optional: You can explicitly ignore other config files or directories if needed
+# Ignore test files
+tests/
+*.test.js
+
+# Ignore node_modules if it's not already excluded
+node_modules/
+
+
+
+================================================
+File: .prettierignore
+================================================
+node_modules/
+
+
+================================================
+File: .prettierrc
+================================================
+{
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "arrowParens": "avoid",
+    "endOfLine": "auto"
+  }
+  
+
+
+================================================
+File: configs/flat-config-base.js
+================================================
+'use strict';
+const globals = require('globals');
+
+module.exports = {
+  languageOptions: {
+    globals: globals.builtin,
+  },
+};
+
+
+
+================================================
+File: configs/legacy-config-base.js
+================================================
+'use strict';
+module.exports = {
+  env: {
+    es2024: true,
+  },
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+};
+
+
+
+================================================
+File: lib/rules/angular/index.js
+================================================
+const angularNoForbiddenServices = require('./plugin/angular-no-forbidden-services');
+const angularNoUnusedInputs = require('./plugin/angular-no-unused-inputs');
+const angularNoDirectDomManipulation = require('./plugin/angular-no-direct-dom-manipulation');
+const angularLimitInput = require('./plugin/angular-limit-input');
+const angularFilenaming = require('./plugin/angular-filenaming');
+
+module.exports = {
+  rules: {
+    ...angularNoForbiddenServices.rules,
+    ...angularNoUnusedInputs.rules,
+    ...angularNoDirectDomManipulation.rules,
+    ...angularLimitInput.rules,
+    ...angularFilenaming.rules,
+  },
+};
+
+
+
+================================================
+File: lib/rules/angular/plugin/angular-filenaming.js
+================================================
+const path = require('path');
+
+module.exports = {
+  rules: {
+    'angular-filenaming': {
+      meta: {
+        type: 'suggestion',
+        docs: {
+          description:
+            'Enforces user-defined naming conventions for Angular files (PascalCase, kebab-case, camelCase)',
+        },
+        messages: {
+          invalidFileName:
+            'File "{{name}}" does not follow the {{expected}} naming convention.',
+        },
+        schema: [
+          {
+            type: 'object',
+            properties: {
+              component: {
+                enum: ['kebab-case', 'camelCase', 'PascalCase'],
+                default: 'kebab-case',
+              },
+              service: {
+                enum: ['kebab-case', 'camelCase', 'PascalCase'],
+                default: 'camelCase',
+              },
+              module: {
+                enum: ['kebab-case', 'camelCase', 'PascalCase'],
+                default: 'PascalCase',
+              },
+            },
+            additionalProperties: false,
+          },
+        ],
+      },
+      create(context) {
+        const options = context.options[0] || {};
+        const componentConvention = options.component || 'kebab-case';
+        const serviceConvention = options.service || 'camelCase';
+        const moduleConvention = options.module || 'PascalCase';
+
+        const namingPatterns = {
+          'kebab-case': /^[a-z0-9]+(-[a-z0-9]+)*$/,
+          PascalCase: /^[A-Z][a-zA-Z0-9]*$/,
+          camelCase: /^[a-z][a-zA-Z0-9]*$/,
+        };
+
+        const componentPattern = /\.component\.ts$/;
+        const servicePattern = /\.service\.ts$/;
+        const modulePattern = /\.module\.ts$/;
+
+        function checkFileName(fileName, pattern, convention) {
+          const baseName = fileName.replace(pattern, '');
+          return namingPatterns[convention].test(baseName);
+        }
+
+        return {
+          Program(node) {
+            const filePath = context.getFilename();
+            const fileName = path.basename(filePath);
+            let expectedConvention;
+
+            if (componentPattern.test(fileName)) {
+              expectedConvention = componentConvention;
+              if (
+                !checkFileName(fileName, componentPattern, componentConvention)
+              ) {
+                context.report({
+                  node,
+                  messageId: 'invalidFileName',
+                  data: { name: fileName, expected: expectedConvention },
+                });
+              }
+            } else if (servicePattern.test(fileName)) {
+              expectedConvention = serviceConvention;
+              if (!checkFileName(fileName, servicePattern, serviceConvention)) {
+                context.report({
+                  node,
+                  messageId: 'invalidFileName',
+                  data: { name: fileName, expected: expectedConvention },
+                });
+              }
+            } else if (modulePattern.test(fileName)) {
+              expectedConvention = moduleConvention;
+              if (!checkFileName(fileName, modulePattern, moduleConvention)) {
+                context.report({
+                  node,
+                  messageId: 'invalidFileName',
+                  data: { name: fileName, expected: expectedConvention },
+                });
+              }
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/angular/plugin/angular-limit-input.js
+================================================
+module.exports = {
+  rules: {
+    'angular-limit-input': {
+      meta: {
+        type: 'suggestion',
+        docs: {
+          description:
+            'Limit the number of @Input() and @Output() properties in a component to a configurable number',
+        },
+        messages: {
+          tooManyInputsOutputs:
+            'Component "{{name}}" has too many @Input() or @Output() properties ({{count}}), limit is {{max}}.',
+        },
+        schema: [
+          {
+            type: 'object',
+            properties: {
+              max: {
+                type: 'integer',
+                minimum: 1,
+                default: 5,
+              },
+            },
+            additionalProperties: false,
+          },
+        ],
+      },
+      create(context) {
+        const { max = 5 } = context.options[0] || {};
+        let inputOutputCount = 0;
+
+        return {
+          ClassDeclaration(node) {
+            const className = node.id.name;
+            inputOutputCount = 0;
+
+            node.body.body.forEach(member => {
+              if (member.decorators) {
+                member.decorators.forEach(decorator => {
+                  const decoratorName =
+                    decorator.expression.callee.name ||
+                    decorator.expression.callee.property.name;
+                  if (decoratorName === 'Input' || decoratorName === 'Output') {
+                    inputOutputCount += 1;
+                  }
+                });
+              }
+            });
+
+            if (inputOutputCount > max) {
+              context.report({
+                node,
+                messageId: 'tooManyInputsOutputs',
+                data: { name: className, count: inputOutputCount, max },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/angular/plugin/angular-no-direct-dom-manipulation.js
+================================================
+module.exports = {
+  rules: {
+    'angular-no-direct-dom-manipulation': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Disallow direct DOM manipulation and enforce usage of Renderer2 for DOM manipulations in Angular',
+        },
+        messages: {
+          avoidDirectDom:
+            'Avoid direct DOM manipulation with "{{method}}". Use Angular\'s Renderer2 for DOM interactions.',
+        },
+        schema: [],
+      },
+      create(context) {
+        const forbiddenMethods = [
+          'getElementById',
+          'querySelector',
+          'querySelectorAll',
+        ];
+        const forbiddenObjects = ['document'];
+
+        return {
+          MemberExpression(node) {
+            const { object, property } = node;
+
+            // Check for forbidden document methods like document.getElementById()
+            if (
+              forbiddenObjects.includes(object.name) &&
+              forbiddenMethods.includes(property.name)
+            ) {
+              context.report({
+                node,
+                messageId: 'avoidDirectDom',
+                data: {
+                  method: `${object.name}.${property.name}`,
+                },
+              });
+            }
+
+            // Check for ElementRef.nativeElement access pattern
+            if (
+              object.type === 'MemberExpression' &&
+              object.property.name === 'nativeElement'
+            ) {
+              const identifier = object.object; // This will be 'elRef' or whatever the injected instance name is
+
+              // Make sure the identifier is valid and being used with nativeElement
+              if (identifier.type === 'Identifier') {
+                context.report({
+                  node,
+                  messageId: 'avoidDirectDom',
+                  data: {
+                    method: `${identifier.name}.nativeElement`,
+                  },
+                });
+              }
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/angular/plugin/angular-no-forbidden-services.js
+================================================
+const ts = require('@typescript-eslint/typescript-estree');
+
+module.exports = {
+  rules: {
+    'angular-no-forbidden-services': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Disallow injection of certain services directly into components',
+          category: 'Best Practices',
+          recommended: true,
+        },
+        messages: {
+          forbiddenService:
+            "The service '{{ service }}' should not be injected directly into components. Consider moving it to a dedicated service or resolver.",
+        },
+        schema: [
+          {
+            type: 'object',
+            properties: {
+              forbiddenServices: {
+                type: 'array',
+                items: { type: 'string' },
+              },
+            },
+            additionalProperties: false,
+          },
+        ],
+      },
+      create(context) {
+        const options = context.options[0] || {};
+        const forbiddenServices = new Set(
+          options.forbiddenServices || ['HttpClient']
+        );
+
+        function isComponent(node) {
+          return (
+            node.decorators &&
+            node.decorators.some(
+              decorator =>
+                decorator.expression.type === 'CallExpression' &&
+                decorator.expression.callee.name === 'Component'
+            )
+          );
+        }
+
+        function checkConstructorParameters(params) {
+          params.forEach(param => {
+            if (
+              param.type === 'TSParameterProperty' &&
+              param.parameter.type === 'Identifier'
+            ) {
+              const serviceType =
+                param.parameter.typeAnnotation?.typeAnnotation?.typeName?.name;
+              if (serviceType && forbiddenServices.has(serviceType)) {
+                context.report({
+                  node: param,
+                  messageId: 'forbiddenService',
+                  data: { service: serviceType },
+                });
+              }
+            }
+          });
+        }
+
+        return {
+          Program(node) {
+            const ast = ts.parse(context.getSourceCode().text, {
+              jsx: true,
+              range: true,
+              loc: true,
+            });
+
+            ts.simpleTraverse(ast, {
+              enter: node => {
+                if (node.type === 'ClassDeclaration' && isComponent(node)) {
+                  const constructor = node.body.body.find(
+                    member =>
+                      member.type === 'MethodDefinition' &&
+                      member.kind === 'constructor'
+                  );
+                  if (constructor) {
+                    checkConstructorParameters(constructor.value.params);
+                  }
+                }
+              },
+            });
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/angular/plugin/angular-no-unused-inputs.js
+================================================
+const ts = require('@typescript-eslint/typescript-estree');
+
+module.exports = {
+  rules: {
+    'angular-no-unused-inputs': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Warn if an @Input() property is declared but never used within the component',
+        },
+        messages: {
+          unusedInput:
+            'The @Input() property "{{property}}" is declared but never used in the component.',
+        },
+        schema: [], // No options for now
+      },
+      create(context) {
+        const inputProperties = new Set();
+        const usedProperties = new Set();
+
+        function isInputDecorator(decorator) {
+          return (
+            decorator.expression &&
+            decorator.expression.type === 'CallExpression' &&
+            decorator.expression.callee &&
+            decorator.expression.callee.type === 'Identifier' &&
+            decorator.expression.callee.name === 'Input'
+          );
+        }
+
+        return {
+          Program(node) {
+            // Parse the entire source code using TypeScript parser
+            const ast = ts.parse(context.getSourceCode().text, {
+              jsx: true,
+              range: true,
+              loc: true,
+            });
+
+            // Traverse the AST to find Input decorators and property usages
+            ts.simpleTraverse(ast, {
+              enter: node => {
+                if (node.type === 'PropertyDefinition' && node.decorators) {
+                  if (node.decorators.some(isInputDecorator)) {
+                    inputProperties.add(node.key.name);
+                  }
+                } else if (
+                  node.type === 'MemberExpression' &&
+                  node.object.type === 'ThisExpression' &&
+                  node.property.type === 'Identifier'
+                ) {
+                  usedProperties.add(node.property.name);
+                }
+              },
+            });
+
+            // Report unused inputs
+            inputProperties.forEach(inputProp => {
+              if (!usedProperties.has(inputProp)) {
+                context.report({
+                  node: ast,
+                  messageId: 'unusedInput',
+                  data: {
+                    property: inputProp,
+                  },
+                });
+              }
+            });
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/index.js
+================================================
+const fileKebabcase = require('./plugin/file-kebabcase');
+const maxLinesPerFile = require('./plugin/max-lines-per-file');
+const maxLinesPerFunction = require('./plugin/max-lines-per-function');
+const consistentReturn = require('./plugin/consistent-return');
+const maxFunctionParams = require('./plugin/max-function-params');
+const noSingleCharacterVars = require('./plugin/no-single-character-vars');
+const varsLowercase = require('./plugin/vars-lowercase');
+const folderLowercase = require('./plugin/folder-lowercase');
+const fileLowercase = require('./plugin/file-lowercase');
+const folderPascalcase = require('./plugin/folder-pascalcase');
+const folderKebabcase = require('./plugin/folder-kebabcase');
+const folderCamelcase = require('./plugin/folder-camelcase');
+const fileCamelcase = require('./plugin/file-camelcase');
+const functionPascalcase = require('./plugin/function-pascalcase');
+const filePascalcase = require('./plugin/file-pascalcase');
+const varsSnakecase = require('./plugin/vars-snakecase');
+const varsPascalcase = require('./plugin/vars-pascalcase');
+const classPascal = require('./plugin/class-pascalcase');
+const functionCamelcase = require('./plugin/function-camelcase');
+const functionDescriptive = require('./plugin/function-descriptive');
+const varsCamelcase = require('./plugin/vars-camelcase');
+const descriptiveVars = require('./plugin/vars-descriptive');
+
+module.exports = {
+  rules: {
+    ...fileKebabcase.rules,
+    ...classPascal.rules,
+    ...functionCamelcase.rules,
+    ...functionDescriptive.rules,
+    ...varsCamelcase.rules,
+    ...descriptiveVars.rules,
+    ...varsPascalcase.rules,
+    ...varsSnakecase.rules,
+    ...filePascalcase.rules,
+    ...functionPascalcase.rules,
+    ...fileCamelcase.rules,
+    ...folderCamelcase.rules,
+    ...folderKebabcase.rules,
+    ...folderPascalcase.rules,
+    ...fileLowercase.rules,
+    ...folderLowercase.rules,
+    ...varsLowercase.rules,
+    ...noSingleCharacterVars.rules,
+    ...maxFunctionParams.rules,
+    ...consistentReturn.rules,
+    ...maxLinesPerFunction.rules,
+    ...maxLinesPerFile.rules,
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/class-pascalcase.js
+================================================
+module.exports = {
+  rules: {
+    'class-pascalcase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Enforce PascalCase for class names',
+          category: 'Stylistic Issues',
+          recommended: false,
+        },
+        schema: [], // Add schema if your rule has options
+      },
+      create: function (context) {
+        return {
+          ClassDeclaration(node) {
+            // Check if the class name is not in PascalCase
+            if (!/^[A-Z][A-Za-z]*$/.test(node.id.name)) {
+              context.report({
+                node: node.id,
+                message: 'Class name "{{name}}" must be in PascalCase.',
+                data: {
+                  name: node.id.name,
+                },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/consistent-return.js
+================================================
+module.exports = {
+  rules: {
+    'consistent-return': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Require return statements to either always or never specify values',
+          category: 'Best Practices',
+          recommended: false,
+        },
+        schema: [],
+        messages: {
+          missingReturn: 'Expected {{name}} to return a value.',
+          inconsistentReturn:
+            'Function {{name}} should either always return a value or never return a value.',
+        },
+      },
+      create(context) {
+        function checkFunction(node) {
+          let hasReturnWithValue = false;
+          let hasReturnWithoutValue = false;
+          let hasAnyReturn = false;
+          let isConsistent = true;
+
+          function checkReturnStatement(returnNode, inConditional) {
+            hasAnyReturn = true;
+            if (returnNode.argument) {
+              hasReturnWithValue = true;
+            } else {
+              hasReturnWithoutValue = true;
+            }
+            if (!inConditional && hasReturnWithValue && hasReturnWithoutValue) {
+              isConsistent = false;
+            }
+          }
+
+          function checkBody(body, inConditional = false) {
+            if (body.type === 'BlockStatement') {
+              body.body.forEach(statement => {
+                if (statement.type === 'ReturnStatement') {
+                  checkReturnStatement(statement, inConditional);
+                } else if (statement.type === 'IfStatement') {
+                  checkBody(statement.consequent, true);
+                  if (statement.alternate) {
+                    checkBody(statement.alternate, true);
+                  }
+                }
+              });
+            } else if (body.type === 'ReturnStatement') {
+              checkReturnStatement(body, inConditional);
+            }
+          }
+
+          checkBody(node.body);
+
+          if (!hasAnyReturn) {
+            context.report({
+              node,
+              messageId: 'missingReturn',
+              data: {
+                name: node.id ? node.id.name : 'function',
+              },
+            });
+          } else if (!isConsistent) {
+            context.report({
+              node,
+              messageId: 'inconsistentReturn',
+              data: {
+                name: node.id ? node.id.name : 'function',
+              },
+            });
+          }
+        }
+
+        return {
+          FunctionDeclaration: checkFunction,
+          FunctionExpression: checkFunction,
+          ArrowFunctionExpression(node) {
+            if (node.body.type !== 'BlockStatement') {
+              // Implicit return, always consistent
+              return;
+            }
+            checkFunction(node);
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/file-camelcase.js
+================================================
+const path = require('path');
+
+module.exports = {
+  rules: {
+    'file-camelcase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Enforce camelCase naming convention for filenames',
+        },
+        messages: {
+          invalidFileName:
+            'Filename "{{name}}" should be in camelCase and follow the camelCase pattern.',
+        },
+      },
+      create(context) {
+        return {
+          Program(node) {
+            const filePath = context.getFilename();
+            const fileName = path.basename(filePath);
+
+            // Regex for camelCase
+            const camelCaseRegex = /^[a-z][a-zA-Z0-9]*$/;
+            const allowedExtensions = /\.(js|ts|json|config\.mjs|config\.js)$/;
+
+            const baseFileName = fileName.replace(allowedExtensions, '');
+
+            // Validate the file name
+            if (!camelCaseRegex.test(baseFileName)) {
+              context.report({
+                node,
+                messageId: 'invalidFileName',
+                data: { name: fileName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/file-kebabcase.js
+================================================
+const path = require('path');
+
+module.exports = {
+  rules: {
+    'file-kebabcase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Enforce lowercase and kebab-case naming for filenames',
+        },
+        messages: {
+          invalidFileName:
+            'Filename "{{name}}" should be lowercase and follow kebab-case if it has more than 10 characters.',
+        },
+      },
+      create(context) {
+        return {
+          Program(node) {
+            const filePath = context.getFilename();
+            const fileName = path.basename(filePath);
+
+            // Regex for lowercase and kebab-case
+            const lowerCaseRegex = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+            const allowedExtensions = /\.(js|ts|json|config\.mjs|config\.js)$/;
+
+            const baseFileName = fileName.replace(allowedExtensions, '');
+
+            // Validate the file name
+            const isFileNameInvalid =
+              (baseFileName.length > 10 &&
+                !lowerCaseRegex.test(baseFileName)) ||
+              (baseFileName.length <= 10 &&
+                baseFileName !== baseFileName.toLowerCase());
+
+            if (isFileNameInvalid) {
+              context.report({
+                node,
+                messageId: 'invalidFileName',
+                data: { name: fileName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/file-lowercase.js
+================================================
+const path = require('path');
+
+module.exports = {
+  rules: {
+    'file-lowercase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Enforce lowercase naming convention for filenames',
+        },
+        messages: {
+          invalidFileName: 'Filename "{{name}}" should be in lowercase.',
+        },
+      },
+      create(context) {
+        return {
+          Program(node) {
+            const filePath = context.getFilename();
+            const fileName = path.basename(filePath);
+            const allowedExtensions = /\.(js|ts|json|config\.mjs|config\.js)$/;
+
+            const baseFileName = fileName.replace(allowedExtensions, '');
+
+            // Regex for lowercase and allowed file name characters
+            const lowerCaseRegex = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+            // Check if filename does not match the lowercase regex
+            if (!lowerCaseRegex.test(baseFileName)) {
+              context.report({
+                node,
+                messageId: 'invalidFileName',
+                data: { name: fileName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/file-pascalcase.js
+================================================
+const path = require('path');
+
+module.exports = {
+  rules: {
+    'file-pascalcase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Enforce PascalCase naming convention for filenames',
+        },
+        messages: {
+          invalidFileName: 'Filename "{{name}}" should be in PascalCase.',
+        },
+      },
+      create(context) {
+        return {
+          Program(node) {
+            const filePath = context.getFilename();
+            const fileName = path.basename(filePath);
+
+            // Regex for PascalCase
+            const pascalCaseRegex = /^[A-Z][a-zA-Z0-9]*$/;
+            const allowedExtensions = /\.(js|ts|json|config\.mjs|config\.js)$/;
+
+            const baseFileName = fileName.replace(allowedExtensions, '');
+
+            // Validate the file name
+            const isFileNameInvalid = !pascalCaseRegex.test(baseFileName);
+
+            if (isFileNameInvalid) {
+              context.report({
+                node,
+                messageId: 'invalidFileName',
+                data: { name: fileName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/folder-camelcase.js
+================================================
+const path = require('path');
+
+module.exports = {
+  rules: {
+    'folder-camelcase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Enforce camelCase naming convention for folder names',
+        },
+        messages: {
+          invalidFolderName:
+            'Folder "{{name}}" should be in camelCase and follow the camelCase pattern.',
+        },
+      },
+      create(context) {
+        return {
+          Program(node) {
+            const filePath = context.getFilename();
+            const dirName = path.basename(path.dirname(filePath));
+
+            // Regex for camelCase
+            const camelCaseRegex = /^[a-z][a-zA-Z0-9]*$/;
+
+            // Validate the directory name
+            if (!camelCaseRegex.test(dirName)) {
+              context.report({
+                node,
+                messageId: 'invalidFolderName',
+                data: { name: dirName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/folder-kebabcase.js
+================================================
+const path = require('path');
+
+module.exports = {
+  rules: {
+    'folder-kebabcase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Enforce lowercase and kebab-case naming for folders',
+        },
+        messages: {
+          invalidFolderName:
+            'Folder "{{name}}" should be lowercase and follow kebab-case if it has more than 10 characters.',
+        },
+      },
+      create(context) {
+        return {
+          Program(node) {
+            const filePath = context.getFilename();
+            const dirName = path.basename(path.dirname(filePath));
+
+            // Regex for lowercase and kebab-case
+            const lowerCaseRegex = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+            // Validate the directory name
+            const isDirNameInvalid =
+              (dirName.length > 10 && !lowerCaseRegex.test(dirName)) ||
+              (dirName.length <= 10 && dirName !== dirName.toLowerCase());
+
+            if (isDirNameInvalid) {
+              context.report({
+                node,
+                messageId: 'invalidFolderName',
+                data: { name: dirName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/folder-lowercase.js
+================================================
+const path = require('path');
+
+module.exports = {
+  rules: {
+    'folder-lowercase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Enforce lowercase naming convention for folder names',
+        },
+        messages: {
+          invalidFolderName: 'Folder "{{name}}" should be in lowercase.',
+        },
+      },
+      create(context) {
+        return {
+          Program(node) {
+            const filePath = context.getFilename();
+            const dirName = path.basename(path.dirname(filePath));
+
+            // Regex for lowercase only
+            const lowerCaseRegex = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+            // Check if folder name is not lowercase
+            if (!lowerCaseRegex.test(dirName)) {
+              context.report({
+                node,
+                messageId: 'invalidFolderName',
+                data: { name: dirName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/folder-pascalcase.js
+================================================
+const path = require('path');
+
+module.exports = {
+  rules: {
+    'folder-pascalcase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Enforce PascalCase naming convention for folder names',
+        },
+        messages: {
+          invalidFolderName: 'Folder "{{name}}" should be in PascalCase.',
+        },
+      },
+      create(context) {
+        return {
+          Program(node) {
+            const filePath = context.getFilename();
+            const dirName = path.basename(path.dirname(filePath));
+
+            // Regex for PascalCase
+            const pascalCaseRegex = /^[A-Z][a-zA-Z0-9]*$/;
+
+            // Validate the directory name
+            const isDirNameInvalid = !pascalCaseRegex.test(dirName);
+
+            if (isDirNameInvalid) {
+              context.report({
+                node,
+                messageId: 'invalidFolderName',
+                data: { name: dirName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/function-camelcase.js
+================================================
+const camelCase = /^[a-z][a-zA-Z0-9]*$/;
+
+module.exports = {
+  rules: {
+    'function-camelcase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Enforce camelCase naming convention for function names',
+        },
+        schema: [], // No options needed
+        messages: {
+          notCamelCase: "Function name '{{name}}' should be in camelCase.",
+        },
+      },
+      create(context) {
+        function checkFunctionName(node) {
+          const functionName = node.id && node.id.name;
+
+          // Ensure functionName is a string before proceeding
+          if (typeof functionName !== 'string') {
+            return;
+          }
+
+          // Check if function name is in camelCase
+          if (!camelCase.test(functionName)) {
+            context.report({
+              node: node.id,
+              messageId: 'notCamelCase',
+              data: { name: functionName },
+            });
+          }
+        }
+
+        return {
+          FunctionDeclaration(node) {
+            checkFunctionName(node);
+          },
+          FunctionExpression(node) {
+            if (
+              node.parent &&
+              node.parent.type === 'VariableDeclarator' &&
+              node.parent.id
+            ) {
+              checkFunctionName(node.parent);
+            }
+          },
+          ArrowFunctionExpression(node) {
+            if (
+              node.parent &&
+              node.parent.type === 'VariableDeclarator' &&
+              node.parent.id
+            ) {
+              checkFunctionName(node.parent);
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/function-descriptive.js
+================================================
+const { isVerb } = require('../../../utils/check-verb');
+
+module.exports = {
+  rules: {
+    'function-descriptive': {
+      meta: {
+        type: 'suggestion',
+        docs: {
+          description:
+            'Enforce function names to start with a verb and be descriptive',
+        },
+        schema: [], // No options needed
+        messages: {
+          notDescriptive:
+            "Function name '{{name}}' should start with a verb and be descriptive.",
+        },
+      },
+      create(context) {
+        return {
+          FunctionDeclaration(node) {
+            const functionName = node.id && node.id.name;
+
+            // Ensure functionName is a string before proceeding
+            if (typeof functionName !== 'string') {
+              return;
+            }
+
+            // Extract the first word from camelCase function name
+            const firstWord = functionName.split(/(?=[A-Z])/)[0].toLowerCase();
+
+            // Check if the first word is a verb
+            if (!isVerb(firstWord)) {
+              context.report({
+                node: node.id,
+                messageId: 'notDescriptive',
+                data: { name: functionName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/function-pascalcase.js
+================================================
+const pascalCase = /^[A-Z][a-zA-Z0-9]*$/;
+
+module.exports = {
+  rules: {
+    'function-pascalcase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Enforce PascalCase naming convention for function names',
+        },
+        schema: [], // No options needed
+        messages: {
+          notPascalCase: "Function name '{{name}}' should be in PascalCase.",
+        },
+      },
+      create(context) {
+        function checkFunctionName(node) {
+          const functionName = node.id && node.id.name;
+
+          // Ensure functionName is a string before proceeding
+          if (typeof functionName !== 'string') {
+            return;
+          }
+
+          // Check if function name is in PascalCase
+          if (!pascalCase.test(functionName)) {
+            context.report({
+              node: node.id,
+              messageId: 'notPascalCase',
+              data: { name: functionName },
+            });
+          }
+        }
+
+        return {
+          FunctionDeclaration(node) {
+            checkFunctionName(node);
+          },
+          FunctionExpression(node) {
+            if (
+              node.parent &&
+              node.parent.type === 'VariableDeclarator' &&
+              node.parent.id
+            ) {
+              checkFunctionName(node.parent);
+            }
+          },
+          ArrowFunctionExpression(node) {
+            if (
+              node.parent &&
+              node.parent.type === 'VariableDeclarator' &&
+              node.parent.id
+            ) {
+              checkFunctionName(node.parent);
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/max-function-params.js
+================================================
+module.exports = {
+  rules: {
+    'max-function-params': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Limit the number of function parameters to keep functions simple and readable',
+          category: 'Best Practices',
+          recommended: false,
+        },
+        schema: [
+          {
+            type: 'object',
+            properties: {
+              max: {
+                type: 'integer',
+                minimum: 0,
+              },
+            },
+            additionalProperties: false,
+          },
+        ],
+        messages: {
+          tooManyParameters:
+            'Function "{{name}}" has too many parameters ({{count}}). Maximum allowed is {{max}}.',
+        },
+      },
+      create(context) {
+        // Default max value
+        const defaultMax = 3;
+
+        // Get the max value from options or use default
+        const options = context.options[0] || {};
+        const max = options.max || defaultMax;
+
+        return {
+          FunctionDeclaration(node) {
+            const parameterCount = node.params.length;
+
+            if (parameterCount > max) {
+              context.report({
+                node,
+                messageId: 'tooManyParameters',
+                data: {
+                  name: node.id ? node.id.name : 'Anonymous function',
+                  count: parameterCount,
+                  max: max,
+                },
+              });
+            }
+          },
+          FunctionExpression(node) {
+            const parameterCount = node.params.length;
+
+            if (parameterCount > max) {
+              context.report({
+                node,
+                messageId: 'tooManyParameters',
+                data: {
+                  name: 'Anonymous function',
+                  count: parameterCount,
+                  max: max,
+                },
+              });
+            }
+          },
+          ArrowFunctionExpression(node) {
+            const parameterCount = node.params.length;
+
+            if (parameterCount > max) {
+              context.report({
+                node,
+                messageId: 'tooManyParameters',
+                data: {
+                  name: 'Anonymous function',
+                  count: parameterCount,
+                  max: max,
+                },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/max-lines-per-file.js
+================================================
+const path = require('path');
+
+module.exports = {
+  rules: {
+    'max-lines-per-file': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Restrict the number of lines per file to promote readability and maintainability.',
+          category: 'Best Practices',
+          recommended: false,
+        },
+        schema: [
+          {
+            type: 'object',
+            properties: {
+              max: {
+                type: 'integer',
+                default: 500,
+                description: 'Maximum number of lines allowed in a file.',
+              },
+            },
+            additionalProperties: false,
+          },
+        ],
+        messages: {
+          tooManyLines:
+            'File "{{name}}" exceeds the maximum allowed number of {{max}} lines (actual: {{lines}}).',
+        },
+      },
+      create(context) {
+        const options = context.options[0] || {};
+        const maxLines = options.max || 500;
+
+        function checkFile() {
+          const fileLines = context.getSourceCode().lines.length;
+
+          if (fileLines > maxLines) {
+            context.report({
+              loc: {
+                start: { line: 1, column: 0 },
+                end: { line: fileLines, column: 0 },
+              },
+              messageId: 'tooManyLines',
+              data: {
+                name: path.basename(context.getFilename()),
+                max: maxLines,
+                lines: fileLines,
+              },
+            });
+          }
+        }
+
+        return {
+          Program: checkFile,
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/max-lines-per-function.js
+================================================
+module.exports = {
+  rules: {
+    'max-lines-per-function': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Restrict the length of functions to promote small, modular functions',
+          category: 'Best Practices',
+          recommended: false,
+        },
+        schema: [
+          {
+            type: 'object',
+            properties: {
+              max: {
+                type: 'integer',
+                default: 50,
+                description: 'Maximum number of lines allowed in a function.',
+              },
+            },
+            additionalProperties: false,
+          },
+        ],
+        messages: {
+          tooManyLines:
+            'Function "{{name}}" exceeds the maximum allowed number of {{max}} lines (actual: {{lines}}).',
+        },
+      },
+      create(context) {
+        const options = context.options[0] || {};
+        const maxLines = options.max || 50;
+
+        function checkFunction(node) {
+          const functionBody = node.body;
+          if (functionBody.type === 'BlockStatement') {
+            const functionLines =
+              functionBody.loc.end.line - functionBody.loc.start.line + 1;
+            if (functionLines > maxLines) {
+              context.report({
+                node,
+                messageId: 'tooManyLines',
+                data: {
+                  name: node.id ? node.id.name : 'Anonymous function',
+                  max: maxLines,
+                  lines: functionLines,
+                },
+              });
+            }
+          }
+        }
+
+        return {
+          FunctionDeclaration: checkFunction,
+          FunctionExpression: checkFunction,
+          ArrowFunctionExpression: checkFunction,
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/no-single-character-vars.js
+================================================
+module.exports = {
+  rules: {
+    'no-single-character-vars': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Disallow single-character variable names declared with var, let, or const',
+        },
+        schema: [], // No options needed
+        messages: {
+          singleCharVar:
+            "Variable '{{name}}' should not be a single character.",
+        },
+      },
+      create(context) {
+        return {
+          VariableDeclarator(node) {
+            const variableName = node.id && node.id.name;
+
+            // Ensure variableName is a string before proceeding
+            if (typeof variableName !== 'string') {
+              return;
+            }
+
+            // Check if variable name is a single character
+            if (variableName.length === 1) {
+              context.report({
+                node: node.id,
+                messageId: 'singleCharVar',
+                data: { name: variableName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/vars-camelcase.js
+================================================
+const camelCase = /^[a-z][a-zA-Z0-9]*$/;
+
+module.exports = {
+  rules: {
+    'vars-camelcase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Enforce camelCase naming convention for variables declared with var, let, or const',
+        },
+        schema: [], // No options needed
+        messages: {
+          notCamelCase: "Variable '{{name}}' should be in camelCase.",
+        },
+      },
+      create(context) {
+        return {
+          VariableDeclarator(node) {
+            const variableName = node.id && node.id.name;
+
+            // Ensure variableName is a string before proceeding
+            if (typeof variableName !== 'string') {
+              return;
+            }
+
+            // Check if variable name is in camelCase
+            if (!camelCase.test(variableName)) {
+              context.report({
+                node: node.id,
+                messageId: 'notCamelCase',
+                data: { name: variableName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/vars-descriptive.js
+================================================
+const { isVerb } = require('../../../utils/check-verb');
+
+module.exports = {
+  rules: {
+    'vars-descriptive': {
+      meta: {
+        type: 'suggestion',
+        docs: {
+          description:
+            'Enforce variable names to start with a verb and be descriptive',
+        },
+        schema: [], // No options needed
+        messages: {
+          notDescriptive:
+            "Variable name '{{name}}' should start with a verb and be descriptive.",
+        },
+      },
+      create(context) {
+        return {
+          VariableDeclarator(node) {
+            const variableName = node.id && node.id.name;
+
+            // Ensure variableName is a string before proceeding
+            if (typeof variableName !== 'string') {
+              return;
+            }
+
+            // Check if the first word in the camelCase variable is a verb
+            const firstWord = variableName.split(/(?=[A-Z])/)[0];
+            if (!isVerb(firstWord)) {
+              context.report({
+                node: node.id,
+                messageId: 'notDescriptive',
+                data: { name: variableName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/vars-lowercase.js
+================================================
+const lowerCaseRegex = /^[a-z][a-z0-9]*$/;
+
+module.exports = {
+  rules: {
+    'vars-lowercase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Enforce lowercase naming convention for variables declared with var, let, or const',
+        },
+        schema: [], // No options needed
+        messages: {
+          notLowerCase: "Variable '{{name}}' should be in lowercase.",
+        },
+      },
+      create(context) {
+        return {
+          VariableDeclarator(node) {
+            const variableName = node.id && node.id.name;
+
+            // Ensure variableName is a string before proceeding
+            if (typeof variableName !== 'string') {
+              return;
+            }
+
+            // Check if variable name is in lowercase
+            if (!lowerCaseRegex.test(variableName)) {
+              context.report({
+                node: node.id,
+                messageId: 'notLowerCase',
+                data: { name: variableName },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/vars-pascalcase.js
+================================================
+module.exports = {
+  rules: {
+    'vars-pascalcase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Enforce PascalCase naming convention for variables declared with var, let, or const',
+        },
+        fixable: 'code',
+        schema: [],
+        messages: {
+          notPascalCase: "Variable '{{name}}' should be in PascalCase.",
+        },
+      },
+      create(context) {
+        return {
+          VariableDeclarator(node) {
+            const variableName = node.id && node.id.name;
+
+            // Ensure variableName is a string before proceeding
+            if (typeof variableName !== 'string') {
+              return;
+            }
+
+            // Regular expression to check if the variable name is in PascalCase
+            const pascalCase = /^[A-Z][a-zA-Z0-9]*$/;
+
+            // Check if the variable name is not in PascalCase
+            if (!pascalCase.test(variableName)) {
+              context.report({
+                node: node.id,
+                messageId: 'notPascalCase',
+                data: { name: variableName },
+                fix: function (fixer) {
+                  // Suggest a fix by converting the variable name to PascalCase
+                  const pascalCaseName = variableName.replace(
+                    /(^\w|_\w)/g,
+                    match => match.replace('_', '').toUpperCase()
+                  );
+                  return fixer.replaceText(node.id, pascalCaseName);
+                },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/general/plugin/vars-snakecase.js
+================================================
+const snakeCasePattern = /^[a-z][a-z0-9_]*$/;
+
+module.exports = {
+  rules: {
+    'vars-snakecase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Enforce snake_case naming convention for variables declared with var, let, or const',
+        },
+        fixable: 'code',
+        schema: [], // No options needed
+        messages: {
+          notSnakeCase: "Variable '{{name}}' should be in snake_case.",
+        },
+      },
+      create(context) {
+        return {
+          VariableDeclarator(node) {
+            const variableName = node.id && node.id.name;
+
+            // Ensure variableName is a string before proceeding
+            if (typeof variableName !== 'string') {
+              return;
+            }
+
+            // Check if variable name is in snake_case
+            if (!snakeCasePattern.test(variableName)) {
+              context.report({
+                node: node.id,
+                messageId: 'notSnakeCase',
+                data: { name: variableName },
+                fix(fixer) {
+                  // Automatically fix the variable name to snake_case
+                  const snakeCaseName = variableName
+                    .replace(/([A-Z])/g, '_$1') // Add underscores before uppercase letters
+                    .toLowerCase() // Convert to lowercase
+                    .replace(/^_/, ''); // Remove leading underscore if present
+
+                  return fixer.replaceText(node.id, snakeCaseName);
+                },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/node/indes.js
+================================================
+
+
+
+================================================
+File: lib/rules/node/index.js
+================================================
+const limitDataScope = require('../node/plugin/limit-data-scope');
+
+module.exports = {
+  rules: {
+    ...limitDataScope.rules,
+  },
+};
+
+
+
+================================================
+File: lib/rules/node/plugin/limit-data-scope.js
+================================================
+// eslint-plugin-hub/lib/rules/general/plugin/limit-data-scope.js
+module.exports = {
+  rules: {
+    'limit-data-scope': {
+      meta: {
+        type: 'suggestion',
+        docs: {
+          description:
+            'Enforces several best practices for data scoping: disallows global object modification, suggests moving variables to their narrowest functional scope, and discourages `var` usage.',
+          category: 'Best Practices',
+          recommended: false,
+        },
+        schema: [],
+        messages: {
+          noModifyGlobal:
+            'Avoid modifying the global object "{{objectName}}". "{{propertyName}}" should not be added globally.',
+          moveToNarrowerScope:
+            "Variable '{{variableName}}' is declared in {{declarationScopeType}} scope but appears to be used only within the '{{usageScopeIdentifier}}' {{usageScopeType}} scope. Consider moving its declaration into the '{{usageScopeIdentifier}}' scope.",
+          useLetConst:
+            "Prefer 'let' or 'const' over 'var' for variable '{{variableName}}'.",
+        },
+      },
+      create(context) {
+        const sourceCode = context.getSourceCode();
+        const functionInfoForNarrowestScope = new Map();
+        const globalObjects = new Set(['global', 'globalThis', 'window']);
+
+        function getFunctionName(node) {
+          if (node.id && node.id.name) {
+            return node.id.name;
+          }
+
+          if (node.parent) {
+            if (
+              node.parent.type === 'VariableDeclarator' &&
+              node.parent.id &&
+              node.parent.id.name
+            ) {
+              return node.parent.id.name;
+            }
+
+            if (node.parent.type === 'Property' && node.parent.key) {
+              return (
+                node.parent.key.name ||
+                node.parent.key.value ||
+                '[anonymous_function]'
+              );
+            }
+
+            if (
+              node.parent.type === 'AssignmentExpression' &&
+              node.parent.left &&
+              node.parent.left.name
+            ) {
+              return node.parent.left.name;
+            }
+          }
+
+          return '[anonymous_function]';
+        }
+
+        function getAllScopes(programScope) {
+          const scopes = [];
+
+          function collectScopes(scope) {
+            scopes.push(scope);
+            scope.childScopes.forEach(collectScopes);
+          }
+
+          collectScopes(programScope);
+          return scopes;
+        }
+
+        function findContainingFunctionScope(startScope, targetScope) {
+          let currentScope = startScope;
+
+          while (currentScope && currentScope !== targetScope) {
+            if (currentScope.type === 'function') {
+              return currentScope;
+            }
+            currentScope = currentScope.upper;
+          }
+
+          return null;
+        }
+
+        return {
+          ':function': function (node) {
+            const name = getFunctionName(node);
+            functionInfoForNarrowestScope.set(node, name);
+          },
+
+          AssignmentExpression(node) {
+            const { left } = node;
+            if (left.type !== 'MemberExpression') return;
+
+            // Check if this is a direct assignment to a global object or nested assignment
+            function findGlobalObjectInChain(memberExpr) {
+              let current = memberExpr;
+
+              // Walk up the member expression chain to find the root object
+              while (current.type === 'MemberExpression') {
+                if (
+                  current.object.type === 'Identifier' &&
+                  globalObjects.has(current.object.name)
+                ) {
+                  return {
+                    objectNode: current.object,
+                    rootMemberExpr: current,
+                    topLevelProperty: current.property,
+                  };
+                }
+                current = current.object;
+              }
+
+              return null;
+            }
+
+            const globalInfo = findGlobalObjectInChain(left);
+            if (!globalInfo) return;
+
+            const { objectNode, topLevelProperty } = globalInfo;
+            const scope = sourceCode.getScope(objectNode);
+            const reference = scope.references.find(
+              ref => ref.identifier === objectNode
+            );
+
+            let isShadowed = false;
+            if (
+              reference &&
+              reference.resolved &&
+              reference.resolved.defs.length > 0
+            ) {
+              isShadowed = true;
+            }
+
+            if (!isShadowed) {
+              let propertyName = '';
+              if (globalInfo.rootMemberExpr.computed) {
+                if (topLevelProperty.type === 'Literal') {
+                  propertyName = String(topLevelProperty.value);
+                } else if (topLevelProperty.type === 'Identifier') {
+                  propertyName = topLevelProperty.name;
+                } else {
+                  propertyName = '[complex]';
+                }
+              } else if (topLevelProperty.type === 'Identifier') {
+                propertyName = topLevelProperty.name;
+              }
+
+              context.report({
+                node: left,
+                messageId: 'noModifyGlobal',
+                data: { objectName: objectNode.name, propertyName },
+              });
+            }
+          },
+
+          VariableDeclaration(node) {
+            if (node.kind === 'var') {
+              let firstVariableName = '[unnamed_variable]';
+              if (
+                node.declarations.length > 0 &&
+                node.declarations[0].id &&
+                node.declarations[0].id.name
+              ) {
+                firstVariableName = node.declarations[0].id.name;
+              }
+
+              context.report({
+                node: node,
+                messageId: 'useLetConst',
+                data: { variableName: firstVariableName },
+              });
+            }
+          },
+
+          'Program:exit': function (programNode) {
+            const programScope = sourceCode.getScope(programNode);
+            const allScopes = getAllScopes(programScope);
+
+            // Look for variables in module/global scopes
+            const targetScopes = allScopes.filter(
+              scope => scope.type === 'module' || scope.type === 'global'
+            );
+
+            targetScopes.forEach(scope => {
+              scope.variables.forEach(variable => {
+                // Skip if no definitions or references
+                if (
+                  variable.defs.length === 0 ||
+                  variable.references.length === 0
+                ) {
+                  return;
+                }
+
+                // Skip built-in variables and imports
+                if (
+                  variable.defs.some(
+                    def =>
+                      def.type === 'ImportBinding' ||
+                      def.type === 'ImplicitGlobalVariable' ||
+                      (def.node && def.node.type === 'Program')
+                  )
+                ) {
+                  return;
+                }
+
+                const declarationScope = variable.scope;
+                const uniqueFunctionScopes = new Set();
+                let allReferencesInsideFunctions = true;
+                let hasNonWriteReferences = false;
+
+                // Analyze all references to this variable
+                for (const reference of variable.references) {
+                  // Skip the initial declaration
+                  if (reference.init) {
+                    continue;
+                  }
+
+                  hasNonWriteReferences = true;
+                  const referenceScope = sourceCode.getScope(
+                    reference.identifier
+                  );
+                  const containingFunctionScope = findContainingFunctionScope(
+                    referenceScope,
+                    declarationScope
+                  );
+
+                  if (containingFunctionScope) {
+                    uniqueFunctionScopes.add(containingFunctionScope);
+                  } else {
+                    // Reference is not inside a function (used at module/global level)
+                    allReferencesInsideFunctions = false;
+                    break;
+                  }
+                }
+
+                // Only suggest moving if:
+                // 1. All references are inside functions
+                // 2. All references are inside the same single function
+                // 3. There are actual non-write references
+                // 4. The containing function is a direct child of the declaration scope
+                if (
+                  allReferencesInsideFunctions &&
+                  uniqueFunctionScopes.size === 1 &&
+                  hasNonWriteReferences
+                ) {
+                  const singleFunctionScope =
+                    Array.from(uniqueFunctionScopes)[0];
+
+                  // Check if the function scope is a direct child of the declaration scope
+                  if (singleFunctionScope.upper === declarationScope) {
+                    const variableNameNode = variable.defs[0].name;
+                    const functionNode = singleFunctionScope.block;
+                    const usageScopeIdentifier =
+                      functionInfoForNarrowestScope.get(functionNode) ||
+                      '[anonymous_function]';
+
+                    context.report({
+                      node: variableNameNode,
+                      messageId: 'moveToNarrowerScope',
+                      data: {
+                        variableName: variable.name,
+                        declarationScopeType: declarationScope.type,
+                        usageScopeType: singleFunctionScope.type,
+                        usageScopeIdentifier: usageScopeIdentifier,
+                      },
+                    });
+                  }
+                }
+              });
+            });
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/react/index.js
+================================================
+const reactComponentNameMatchFilename = require('./plugin/react-component-name-match-filename');
+const reactFilenamePascalCase = require('./plugin/react-filename-pascalcase');
+
+module.exports = {
+  rules: {
+    ...reactComponentNameMatchFilename.rules,
+    ...reactFilenamePascalCase.rules,
+  },
+};
+
+
+
+================================================
+File: lib/rules/react/plugin/react-component-name-match-filename.js
+================================================
+const path = require('path');
+const { parse } = require('@babel/parser');
+const traverse = require('@babel/traverse').default;
+const types = require('@babel/types');
+
+module.exports = {
+  rules: {
+    'react-component-name-match-filename': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Enforces that the React component name matches the filename.',
+        },
+        schema: [],
+      },
+      create(context) {
+        const filenameWithExt = path.basename(context.getFilename());
+        const extname = path.extname(filenameWithExt);
+        const filename = path.basename(filenameWithExt, extname);
+
+        // List of extensions the rule should apply to
+        const validExtensions = ['.js', '.ts', '.jsx', '.tsx'];
+
+        // Ignore files named 'index'
+        if (filename === 'index' || !validExtensions.includes(extname)) {
+          return {};
+        }
+
+        let componentName = null;
+        let isReactFileDetected = false;
+
+        return {
+          Program() {
+            const code = context.getSourceCode().text;
+            const ast = parse(code, {
+              sourceType: 'module',
+              plugins: ['jsx', 'typescript'],
+            });
+
+            // Check if the file contains React code
+            traverse(ast, {
+              ImportDeclaration(path) {
+                if (path.node.source.value === 'react') {
+                  isReactFileDetected = true;
+                }
+              },
+              JSXOpeningElement() {
+                isReactFileDetected = true;
+              },
+              ExportDefaultDeclaration(path) {
+                const declaration = path.node.declaration;
+                if (types.isIdentifier(declaration)) {
+                  componentName = declaration.name;
+                } else if (
+                  types.isClassDeclaration(declaration) ||
+                  types.isFunctionDeclaration(declaration)
+                ) {
+                  componentName = declaration.id ? declaration.id.name : null;
+                }
+              },
+              VariableDeclarator(path) {
+                if (path.node.id && types.isIdentifier(path.node.id)) {
+                  const init = path.node.init;
+                  if (
+                    types.isArrowFunctionExpression(init) ||
+                    types.isFunctionExpression(init)
+                  ) {
+                    componentName = path.node.id.name;
+                  }
+                }
+              },
+              FunctionDeclaration(path) {
+                if (path.node.id && types.isIdentifier(path.node.id)) {
+                  componentName = path.node.id.name;
+                }
+              },
+            });
+
+            // Only report if this is a React file and the component name does not match the filename
+            if (
+              isReactFileDetected &&
+              componentName &&
+              componentName !== filename
+            ) {
+              context.report({
+                node: ast.program,
+                message: `Component name '{{name}}' should match the filename '{{filename}}'.`,
+                data: {
+                  name: componentName,
+                  filename: filenameWithExt,
+                },
+              });
+            }
+          },
+        };
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/rules/react/plugin/react-filename-pascalcase.js
+================================================
+const path = require('path');
+
+// Function to check if a filename is in PascalCase
+function isPascalCase(filename) {
+  return /^[A-Z][a-zA-Z0-9]*$/.test(filename);
+}
+
+module.exports = {
+  rules: {
+    'react-filename-pascalcase': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description:
+            'Enforces PascalCase for filenames in React files (.js, .ts, .jsx, .tsx).',
+        },
+        schema: [],
+      },
+      create: function (context) {
+        // Get the filename and extension of the file being linted
+        const filenameWithExt = path.basename(context.getFilename());
+        const extname = path.extname(filenameWithExt);
+        const filename = path.basename(filenameWithExt, extname);
+
+        // List of extensions the rule should apply to
+        const validExtensions = ['.js', '.ts', '.jsx', '.tsx'];
+
+        // Ignore files named 'index'
+        if (filename === 'index' || !validExtensions.includes(extname)) {
+          return {};
+        }
+        // Function to check if the file contains React code
+        function isReactFile(node) {
+          // Check for React imports or JSX
+          return (
+            (node.type === 'ImportDeclaration' &&
+              node.source.value === 'react') ||
+            node.type === 'JSXOpeningElement'
+          );
+        }
+
+        // Only check files with the specified extensions
+        if (validExtensions.includes(extname)) {
+          let isReactFileDetected = false;
+
+          return {
+            // Listen for imports and JSX to detect if it's a React file
+            ImportDeclaration(node) {
+              if (isReactFile(node)) {
+                isReactFileDetected = true;
+              }
+            },
+            JSXOpeningElement(node) {
+              isReactFileDetected = true;
+            },
+            'Program:exit'() {
+              if (isReactFileDetected && !isPascalCase(filename)) {
+                context.report({
+                  message: `Filename '{{name}}' should be in PascalCase.`,
+                  data: {
+                    name: filenameWithExt,
+                  },
+                  loc: { line: 1, column: 1 },
+                });
+              }
+            },
+          };
+        }
+
+        return {};
+      },
+    },
+  },
+};
+
+
+
+================================================
+File: lib/utils/check-eslint-config.js
+================================================
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+const readline = require('readline');
+
+// List of possible ESLint config files
+const eslintConfigFiles = [
+  '.eslintrc.js',
+  'eslint.config.js',
+  'eslint.config.mjs',
+  '.eslintrc.json',
+  '.eslintrc.yaml',
+  '.eslintrc.yml',
+];
+
+// Function to find the project root (where package.json is located)
+function findProjectRoot(startDir) {
+  let currentDir = startDir;
+  while (currentDir !== path.parse(currentDir).root) {
+    if (fs.existsSync(path.join(currentDir, 'package.json'))) {
+      return currentDir;
+    }
+    currentDir = path.dirname(currentDir);
+  }
+  return null;
+}
+
+const projectDir = findProjectRoot(process.cwd()) || process.cwd();
+
+// Check if any ESLint configuration file exists
+const hasEslintConfig = eslintConfigFiles.some(configFile =>
+  fs.existsSync(path.join(projectDir, configFile))
+);
+
+if (!hasEslintConfig) {
+  console.log(`
+    WARNING: No ESLint configuration found in your project.
+  `);
+
+  // Set up readline for user input
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  rl.question(
+    'Would you like to automatically install ESLint and set up configuration? (y/n): ',
+    userResponse => {
+      const response = userResponse.toLowerCase();
+
+      if (response === 'y') {
+        try {
+          // Change to project directory before running commands
+          process.chdir(projectDir);
+
+          // Run ESLint configuration setup using npm init @eslint/config@latest
+          console.log('Setting up basic ESLint configuration...');
+          execSync('npm init @eslint/config@latest', { stdio: 'inherit' });
+
+          console.log(`
+            ESLint has been successfully installed and configured!
+          
+            To customize your setup further, check the eslint.config* file created in your project.
+            Don't forget to add "@mindfiredigital/eslint-plugin-hub" to the ESLint configuration file under "plugins".
+          
+            For more details, visit the npm package page or the official documentation.
+          `);
+        } catch (error) {
+          console.error(
+            'An error occurred during the installation or setup process:',
+            error.message
+          );
+        }
+      } else {
+        console.log(
+          'Skipping ESLint setup. Please make sure to configure it manually.'
+        );
+      }
+
+      rl.close(); // Close the readline interface after the response
+    }
+  );
+} else {
+  console.log('ESLint configuration found in your project.');
+}
+
+
+
+================================================
+File: lib/utils/check-verb.js
+================================================
+const nlp = require('compromise');
+
+function isVerb(word) {
+  const doc = nlp(word);
+  return doc.verbs().out('array').length > 0;
+}
+
+module.exports = {
+  isVerb,
+};
+
+
+
+================================================
+File: script/generate-rule.js
+================================================
+const fs = require('fs');
+const path = require('path');
+const readline = require('readline');
+const { ruleTemplate } = require('./templates/rule-template');
+const { testTemplate } = require('./templates/test-template');
+const { reactTestTemplate } = require('./templates/react-test-template');
+const { angularTestTemplate } = require('./templates/angular-test-template');
+
+const ruleName = process.argv[2];
+
+if (!ruleName) {
+  console.error('Please provide a rule name.');
+  process.exit(1);
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+// Function to convert kebab-case to camelCase
+function toCamelCase(str) {
+  return str.replace(/-([a-z])/g, g => g[1].toUpperCase());
+}
+
+// Function to create files and update index.js
+function createRule(ruleType) {
+  // Define paths based on rule type
+  const rulesDir = path.join(
+    __dirname,
+    '..',
+    'lib',
+    'rules',
+    ruleType,
+    'plugin'
+  );
+  const ruleFile = path.join(rulesDir, `${ruleName}.js`);
+  const testFile = path.join(
+    __dirname,
+    '..',
+    'test',
+    ruleType,
+    `${ruleName}.test.js`
+  );
+  const indexFile = path.join(
+    __dirname,
+    '..',
+    'lib',
+    'rules',
+    ruleType,
+    'index.js'
+  );
+
+  // Ensure the directory exists
+  if (!fs.existsSync(rulesDir)) {
+    fs.mkdirSync(rulesDir, { recursive: true });
+  }
+
+  // Create rule file
+  fs.writeFileSync(ruleFile, ruleTemplate(ruleName).trim(), 'utf8');
+  console.log(`Rule file created: ${ruleFile}`);
+
+  // Create test file based on rule type
+  let testContent;
+  switch (ruleType) {
+    case 'react':
+      testContent = reactTestTemplate(ruleName);
+      break;
+    case 'angular':
+      testContent = angularTestTemplate(ruleName);
+      break;
+    default:
+      testContent = testTemplate(ruleName);
+  }
+  fs.writeFileSync(testFile, testContent.trim(), 'utf8');
+  console.log(`Test file created: ${testFile}`);
+
+  // Update index.js for the specific rule type
+  const indexContent = fs.readFileSync(indexFile, 'utf8');
+  const camelCaseRuleName = toCamelCase(ruleName);
+  const ruleImport = `const ${camelCaseRuleName} = require('./plugin/${ruleName}');`;
+
+  // New regex pattern to match the entire rules object
+  const rulesObjectPattern = /(module\.exports\s*=\s*{\s*rules:\s*{[^}]*})/;
+
+  const updatedIndexContent = indexContent
+    .replace(/(const .+ = require\('.+'\);)/, `$1\n${ruleImport}`)
+    .replace(rulesObjectPattern, match => {
+      // Insert the new rule at the end of the rules object, before the closing brace
+      return match.replace(/}(\s*)$/, `  ...${camelCaseRuleName}.rules,\n}$1`);
+    });
+
+  fs.writeFileSync(indexFile, updatedIndexContent, 'utf8');
+  console.log(`Index file updated: ${indexFile}`);
+
+  rl.close();
+}
+
+// Prompt the user to choose between general, react, and angular if ruleType is not provided
+if (!process.argv[3]) {
+  rl.question(
+    'Please choose the rule type (general/react/angular): ',
+    answer => {
+      const ruleType = answer.toLowerCase();
+      if (['general', 'react', 'angular'].includes(ruleType)) {
+        createRule(ruleType);
+      } else {
+        console.error(
+          'Invalid rule type. Please choose "general", "react", or "angular".'
+        );
+        process.exit(1);
+      }
+    }
+  );
+} else {
+  createRule(process.argv[3]);
+}
+
+
+
+================================================
+File: script/templates/angular-test-template.js
+================================================
+const angularTestTemplate = ruleName => `
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+const tsParser = require('@typescript-eslint/parser');
+
+const ruleTester = new RuleTester({
+  languageOptions: {
+    parser: tsParser,
+    parserOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  },
+});
+
+ruleTester.run('${ruleName}', rules['${ruleName}'], {
+  valid: [
+    // Add valid test cases here
+  ],
+  invalid: [
+    {
+      // Add Invalid test cases here
+    },
+  ],
+});
+`;
+module.exports = { angularTestTemplate };
+
+
+
+================================================
+File: script/templates/react-test-template.js
+================================================
+const reactTestTemplate = ruleName => `
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+const babelParser = require('@babel/eslint-parser');
+
+const ruleTester = new RuleTester({
+  languageOptions: {
+    parser: babelParser,
+    parserOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  },
+});
+
+ruleTester.run('${ruleName}', rules['${ruleName}'], {
+  valid: [
+    // Add valid test cases here
+  ],
+  invalid: [
+    {
+      // Add Invalid test cases here
+    },
+  ],
+});
+`;
+module.exports = { reactTestTemplate };
+
+
+
+================================================
+File: script/templates/rule-template.js
+================================================
+const ruleTemplate = ruleName => `
+module.exports = {
+    rules: {
+        '${ruleName}': {
+            meta: {
+                type: "suggestion",
+                docs: {
+                    description: "Description of the rule",
+                },
+                fixable: "code",
+                schema: [] // no options
+            },
+            create: function(context) {
+                return {
+                    // callback functions
+                };
+            }
+        }
+    }
+};`;
+
+module.exports = { ruleTemplate };
+
+
+
+================================================
+File: script/templates/test-template.js
+================================================
+const testTemplate = ruleName => `
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('${ruleName}', rules['${ruleName}'], {
+  valid: [
+    // Add valid test cases here
+  ],
+  invalid: [
+    {
+      // Add Invalid test cases here
+    },
+  ],
+});
+`;
+module.exports = { testTemplate };
+
+
+
+================================================
+File: test/angular/angular-filenaming.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+const tsParser = require('@typescript-eslint/parser');
+
+const ruleTester = new RuleTester({
+  languageOptions: {
+    parserOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  },
+});
+
+ruleTester.run('angular-filenaming', rules['angular-filenaming'], {
+  valid: [
+    // Component - kebab-case, Service - camelCase, Module - PascalCase
+    {
+      code: 'export class AppComponent {}',
+      filename: 'app-component.component.ts',
+      options: [
+        { component: 'kebab-case', service: 'camelCase', module: 'PascalCase' },
+      ],
+    },
+    {
+      code: 'export class AppService {}',
+      filename: 'appService.service.ts',
+      options: [
+        { component: 'kebab-case', service: 'camelCase', module: 'PascalCase' },
+      ],
+    },
+    {
+      code: 'export class AppModule {}',
+      filename: 'AppModule.module.ts',
+      options: [
+        { component: 'kebab-case', service: 'camelCase', module: 'PascalCase' },
+      ],
+    },
+
+    // Component - PascalCase, Service - PascalCase, Module - PascalCase
+    {
+      code: 'export class AppComponent {}',
+      filename: 'AppComponent.component.ts',
+      options: [
+        {
+          component: 'PascalCase',
+          service: 'PascalCase',
+          module: 'PascalCase',
+        },
+      ],
+    },
+    {
+      code: 'export class AppService {}',
+      filename: 'AppService.service.ts',
+      options: [
+        {
+          component: 'PascalCase',
+          service: 'PascalCase',
+          module: 'PascalCase',
+        },
+      ],
+    },
+    {
+      code: 'export class AppModule {}',
+      filename: 'AppModule.module.ts',
+      options: [
+        {
+          component: 'PascalCase',
+          service: 'PascalCase',
+          module: 'PascalCase',
+        },
+      ],
+    },
+  ],
+
+  invalid: [
+    // Invalid kebab-case for component files
+    {
+      code: 'export class AppComponent {}',
+      filename: 'AppComponent.component.ts',
+      options: [{ component: 'kebab-case' }],
+      errors: [
+        {
+          message:
+            'File "AppComponent.component.ts" does not follow the kebab-case naming convention.',
+        },
+      ],
+    },
+    // Invalid camelCase for service files
+    {
+      code: 'export class AppService {}',
+      filename: 'AppService.service.ts',
+      options: [{ service: 'camelCase' }],
+      errors: [
+        {
+          message:
+            'File "AppService.service.ts" does not follow the camelCase naming convention.',
+        },
+      ],
+    },
+    // Invalid PascalCase for module files
+    {
+      code: 'export class AppModule {}',
+      filename: 'appModule.module.ts',
+      options: [{ module: 'PascalCase' }],
+      errors: [
+        {
+          message:
+            'File "appModule.module.ts" does not follow the PascalCase naming convention.',
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/angular/angular-limit-input.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+const tsParser = require('@typescript-eslint/parser');
+
+const ruleTester = new RuleTester({
+  languageOptions: {
+    parser: tsParser,
+    parserOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  },
+});
+
+ruleTester.run('angular-limit-input', rules['angular-limit-input'], {
+  valid: [
+    // Component with allowed number of @Input and @Output
+    {
+      code: `
+        import { Component, Input, Output } from '@angular/core';
+        @Component({})
+        class AppComponent {
+          @Input() input1: string;
+          @Input() input2: string;
+          @Output() output1 = new EventEmitter();
+        }
+      `,
+      options: [{ max: 5 }],
+    },
+    // Component with no @Input or @Output properties
+    {
+      code: `
+        import { Component } from '@angular/core';
+        @Component({})
+        class AppComponent {
+        }
+      `,
+      options: [{ max: 3 }],
+    },
+  ],
+  invalid: [
+    // Component with too many @Input and @Output
+    {
+      code: `
+        import { Component, Input, Output } from '@angular/core';
+        @Component({})
+        class AppComponent {
+          @Input() input1: string;
+          @Input() input2: string;
+          @Input() input3: string;
+          @Input() input4: string;
+          @Input() input5: string;
+          @Output() output1 = new EventEmitter();
+        }
+      `,
+      options: [{ max: 5 }],
+      errors: [
+        {
+          message:
+            'Component "AppComponent" has too many @Input() or @Output() properties (6), limit is 5.',
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/angular/angular-no-direct-dom-manipulation.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+const tsParser = require('@typescript-eslint/parser');
+
+const ruleTester = new RuleTester({
+  languageOptions: {
+    parser: tsParser,
+    parserOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  },
+});
+
+ruleTester.run(
+  'angular-no-direct-dom-manipulation',
+  rules['angular-no-direct-dom-manipulation'],
+  {
+    valid: [
+      // Valid usage of Renderer2 for DOM manipulation
+      {
+        code: `
+        import { Renderer2 } from '@angular/core';
+        class MyComponent {
+          constructor(private renderer: Renderer2) {}
+
+          ngAfterViewInit() {
+            this.renderer.setStyle(this.element, 'color', 'red');
+          }
+        }
+      `,
+      },
+    ],
+    invalid: [
+      // Invalid direct DOM manipulation with document.getElementById
+      {
+        code: `
+        class MyComponent {
+          ngAfterViewInit() {
+            const el = document.getElementById('my-element');
+          }
+        }
+      `,
+        errors: [
+          {
+            message:
+              'Avoid direct DOM manipulation with "document.getElementById". Use Angular\'s Renderer2 for DOM interactions.',
+          },
+        ],
+      },
+    ],
+  }
+);
+
+
+
+================================================
+File: test/angular/angular-no-forbidden-services.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+const tsParser = require('@typescript-eslint/parser');
+
+const ruleTester = new RuleTester({
+  languageOptions: {
+    parser: tsParser,
+    parserOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  },
+});
+
+ruleTester.run(
+  'angular-no-forbidden-services',
+  rules['angular-no-forbidden-services'],
+  {
+    valid: [
+      {
+        code: `
+          import { Component } from '@angular/core';
+          import { SomeService } from './some.service';
+  
+          @Component({
+            selector: 'app-my-component',
+            template: '<div></div>',
+          })
+          class MyComponent {
+            constructor(private someService: SomeService) {}
+          }
+        `,
+        options: [{ forbiddenServices: ['HttpClient'] }],
+      },
+    ],
+    invalid: [
+      {
+        code: `
+          import { Component, HttpClient } from '@angular/core';
+  
+          @Component({
+            selector: 'app-my-component',
+            template: '<div></div>',
+          })
+          class MyComponent {
+            constructor(private httpClient: HttpClient) {}
+          }
+        `,
+        errors: [
+          {
+            message:
+              "The service 'HttpClient' should not be injected directly into components. Consider moving it to a dedicated service or resolver.",
+          },
+        ],
+        options: [{ forbiddenServices: ['HttpClient'] }],
+      },
+    ],
+  }
+);
+
+
+
+================================================
+File: test/angular/angular-no-unused-inputs.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+const tsParser = require('@typescript-eslint/parser');
+
+const ruleTester = new RuleTester({
+  languageOptions: {
+    parser: tsParser,
+    parserOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  },
+});
+
+ruleTester.run('angular-no-unused-inputs', rules['angular-no-unused-inputs'], {
+  valid: [
+    {
+      code: `
+        import { Input } from '@angular/core';
+        class MyComponent {
+          @Input() someInput: string;
+
+          ngOnInit() {
+            console.log(this.someInput);
+          }
+        }
+      `,
+    },
+  ],
+  invalid: [
+    {
+      code: `
+        import { Input } from '@angular/core';
+        class MyComponent {
+          @Input() unusedInput: string;
+
+          ngOnInit() {
+            console.log('This does nothing with the input');
+          }
+        }
+      `,
+      errors: [
+        {
+          message:
+            'The @Input() property "unusedInput" is declared but never used in the component.',
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/class-pascalcase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('class-pascalcase', rules['class-pascalcase'], {
+  valid: [{ code: 'class MyClass {}' }, { code: 'class PascalCaseName {}' }],
+  invalid: [
+    {
+      code: 'class myClass {}',
+      errors: [{ message: 'Class name "myClass" must be in PascalCase.' }],
+    },
+    {
+      code: 'class another_class {}',
+      errors: [
+        { message: 'Class name "another_class" must be in PascalCase.' },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/consistent-return.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('consistent-return', rules['consistent-return'], {
+  valid: [
+    {
+      code: 'function validFunction(a) { return a; }',
+    },
+    {
+      code: 'const validArrowFunction = (a) => { return a; };',
+    },
+    {
+      code: 'function validFunctionWithMultipleReturns(a) { if (a) return a; else return; }',
+    },
+    {
+      code: 'function validFunctionWithReturnInConditional(a) { if (a) return a; }',
+    },
+  ],
+
+  invalid: [
+    {
+      code: 'function invalidFunction(a) { const b = a + 1; }',
+      errors: [
+        { messageId: 'missingReturn', data: { name: 'invalidFunction' } },
+      ],
+    },
+    {
+      code: 'const invalidArrowFunction = (a) => { const b = a + 1; };',
+      errors: [{ messageId: 'missingReturn', data: { name: 'function' } }],
+    },
+    {
+      code: 'function anotherInvalidFunction(a) { let b = a + 1; if (b > 10) { b += 10; } }',
+      errors: [
+        {
+          messageId: 'missingReturn',
+          data: { name: 'anotherInvalidFunction' },
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/file-camelcase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const path = require('path');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('file-camelcase', rules['file-camelcase'], {
+  valid: [
+    {
+      filename: path.join(__dirname, 'validFileName.js'),
+      code: 'console.log("Valid file name");',
+    },
+    {
+      filename: path.join(__dirname, 'short.js'),
+      code: 'console.log("Short file name");',
+    },
+    {
+      filename: path.join(__dirname, 'someDir', 'validFileName.ts'),
+      code: 'console.log("Valid file name in directory");',
+    },
+    {
+      filename: path.join(__dirname, 'shortdir', 'validFileName.json'),
+      code: 'console.log("Valid file name with short directory");',
+    },
+    {
+      filename: path.join(__dirname, 'validDirName', 'file.js'),
+      code: 'console.log("Valid directory name");',
+    },
+  ],
+
+  invalid: [
+    {
+      filename: path.join(__dirname, 'InvalidFileName.js'),
+      code: 'console.log("Invalid file name");',
+      errors: [
+        { messageId: 'invalidFileName', data: { name: 'InvalidFileName.js' } },
+      ],
+    },
+    {
+      filename: path.join(__dirname, 'INVALID.js'),
+      code: 'console.log("Invalid short file name");',
+      errors: [{ messageId: 'invalidFileName', data: { name: 'INVALID.js' } }],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/file-kebabcase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const path = require('path');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('file-kebabcase', rules['file-kebabcase'], {
+  valid: [
+    {
+      filename: path.join(__dirname, 'valid-file-name.js'),
+      code: 'console.log("Valid file name");',
+    },
+    {
+      filename: path.join(__dirname, 'short.js'),
+      code: 'console.log("Short file name");',
+    },
+    {
+      filename: path.join(__dirname, 'some-dir', 'valid-file-name.ts'),
+      code: 'console.log("Valid file name in directory");',
+    },
+    {
+      filename: path.join(__dirname, 'shortdir', 'valid-file-name.json'),
+      code: 'console.log("Valid file name with short directory");',
+    },
+  ],
+
+  invalid: [
+    {
+      filename: path.join(__dirname, 'InvalidFileName.js'),
+      code: 'console.log("Invalid file name");',
+      errors: [
+        { messageId: 'invalidFileName', data: { name: 'InvalidFileName.js' } },
+      ],
+    },
+    {
+      filename: path.join(__dirname, 'INVALID.js'),
+      code: 'console.log("Invalid short file name");',
+      errors: [{ messageId: 'invalidFileName', data: { name: 'INVALID.js' } }],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/file-lowercase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const path = require('path');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('file-lowercase', rules['file-lowercase'], {
+  valid: [
+    {
+      filename: path.join(__dirname, 'validfile.js'),
+      code: 'console.log("Valid lowercase filename");',
+    },
+    {
+      filename: path.join(__dirname, 'short.js'),
+      code: 'console.log("Valid lowercase filename");',
+    },
+    {
+      filename: path.join(__dirname, 'some-dir', 'validfile.js'),
+      code: 'console.log("Valid lowercase filename");',
+    },
+    {
+      filename: path.join(__dirname, 'valid-file-name.js'),
+      code: 'console.log("Valid lowercase filename with hyphens");',
+    },
+  ],
+
+  invalid: [
+    {
+      filename: path.join(__dirname, 'InvalidFileName.js'),
+      code: 'console.log("Invalid filename");',
+      errors: [
+        { messageId: 'invalidFileName', data: { name: 'InvalidFileName.js' } },
+      ],
+    },
+    {
+      filename: path.join(__dirname, 'INVALID.js'),
+      code: 'console.log("Invalid filename");',
+      errors: [{ messageId: 'invalidFileName', data: { name: 'INVALID.js' } }],
+    },
+    {
+      filename: path.join(__dirname, 'Invalid-File-Name.js'),
+      code: 'console.log("Invalid filename");',
+      errors: [
+        {
+          messageId: 'invalidFileName',
+          data: { name: 'Invalid-File-Name.js' },
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/file-pascalcase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const path = require('path');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('file-pascalcase', rules['file-pascalcase'], {
+  valid: [
+    {
+      filename: path.join(__dirname, 'ValidFileName.js'),
+      code: 'console.log("Valid file name");',
+    },
+    {
+      filename: path.join(__dirname, 'Short.js'),
+      code: 'console.log("Short file name");',
+    },
+    {
+      filename: path.join(__dirname, 'SomeDir', 'ValidFileName.ts'),
+      code: 'console.log("Valid file name in directory");',
+    },
+    {
+      filename: path.join(__dirname, 'ShortDir', 'ValidFileName.json'),
+      code: 'console.log("Valid file name with short directory");',
+    },
+  ],
+
+  invalid: [
+    {
+      filename: path.join(__dirname, 'invalidFileName.js'),
+      code: 'console.log("Invalid file name");',
+      errors: [
+        { messageId: 'invalidFileName', data: { name: 'invalidFileName.js' } },
+      ],
+    },
+    {
+      filename: path.join(__dirname, 'invalid.js'),
+      code: 'console.log("Invalid short file name");',
+      errors: [{ messageId: 'invalidFileName', data: { name: 'invalid.js' } }],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/folder-camelcase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const path = require('path');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('folder-camelcase', rules['folder-camelcase'], {
+  valid: [
+    {
+      filename: path.join(__dirname, 'validDirName', 'file.js'),
+      code: 'console.log("Valid directory name");',
+    },
+    {
+      filename: path.join(__dirname, 'shortdir', 'file.js'),
+      code: 'console.log("Short directory name");',
+    },
+  ],
+
+  invalid: [
+    {
+      filename: path.join(__dirname, 'Invalid-Dir-Name', 'file.js'),
+      code: 'console.log("Invalid directory name");',
+      errors: [
+        { messageId: 'invalidFolderName', data: { name: 'Invalid-Dir-Name' } },
+      ],
+    },
+    {
+      filename: path.join(__dirname, 'invalid-dir-name', 'file.js'),
+      code: 'console.log("Invalid directory name");',
+      errors: [
+        { messageId: 'invalidFolderName', data: { name: 'invalid-dir-name' } },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/folder-kebabcase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const path = require('path');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('folder-kebabcase', rules['folder-kebabcase'], {
+  valid: [
+    {
+      filename: path.join(__dirname, 'valid-dir-name', 'file.js'),
+      code: 'console.log("Valid directory name");',
+    },
+    {
+      filename: path.join(__dirname, 'shortdir', 'file.js'),
+      code: 'console.log("Short directory name");',
+    },
+  ],
+
+  invalid: [
+    {
+      filename: path.join(__dirname, 'Invalid-Dir-Name', 'file.js'),
+      code: 'console.log("Invalid directory name");',
+      errors: [
+        { messageId: 'invalidFolderName', data: { name: 'Invalid-Dir-Name' } },
+      ],
+    },
+    {
+      filename: path.join(__dirname, 'invalid_dir_name', 'file.js'),
+      code: 'console.log("Invalid directory name");',
+      errors: [
+        { messageId: 'invalidFolderName', data: { name: 'invalid_dir_name' } },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/folder-lowercase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const path = require('path');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('folder-lowercase', rules['folder-lowercase'], {
+  valid: [
+    {
+      filename: path.join(__dirname, 'validfolder', 'validfile.js'),
+      code: 'console.log("Valid lowercase folder and file names");',
+    },
+    {
+      filename: path.join(__dirname, 'shortfolder', 'shortfile.js'),
+      code: 'console.log("Valid lowercase folder and file names");',
+    },
+    {
+      filename: path.join(__dirname, 'anotherfolder', 'validfile.js'),
+      code: 'console.log("Valid lowercase folder and file names");',
+    },
+  ],
+
+  invalid: [
+    {
+      filename: path.join(__dirname, 'InvalidFolder', 'validfile.js'),
+      code: 'console.log("Invalid folder name");',
+      errors: [
+        { messageId: 'invalidFolderName', data: { name: 'InvalidFolder' } },
+      ],
+    },
+    {
+      filename: path.join(__dirname, 'AnotherInvalidFolder', 'file.js'),
+      code: 'console.log("Invalid folder name");',
+      errors: [
+        {
+          messageId: 'invalidFolderName',
+          data: { name: 'AnotherInvalidFolder' },
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/folder-pascalcase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const path = require('path');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('folder-pascalcase', rules['folder-pascalcase'], {
+  valid: [
+    {
+      filename: path.join(__dirname, 'ValidDirName', 'File.js'),
+      code: 'console.log("Valid directory name");',
+    },
+    {
+      filename: path.join(__dirname, 'ShortDir', 'file.js'),
+      code: 'console.log("Short directory name");',
+    },
+  ],
+
+  invalid: [
+    {
+      filename: path.join(__dirname, 'invalid-dir-name', 'ValidFileName.js'),
+      code: 'console.log("Valid file name in invalid directory");',
+      errors: [
+        { messageId: 'invalidFolderName', data: { name: 'invalid-dir-name' } },
+      ],
+    },
+    {
+      filename: path.join(__dirname, 'invalidDirName', 'file.js'),
+      code: 'console.log("Invalid directory name");',
+      errors: [
+        { messageId: 'invalidFolderName', data: { name: 'invalidDirName' } },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/function-camelcase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('function-camelcase', rules['function-camelcase'], {
+  valid: [
+    { code: 'function myFunction() {}' },
+    { code: 'function anotherFunction123() {}' },
+    { code: 'const myFunction = function() {};' },
+    { code: 'const anotherFunction123 = function() {};' },
+    { code: 'const myFunction = () => {};' },
+    { code: 'const anotherFunction123 = () => {};' },
+  ],
+  invalid: [
+    {
+      code: 'function MyFunction() {}',
+      errors: [
+        { message: "Function name 'MyFunction' should be in camelCase." },
+      ],
+    },
+    {
+      code: 'function another_class() {}',
+      errors: [
+        { message: "Function name 'another_class' should be in camelCase." },
+      ],
+    },
+    {
+      code: 'const MyFunction = function() {};',
+      errors: [
+        { message: "Function name 'MyFunction' should be in camelCase." },
+      ],
+    },
+    {
+      code: 'const another_class = function() {};',
+      errors: [
+        { message: "Function name 'another_class' should be in camelCase." },
+      ],
+    },
+    {
+      code: 'const MyFunction = () => {};',
+      errors: [
+        { message: "Function name 'MyFunction' should be in camelCase." },
+      ],
+    },
+    {
+      code: 'const another_class = () => {};',
+      errors: [
+        { message: "Function name 'another_class' should be in camelCase." },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/function-descriptive.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('function-descriptive', rules['function-descriptive'], {
+  valid: [
+    { code: 'function fetchData() {}' },
+    { code: 'const processOrder = function() {};' },
+    { code: 'const calculateTotal = () => {};' },
+    { code: 'function getUserInfo() {}' },
+    { code: 'function sendEmail() {}' },
+  ],
+  invalid: [
+    {
+      code: 'function Data() {}',
+      errors: [
+        {
+          message:
+            "Function name 'Data' should start with a verb and be descriptive.",
+        },
+      ],
+    },
+    {
+      code: 'function User() {}',
+      errors: [
+        {
+          message:
+            "Function name 'User' should start with a verb and be descriptive.",
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/function-pascalcase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('function-pascalcase', rules['function-pascalcase'], {
+  valid: [
+    { code: 'function MyFunction() {}' },
+    { code: 'function AnotherFunction123() {}' },
+    { code: 'const MyFunction = function() {};' },
+    { code: 'const AnotherFunction123 = function() {};' },
+    { code: 'const MyFunction = () => {};' },
+    { code: 'const AnotherFunction123 = () => {};' },
+  ],
+  invalid: [
+    {
+      code: 'function myFunction() {}',
+      errors: [
+        { message: "Function name 'myFunction' should be in PascalCase." },
+      ],
+    },
+    {
+      code: 'function another_function() {}',
+      errors: [
+        {
+          message: "Function name 'another_function' should be in PascalCase.",
+        },
+      ],
+    },
+    {
+      code: 'const myFunction = function() {};',
+      errors: [
+        { message: "Function name 'myFunction' should be in PascalCase." },
+      ],
+    },
+    {
+      code: 'const another_function = function() {};',
+      errors: [
+        {
+          message: "Function name 'another_function' should be in PascalCase.",
+        },
+      ],
+    },
+    {
+      code: 'const myFunction = () => {};',
+      errors: [
+        { message: "Function name 'myFunction' should be in PascalCase." },
+      ],
+    },
+    {
+      code: 'const another_function = () => {};',
+      errors: [
+        {
+          message: "Function name 'another_function' should be in PascalCase.",
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/max-function-params.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('max-function-params', rules['max-function-params'], {
+  valid: [
+    {
+      code: 'function validFunction(a, b) {}',
+      options: [{ max: 2 }],
+    },
+    {
+      code: 'function validFunction(a) {}',
+      options: [{ max: 3 }],
+    },
+    {
+      code: 'const validArrowFunction = (a, b) => {};',
+      options: [{ max: 2 }],
+    },
+    {
+      code: 'const validArrowFunction = (a) => {};',
+      options: [{ max: 3 }],
+    },
+    {
+      code: 'function validFunction(a, b, c) {}',
+      options: [{ max: 3 }],
+    },
+  ],
+
+  invalid: [
+    {
+      code: 'function invalidFunction(a, b, c, d) {}',
+      options: [{ max: 2 }],
+      errors: [
+        {
+          messageId: 'tooManyParameters',
+          data: { name: 'invalidFunction', count: 4, max: 2 },
+        },
+      ],
+    },
+    {
+      code: 'const invalidArrowFunction = (a, b, c, d) => {};',
+      options: [{ max: 2 }],
+      errors: [
+        {
+          messageId: 'tooManyParameters',
+          data: { name: 'Anonymous function', count: 4, max: 2 },
+        },
+      ],
+    },
+    {
+      code: 'function anotherInvalidFunction(a, b, c, d, e) {}',
+      options: [{ max: 4 }],
+      errors: [
+        {
+          messageId: 'tooManyParameters',
+          data: { name: 'anotherInvalidFunction', count: 5, max: 4 },
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/max-lines-per-file.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('max-lines-per-file', rules['max-lines-per-file'], {
+  valid: [
+    {
+      filename: 'short-file.js',
+      code: Array(5).fill('uniqueVar1 = 1;').join('\n'), // 5 lines, valid
+    },
+    {
+      filename: 'another-valid-file.js',
+      code: Array(10).fill('uniqueVar2 = 2;').join('\n'), // 10 lines, valid
+    },
+  ],
+  invalid: [
+    {
+      filename: 'long-file.js',
+      code: Array(15).fill('uniqueinvalidVar1 = 3;').join('\n'), // 15 lines, invalid
+      options: [{ max: 10 }], // Set max to 10 lines
+      errors: [
+        {
+          messageId: 'tooManyLines',
+          data: {
+            name: 'long-file.js',
+            max: 10,
+            lines: 15,
+          },
+        },
+      ],
+    },
+    {
+      filename: 'another-long-file.js',
+      code: Array(20).fill(' uniqueinvalidVar2 = 4;').join('\n'), // 20 lines, invalid
+      options: [{ max: 15 }], // Set max to 15 lines
+      errors: [
+        {
+          messageId: 'tooManyLines',
+          data: {
+            name: 'another-long-file.js',
+            max: 15,
+            lines: 20,
+          },
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/max-lines-per-function.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('max-lines-per-function', rules['max-lines-per-function'], {
+  valid: [
+    {
+      code: `
+        function shortFunction() {
+          const a = 1;
+          const b = 2;
+          return a + b;
+        }
+      `,
+      options: [{ max: 5 }],
+    },
+    {
+      code: `
+        const arrowFunction = () => {
+          // This is a short arrow function
+          return 'Hello, World!';
+        };
+      `,
+      options: [{ max: 4 }],
+    },
+    {
+      code: `
+        function exactlyAtLimit() {
+          const line1 = 1;
+          const line2 = 2;
+          const line3 = 3;
+          return line1 + line2 + line3;
+        }
+      `,
+      options: [{ max: 6 }],
+    },
+    {
+      code: `
+        // Should ignore single-line functions
+        const singleLine = () => 'Hello';
+      `,
+      options: [{ max: 1 }],
+    },
+  ],
+  invalid: [
+    {
+      code: `
+        function tooLongFunction() {
+          const a = 1;
+          const b = 2;
+          const c = 3;
+          return a + b + c;
+        }
+      `,
+      options: [{ max: 5 }],
+      errors: [
+        {
+          messageId: 'tooManyLines',
+          data: { name: 'tooLongFunction', max: 5, lines: 6 },
+        },
+      ],
+    },
+    {
+      code: `
+        const longArrowFunction = () => {
+          const line1 = 'This is line 1';
+          const line2 = 'This is line 2';
+          const line3 = 'This is line 3';
+          const line4 = 'This is line 4';
+          return line1 + line2 + line3 + line4;
+        };
+      `,
+      options: [{ max: 6 }],
+      errors: [
+        {
+          messageId: 'tooManyLines',
+          data: { name: 'Anonymous function', max: 6, lines: 7 },
+        },
+      ],
+    },
+    {
+      code: `
+        function barelyOverLimit() {
+          const line1 = 1;
+          const line2 = 2;
+          const line3 = 3;
+          const line4 = 4;
+          return line1 + line2 + line3 + line4;
+        }
+      `,
+      options: [{ max: 6 }],
+      errors: [
+        {
+          messageId: 'tooManyLines',
+          data: { name: 'barelyOverLimit', max: 6, lines: 7 },
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/no-single-character-vars.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('no-single-character-vars', rules['no-single-character-vars'], {
+  valid: [
+    {
+      code: 'const validName = 1;',
+    },
+    {
+      code: 'let anotherValidName = 2;',
+    },
+    {
+      code: 'var validVariable = 3;',
+    },
+  ],
+
+  invalid: [
+    {
+      code: 'const x = 1;',
+      errors: [{ messageId: 'singleCharVar', data: { name: 'x' } }],
+    },
+    {
+      code: 'let a = 2;',
+      errors: [{ messageId: 'singleCharVar', data: { name: 'a' } }],
+    },
+    {
+      code: 'var b = 3;',
+      errors: [{ messageId: 'singleCharVar', data: { name: 'b' } }],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/vars-camelcase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('vars-camelcase', rules['vars-camelcase'], {
+  valid: [
+    // Valid variable declarations
+    { code: 'var myVariable = 1;' },
+    { code: 'let anotherVariable = 2;' },
+    { code: 'const someValue = 3;' },
+    { code: 'var validName = "text";' },
+    { code: 'let alsoValid = [1, 2, 3];' },
+    { code: 'const myArray = [];' },
+    { code: 'const camelCaseName = "example";' },
+  ],
+  invalid: [
+    // Invalid variable declarations
+    {
+      code: 'var InvalidName = 1;',
+      errors: [{ message: "Variable 'InvalidName' should be in camelCase." }],
+    },
+    {
+      code: 'let Another_Variable = 2;',
+      errors: [
+        { message: "Variable 'Another_Variable' should be in camelCase." },
+      ],
+    },
+    {
+      code: 'const NonCamelCase = 3;',
+      errors: [{ message: "Variable 'NonCamelCase' should be in camelCase." }],
+    },
+    {
+      code: 'var invalid_name = "text";',
+      errors: [{ message: "Variable 'invalid_name' should be in camelCase." }],
+    },
+    {
+      code: 'const _nonCamelCase = 4;',
+      errors: [{ message: "Variable '_nonCamelCase' should be in camelCase." }],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/vars-descriptive.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('vars-descriptive', rules['vars-descriptive'], {
+  valid: [
+    // Valid variable declarations (starting with verbs)
+    { code: 'let calculateTotal = 100;' },
+    { code: 'const fetchData = [];' },
+    { code: 'var updateUser = "John";' },
+    { code: 'let processOrder = 1;' },
+    { code: 'const generateReport = {};' },
+    { code: 'var checkStatus = true;' },
+    { code: 'let handleError = function() {};' },
+    { code: 'const logMessage = "Log";' },
+  ],
+  invalid: [
+    // Invalid variable declarations (not starting with verbs)
+    {
+      code: 'const userInfo = [];',
+      errors: [
+        {
+          message:
+            "Variable name 'userInfo' should start with a verb and be descriptive.",
+        },
+      ],
+    },
+
+    {
+      code: 'const statusFlag = {};',
+      errors: [
+        {
+          message:
+            "Variable name 'statusFlag' should start with a verb and be descriptive.",
+        },
+      ],
+    },
+    {
+      code: 'var errorHandler = true;',
+      errors: [
+        {
+          message:
+            "Variable name 'errorHandler' should start with a verb and be descriptive.",
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/vars-lowercase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('vars-lowercase', rules['vars-lowercase'], {
+  valid: [
+    {
+      code: 'var lowercase = 3;',
+    },
+  ],
+
+  invalid: [
+    {
+      code: 'const InvalidName = 1;',
+      errors: [{ messageId: 'notLowerCase', data: { name: 'InvalidName' } }],
+    },
+    {
+      code: 'let AnotherInvalidName = 2;',
+      errors: [
+        { messageId: 'notLowerCase', data: { name: 'AnotherInvalidName' } },
+      ],
+    },
+    {
+      code: 'var MIXED_CASE = 3;',
+      errors: [{ messageId: 'notLowerCase', data: { name: 'MIXED_CASE' } }],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/vars-pascalcase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('vars-pascalcase', rules['vars-pascalcase'], {
+  valid: [
+    // Add cases that should not trigger the rule
+    'const MyVariable = 10;',
+    'let AnotherVariable = 20;',
+    'var SomeVariable = "test";',
+  ],
+  invalid: [
+    {
+      code: 'const myVariable = 10;',
+      output: 'const MyVariable = 10;',
+      errors: [{ message: "Variable 'myVariable' should be in PascalCase." }],
+    },
+    {
+      code: 'let another_variable = 20;',
+      output: 'let AnotherVariable = 20;',
+      errors: [
+        { message: "Variable 'another_variable' should be in PascalCase." },
+      ],
+    },
+    {
+      code: 'var somevar = "test";',
+      output: 'var Somevar = "test";',
+      errors: [{ message: "Variable 'somevar' should be in PascalCase." }],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/general/vars-snakecase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run('vars-snakecase', rules['vars-snakecase'], {
+  valid: [
+    // Valid test cases where variable names follow the snake_case convention
+    {
+      code: 'let my_variable = 1;',
+    },
+    {
+      code: 'const another_variable = "test";',
+    },
+    {
+      code: 'var some_var = true;',
+    },
+    {
+      code: 'const snake_case_variable = 10;',
+    },
+  ],
+  invalid: [
+    // Invalid test cases where variable names don't follow the snake_case convention
+    {
+      code: 'let myVariable = 1;',
+      errors: [{ message: "Variable 'myVariable' should be in snake_case." }],
+      output: 'let my_variable = 1;',
+    },
+    {
+      code: 'const anotherVariable = "test";',
+      errors: [
+        { message: "Variable 'anotherVariable' should be in snake_case." },
+      ],
+      output: 'const another_variable = "test";',
+    },
+    {
+      code: 'var SomeVar = true;',
+      errors: [{ message: "Variable 'SomeVar' should be in snake_case." }],
+      output: 'var some_var = true;',
+    },
+    {
+      code: 'let leadingUnderscoreVariable = 5;',
+      errors: [
+        {
+          message:
+            "Variable 'leadingUnderscoreVariable' should be in snake_case.",
+        },
+      ],
+      output: 'let leading_underscore_variable = 5;',
+    },
+    {
+      code: 'const camelCaseVar = 10;',
+      errors: [{ message: "Variable 'camelCaseVar' should be in snake_case." }],
+      output: 'const camel_case_var = 10;',
+    },
+  ],
+});
+
+
+
+================================================
+File: test/node/limit-data-scope.test.js
+================================================
+// eslint-plugin-hub/test/general/limit-data-scope.test.js
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester({
+  languageOptions: {
+    ecmaVersion: 2021,
+    sourceType: 'module',
+    globals: {
+      window: 'writable',
+      global: 'writable',
+      globalThis: 'writable',
+      document: 'readonly',
+      crypto: 'readonly',
+      process: 'readonly',
+      navigator: 'readonly',
+      location: 'readonly',
+      setTimeout: 'readonly',
+      getWindow: 'readonly',
+      alert: 'readonly',
+      console: 'readonly',
+    },
+  },
+});
+
+ruleTester.run('limit-data-scope', rules['limit-data-scope'], {
+  valid: [
+    // === Section 1: Valid for "No Global Object Modification" ===
+    { code: 'const myVar = {}; myVar.prop = 1;' },
+    { code: 'function foo() { let window = {}; window.bar = 1; }' },
+    { code: 'function bar() { let global = {}; global.test = 2; }' },
+    { code: 'const obj = { window: {} }; obj.window.prop = 1;' },
+    { code: 'let globalThis = {}; globalThis.custom = true;' },
+    { code: 'const config = window.location || {};' }, // Reading is OK
+    { code: 'console.log(global.process);' }, // Reading is OK
+    { code: 'const val = globalThis.crypto;' }, // Reading is OK
+
+    // === Section 2: Valid for "Narrowest Scope" ===
+    {
+      // Variable used in multiple functions - should stay at module level
+      code: `
+        const sharedVar = 10;
+        function funcA() { console.log(sharedVar); }
+        function funcB() { console.log(sharedVar); }
+      `,
+    },
+    {
+      // Variable used at module scope and in function - should stay at module level
+      code: `
+        const moduleVar = 20;
+        console.log(moduleVar); // Used at module scope
+        function useIt() { console.log(moduleVar); }
+      `,
+    },
+    {
+      // Variable already in narrowest scope
+      code: `
+        function doSomething() {
+          const localVar = 30; // Already narrowest scope
+          console.log(localVar);
+        }
+      `,
+    },
+    {
+      // Variable used in nested scopes within same function
+      code: `
+        function outer() {
+          const outerVar = 'test';
+          if (true) {
+            console.log(outerVar);
+          }
+          for (let i = 0; i < 1; i++) {
+            console.log(outerVar);
+          }
+        }
+      `,
+    },
+    {
+      // Imported variables should not be flagged
+      code: `import { someFunction } from 'module'; someFunction();`,
+    },
+    {
+      // Function parameters should not be flagged
+      code: `
+        function test(param) {
+          function inner() {
+            console.log(param);
+          }
+          inner();
+        }
+      `,
+    },
+    {
+      // Variable used in function but also assigned at module level
+      code: `
+        let config = { default: true };
+        function setup() {
+          console.log(config);
+        }
+        config = { updated: true }; // Also used at module level
+      `,
+    },
+
+    // === Section 3: Valid for "Discourage var" (i.e., uses let/const) ===
+    { code: 'let x = 1;' },
+    { code: 'const y = 2;' },
+    { code: 'for (let i = 0; i < 5; i++) {}' },
+    { code: 'function test() { const local = 1; return local; }' },
+    { code: 'if (true) { let blockScoped = true; }' },
+  ],
+
+  invalid: [
+    // === Section 1: Invalid for "No Global Object Modification" ===
+    {
+      code: 'window.myCustomProperty = 123;',
+      errors: [
+        {
+          messageId: 'noModifyGlobal',
+          data: { objectName: 'window', propertyName: 'myCustomProperty' },
+        },
+      ],
+    },
+    {
+      code: 'global.debug = true;',
+      errors: [
+        {
+          messageId: 'noModifyGlobal',
+          data: { objectName: 'global', propertyName: 'debug' },
+        },
+      ],
+    },
+    {
+      code: 'globalThis["newProperty"] = "value";',
+      errors: [
+        {
+          messageId: 'noModifyGlobal',
+          data: { objectName: 'globalThis', propertyName: 'newProperty' },
+        },
+      ],
+    },
+    {
+      code: 'window[dynamicKey] = result;',
+      errors: [
+        {
+          messageId: 'noModifyGlobal',
+          data: { objectName: 'window', propertyName: 'dynamicKey' },
+        },
+      ],
+    },
+    {
+      code: 'global.process.env.NODE_ENV = "test";',
+      errors: [
+        {
+          messageId: 'noModifyGlobal',
+          data: { objectName: 'global', propertyName: 'process' },
+        },
+      ],
+    },
+    {
+      code: 'function setup() { window.customHandler = function() {}; }',
+      errors: [
+        {
+          messageId: 'noModifyGlobal',
+          data: { objectName: 'window', propertyName: 'customHandler' },
+        },
+      ],
+    },
+    {
+      code: 'globalThis[42] = "answer";',
+      errors: [
+        {
+          messageId: 'noModifyGlobal',
+          data: { objectName: 'globalThis', propertyName: '42' },
+        },
+      ],
+    },
+
+    // === Section 2: Invalid for "Narrowest Scope" ===
+    {
+      code: `
+        const onlyInFuncA = 100; // Declared at module scope
+        function funcA() {
+          console.log(onlyInFuncA); // Only used here
+        }
+        function funcB() { /* does not use it */ }
+      `,
+      errors: [
+        {
+          messageId: 'moveToNarrowerScope',
+          data: {
+            variableName: 'onlyInFuncA',
+            declarationScopeType: 'module',
+            usageScopeType: 'function',
+            usageScopeIdentifier: 'funcA',
+          },
+        },
+      ],
+    },
+    {
+      code: `
+        let configValue;
+        function initialize() {
+          configValue = { setting: true };
+          console.log(configValue);
+        }
+      `,
+      errors: [
+        {
+          messageId: 'moveToNarrowerScope',
+          data: {
+            variableName: 'configValue',
+            declarationScopeType: 'module',
+            usageScopeType: 'function',
+            usageScopeIdentifier: 'initialize',
+          },
+        },
+      ],
+    },
+    {
+      code: `var scriptVar = "hello"; function greet() { alert(scriptVar); }`,
+      languageOptions: { sourceType: 'script' },
+      errors: [
+        {
+          messageId: 'useLetConst',
+          data: { variableName: 'scriptVar' },
+        },
+        {
+          messageId: 'moveToNarrowerScope',
+          data: {
+            variableName: 'scriptVar',
+            declarationScopeType: 'global',
+            usageScopeType: 'function',
+            usageScopeIdentifier: 'greet',
+          },
+        },
+      ],
+    },
+    {
+      // Variable only used in one anonymous function
+      code: `
+        const helperData = { value: 42 };
+        (function() {
+          console.log(helperData.value);
+        })();
+      `,
+      errors: [
+        {
+          messageId: 'moveToNarrowerScope',
+          data: {
+            variableName: 'helperData',
+            declarationScopeType: 'module',
+            usageScopeType: 'function',
+            usageScopeIdentifier: '[anonymous_function]',
+          },
+        },
+      ],
+    },
+    {
+      // Variable only used in arrow function assigned to variable
+      code: `
+        const apiKey = 'secret123';
+        const makeRequest = () => {
+          return fetch('/api', { headers: { 'API-Key': apiKey } });
+        };
+      `,
+      errors: [
+        {
+          messageId: 'moveToNarrowerScope',
+          data: {
+            variableName: 'apiKey',
+            declarationScopeType: 'module',
+            usageScopeType: 'function',
+            usageScopeIdentifier: 'makeRequest',
+          },
+        },
+      ],
+    },
+    {
+      // Variable only used in method
+      code: `
+        let cache = new Map();
+        const service = {
+          getData: function() {
+            if (cache.has('key')) return cache.get('key');
+            const data = 'computed';
+            cache.set('key', data);
+            return data;
+          }
+        };
+      `,
+      errors: [
+        {
+          messageId: 'moveToNarrowerScope',
+          data: {
+            variableName: 'cache',
+            declarationScopeType: 'module',
+            usageScopeType: 'function',
+            usageScopeIdentifier: 'getData',
+          },
+        },
+      ],
+    },
+    {
+      // Multiple variables, each only used in one function
+      code: `
+        const dataA = 'for function A';
+        const dataB = 'for function B';
+        
+        function processA() {
+          console.log(dataA);
+        }
+        
+        function processB() {
+          console.log(dataB);
+        }
+      `,
+      errors: [
+        {
+          messageId: 'moveToNarrowerScope',
+          data: {
+            variableName: 'dataA',
+            declarationScopeType: 'module',
+            usageScopeType: 'function',
+            usageScopeIdentifier: 'processA',
+          },
+        },
+        {
+          messageId: 'moveToNarrowerScope',
+          data: {
+            variableName: 'dataB',
+            declarationScopeType: 'module',
+            usageScopeType: 'function',
+            usageScopeIdentifier: 'processB',
+          },
+        },
+      ],
+    },
+
+    // === Section 3: Invalid for "Discourage var" ===
+    {
+      code: 'var z = 3;',
+      errors: [{ messageId: 'useLetConst', data: { variableName: 'z' } }],
+    },
+    {
+      code: 'function oldStyle() { var count = 0; return count; }',
+      errors: [{ messageId: 'useLetConst', data: { variableName: 'count' } }],
+    },
+    {
+      code: 'var a = 1, b = 2;', // Multiple declarations
+      errors: [{ messageId: 'useLetConst', data: { variableName: 'a' } }],
+    },
+    {
+      code: 'for (var i = 0; i < 10; i++) { console.log(i); }',
+      errors: [{ messageId: 'useLetConst', data: { variableName: 'i' } }],
+    },
+    {
+      code: 'if (true) { var blockVar = "should be let"; }',
+      errors: [
+        { messageId: 'useLetConst', data: { variableName: 'blockVar' } },
+      ],
+    },
+    {
+      code: 'var func = function() { return "prefer const"; };',
+      errors: [{ messageId: 'useLetConst', data: { variableName: 'func' } }],
+    },
+
+    // === Combined violations ===
+    {
+      code: `
+    var utilityData = { helper: true };
+    function doWork() {
+      window.workResult = utilityData.helper;
+    }
+  `,
+      errors: [
+        {
+          messageId: 'useLetConst',
+          data: { variableName: 'utilityData' },
+        },
+        {
+          messageId: 'moveToNarrowerScope',
+          data: {
+            variableName: 'utilityData',
+            declarationScopeType: 'module',
+            usageScopeType: 'function',
+            usageScopeIdentifier: 'doWork',
+          },
+        },
+        {
+          messageId: 'noModifyGlobal',
+          data: { objectName: 'window', propertyName: 'workResult' },
+        },
+      ],
+    },
+
+    {
+      code: `
+    var appConfig = { debug: false };
+    var userPrefs = { theme: 'dark' };
+
+    function initialize() {
+      console.log(appConfig);
+    }
+
+    function setupUI() {
+      console.log(userPrefs);
+    }
+  `,
+      languageOptions: { sourceType: 'script' },
+      errors: [
+        {
+          messageId: 'useLetConst',
+          data: { variableName: 'appConfig' },
+        },
+        {
+          messageId: 'moveToNarrowerScope',
+          data: {
+            variableName: 'appConfig',
+            declarationScopeType: 'global',
+            usageScopeType: 'function',
+            usageScopeIdentifier: 'initialize',
+          },
+        },
+        {
+          messageId: 'useLetConst',
+          data: { variableName: 'userPrefs' },
+        },
+        {
+          messageId: 'moveToNarrowerScope',
+          data: {
+            variableName: 'userPrefs',
+            declarationScopeType: 'global',
+            usageScopeType: 'function',
+            usageScopeIdentifier: 'setupUI',
+          },
+        },
+      ],
+    },
+  ],
+});
+
+
+
+================================================
+File: test/react/react-component-name-match-filename.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester({
+  languageOptions: {
+    parserOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  },
+});
+
+ruleTester.run(
+  'react-component-name-match-filename',
+  rules['react-component-name-match-filename'],
+  {
+    valid: [
+      {
+        code: `
+        import React from 'react';
+
+        class MyComponent extends React.Component {
+          render() {
+            return <div></div>;
+          }
+        }
+
+        export default MyComponent;
+      `,
+        filename: 'MyComponent.jsx',
+      },
+      {
+        code: `
+        import React from 'react';
+
+        function MyComponent() {
+          return <div></div>;
+        }
+
+        export default MyComponent;
+      `,
+        filename: 'MyComponent.tsx',
+      },
+      // Files without React or JSX (non-React)
+      {
+        code: 'const myVariable = 42;',
+        filename: 'myVariable.js', // No JSX, should not trigger PascalCase check
+      },
+      {
+        code: 'function helperFunction() { return true; }',
+        filename: 'helperFunction.ts', // No JSX, should not trigger PascalCase check
+      },
+    ],
+    invalid: [
+      {
+        code: `
+        import React from 'react';
+
+        function MyComponent() {
+          return <div></div>;
+        }
+
+        export default MyComponent;
+      `,
+        filename: 'AnotherComponent.tsx',
+        errors: [
+          {
+            message:
+              "Component name 'MyComponent' should match the filename 'AnotherComponent.tsx'.",
+          },
+        ],
+      },
+      {
+        code: `
+        import React from 'react';
+
+        class MyComponent extends React.Component {
+          render() {
+            return <div></div>;
+          }
+        }
+
+        export default MyComponent;
+      `,
+        filename: 'WrongComponent.jsx',
+        errors: [
+          {
+            message:
+              "Component name 'MyComponent' should match the filename 'WrongComponent.jsx'.",
+          },
+        ],
+      },
+    ],
+  }
+);
+
+
+
+================================================
+File: test/react/react-filename-pascalcase.test.js
+================================================
+const { RuleTester } = require('eslint');
+const rules = require('../../index').rules;
+
+const ruleTester = new RuleTester({
+  languageOptions: {
+    parserOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  },
+});
+
+ruleTester.run(
+  'react-filename-pascalcase',
+  rules['react-filename-pascalcase'],
+  {
+    valid: [
+      // React Components with valid PascalCase filenames
+      {
+        code: 'const Component = () => <div>Hello</div>;',
+        filename: 'Component.jsx',
+      },
+      {
+        code: 'function MyComponent() { return <div>Hello</div>; }',
+        filename: 'MyComponent.tsx',
+      },
+      {
+        code: 'class MyComponent extends React.Component { render() { return <div></div>; }}',
+        filename: 'MyComponent.js',
+      },
+      {
+        code: 'const MyComponent = () => <div>Hello</div>;',
+        filename: 'MyComponent.ts',
+      },
+      // Files without React or JSX (non-React)
+      {
+        code: 'const myVariable = 42;',
+        filename: 'myVariable.js', // No JSX, should not trigger PascalCase check
+      },
+      {
+        code: 'function helperFunction() { return true; }',
+        filename: 'helperFunction.ts', // No JSX, should not trigger PascalCase check
+      },
+    ],
+    invalid: [
+      // React components with invalid filenames
+      {
+        code: 'const component = () => <div>Hello</div>;',
+        filename: 'component.jsx',
+        errors: [
+          { message: "Filename 'component.jsx' should be in PascalCase." },
+        ],
+      },
+      {
+        code: `import React from 'react'; function MyComponent() { return <div></div>; }`,
+        filename: 'anotherComponent.tsx',
+        errors: [
+          {
+            message: "Filename 'anotherComponent.tsx' should be in PascalCase.",
+          },
+        ],
+      },
+      {
+        code: `const myComponent = () => <div></div>;`,
+        filename: 'myComponent.js',
+        errors: [
+          { message: "Filename 'myComponent.js' should be in PascalCase." },
+        ],
+      },
+      {
+        code: `function myComponent() { return <div></div>; }`,
+        filename: 'myComponent.ts',
+        errors: [
+          { message: "Filename 'myComponent.ts' should be in PascalCase." },
+        ],
+      },
+      // Mixed case: Filename is lowercase but contains JSX (React)
+      {
+        code: 'const MyComponent = () => <div>Hello</div>;',
+        filename: 'component.js',
+        errors: [
+          { message: "Filename 'component.js' should be in PascalCase." },
+        ],
+      },
+    ],
+  }
+);
+
+
+
+================================================
+File: .github/PULL_REQUEST_TEMPLATE.md
+================================================
+---
+name: Pull Request
+about: Submit a pull request to propose changes to the project
+title: '[PR] '
+labels: ''
+assignees: ''
+---
+
+**Description**
+
+A clear and concise description of the changes you have made. Explain why these changes are necessary.
+
+**Related Issue**
+
+Link to any related issues or tasks. For example: `Closes #123`, `Related to #456`.
+
+**Type of Change**
+
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Enhancement
+- [ ] Documentation update
+- [ ] Other (please specify):
+
+**How to Test**
+
+Steps to test your changes. If applicable, provide code examples or command-line instructions.
+
+1. Step 1
+2. Step 2
+3. Step 3
+
+**Checklist**
+
+- [ ] My code follows the project's coding style.
+- [ ] I have updated the documentation as necessary.
+- [ ] I have added tests to cover my changes.
+- [ ] All existing and new tests pass.
+
+**Additional Notes**
+
+Add any other information or context that reviewers should know about your pull request.
+
+---
+
+Thank you for your contribution!
+
+
+
+================================================
+File: .github/ISSUE_TEMPLATE/bug_report.md
+================================================
+---
+ name: Bug report  
+ about: Create a report to help us improve
+ title: '[BUG]'
+ labels: bug
+---
+
+<!-- ✨ Thanks for reporting a bug! ➡️ Please follow this template to help us resolve the issue faster. -->
+
+### 1️⃣ Describe the issue
+
+Explain what’s not working correctly with the rule.
+
+### 2️⃣ Affected Rule
+
+Specify the rule that's causing the issue.
+
+### 3️⃣ Code Example
+
+Provide a code snippet where the issue can be reproduced.
+
+```js
+// Example code triggering the issue
+const code = 'that should be ok';
+```
+
+### 4️⃣ Expected Behavior
+
+Describe what you expected to happen.
+
+### 5️⃣ Environment
+
+- **ESLint Plugin Hub version:** [e.g. 1.0.0]
+- **ESLint version:** [e.g. 7.32.0]
+- **Node.js version:** [e.g. 14.17.0]
+- **Operating System:** [e.g. macOS 11.4]
+
+
+
+================================================
+File: .github/ISSUE_TEMPLATE/rule_change.md
+================================================
+---
+ name: Rule Change  
+ about: Propose a change to an existing rule  
+ title: '[RULE CHANGE]'  
+ labels: rule change  
+---
+
+<!-- ✨ Thanks for suggesting a rule change! ➡️ Please follow this template to ensure we understand your proposal clearly. -->
+
+### 1️⃣ Which rule are you proposing to change?
+
+Specify the name of the rule you’d like to modify.
+
+### 2️⃣ Describe the change you'd like
+
+Provide a clear and concise description of the change you are proposing. Include code examples if applicable.
+
+```js
+// Example of the current rule behavior
+const currentCode = '...';
+
+// Example of the expected behavior after the change
+const expectedCode = '...';
+```
+
+### 3️⃣ Is your change request related to a problem? Please describe
+
+Explain if this change addresses a problem or frustration you’ve encountered.
+
+### 4️⃣ Describe alternatives you've considered
+
+Outline any alternative solutions or features you have considered.
+
+### 5️⃣ Additional context
+
+Include any other relevant context, screenshots, or details related to your request.
+
+
+
+================================================
+File: .github/ISSUE_TEMPLATE/rule_proposal.md
+================================================
+---
+ name: Rule Proposal  
+ about: Suggest a new rule for this project  
+ title: '[NEW RULE]'  
+ labels: new rule
+---
+
+<!-- ✨ Thanks for proposing a new rule! ➡️ Please follow this template to provide all the necessary details for your suggestion. -->
+
+### 1️⃣ Is your rule proposal related to a problem? Please describe
+
+Provide a clear and concise description of the problem you’re addressing. For example: "I’m always frustrated when..."
+
+### 2️⃣ Describe the solution you'd like
+
+Explain what you want the rule to enforce or disallow. Provide code examples to clarify the desired behavior.
+
+```js
+// Code that should be allowed or disallowed by the rule
+const example = 'valid or invalid code based on the rule';
+```
+
+### 3️⃣ Describe alternatives you've considered
+
+Outline any alternative solutions or workarounds you’ve explored.
+
+### 4️⃣ Example configuration
+
+Show how you expect the rule to be configured in an ESLint config file.
+
+```json
+{
+  "rules": {
+    "hub/new-rule": ["error", { "option": "value" }]
+  }
+}
+```
+
+### 5️⃣ Additional context
+
+Add any other relevant details, context, or screenshots related to the rule proposal.
+
+
+
+================================================
+File: .github/workflows/release.yml
+================================================
+name: Deployment Workflow
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: "@mindfiredigital/eslint-plugin-hub"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: "Install dependencies"
+        run: npm ci
+
+      - name: "Lint code"
+        run: npm run lint
+
+      - name: "Run tests"
+        run: npm test
+
+      - name: "Restore changes in json"
+        run: |
+          git restore package-lock.json
+
+      - name: "Set Git user name and email"
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "GitHub Actions"
+
+  create-github-release:
+    name: Create GitHub release document and publish to npm
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Semantic Release and npm release
+        run: |
+          npx semantic-release
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify .npmignore files
+        run: |
+          echo "Files included in npm package:"
+          npm pack --dry-run
+
+
+
+================================================
+File: .husky/commit-msg
+================================================
+npx --no -- commitlint --edit "$1"
+
+
+================================================
+File: .husky/pre-commit
+================================================
+npx lint-staged
+
