@@ -1,6 +1,7 @@
 const generalRules = require('./lib/rules/general/index.js');
 const reactRules = require('./lib/rules/react/index.js');
 const angularRules = require('./lib/rules/angular/index.js');
+const nodeRules = require('./lib/rules/node/index.js');
 const flatConfigBase = require('./configs/flat-config-base.js');
 const legacyConfigBase = require('./configs/legacy-config-base.js');
 const { name, version } = require('./package.json');
@@ -63,6 +64,7 @@ const hub = {
     ...generalRules.rules,
     ...reactRules.rules,
     ...angularRules.rules,
+    ...nodeRules.rules,
   },
 };
 
