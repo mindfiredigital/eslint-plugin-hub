@@ -21,6 +21,7 @@ The `@mindfiredigital/eslint-plugin-hub` aims to help maintain consistent code q
   - [General Rules](#general-rules)
   - [React Rules](#react-rules)
   - [Angular Rules](#angular-rules)
+  - [Node.js Rules](#nodejs-rules)
 - [Usage](#usage)
   - [Flat Configuration (`eslint.config.js`)](#flat-configuration-eslintconfigjs)
     - [For ES Module](#for-es-module)
@@ -106,6 +107,12 @@ This plugin provides the following rules:
 | `angular-no-direct-dom-manipulation` | Disallows direct DOM manipulation in Angular components.        |
 | `angular-limit-input`                | Enforces a limit on the number of inputs in Angular components. |
 | `angular-filenaming`                 | Enforces consistent naming conventions for Angular files.       |
+
+### Node.js Rules
+
+| Rule Name             | Description                                                                                                                                 |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `check-return-values` | Enforces handling of return values from non-void functions. If the return value is intentionally not used, it should be explicitly ignored. |
 
 ## Usage
 
