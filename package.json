@@ -29,6 +29,7 @@
     "eslint-plugin-react",
     "eslint-plugin-angular",
     "eslint-plugin-typescript",
+    "eslint-plugin-node",
     "eslint-plugin-js",
     "coding-standards",
     "pluginHub",
