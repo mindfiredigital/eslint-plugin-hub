@@ -11,7 +11,7 @@
 </p>
 <p align="center"> A collection of custom ESLint rules to enforce coding standards and best practices in your projects. </p>
 
-The `@mindfiredigital/eslint-plugin-hub` aims to help maintain consistent code quality and readability by providing rules for variable names, class names, file names, and function naming conventions.
+The `@mindfiredigital/eslint-plugin-hub` aims to help maintain consistent code quality and readability by providing rules for variable names, class names, file names, function naming conventions etc.
 <br>
 
 ## Table of Contents
