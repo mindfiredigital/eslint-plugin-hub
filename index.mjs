@@ -3,6 +3,7 @@ import generalRules from './lib/rules/general/index.js';
 import reactRules from './lib/rules/react/index.js';
 import angularRules from './lib/rules/angular/index.js';
 import nodeRules from './lib/rules/node/index.js';
+import nodeRules from './lib/rules/node/index.js';
 import flatConfigBase from './configs/flat-config-base.mjs';
 import legacyConfigBase from './configs/legacy-config-base.mjs';
 import { fileURLToPath } from 'url';
@@ -73,7 +74,7 @@ const hub = {
     ...generalRules.rules,
     ...reactRules.rules,
     ...angularRules.rules,
-    ...nodeRules,
+    ...nodeRules.rules,
   },
 };
 
