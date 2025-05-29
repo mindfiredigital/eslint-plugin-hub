@@ -110,9 +110,10 @@ This plugin provides the following rules:
 
 ### Node.js Rules
 
-| Rule Name             | Description                                                                                                                                 |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `check-return-values` | Enforces handling of return values from non-void functions. If the return value is intentionally not used, it should be explicitly ignored. |
+| Rule Name                | Description                                                                                                                                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `check-return-values`    | Enforces handling of return values from non-void functions. If the return value is intentionally not used, it should be explicitly ignored.                   |
+| `no-build-env-in-source` | Discourages direct conditional branching on `process.env` variables commonly used as build flags within source code, promoting configuration-driven behavior. |
 
 ## Usage
 
