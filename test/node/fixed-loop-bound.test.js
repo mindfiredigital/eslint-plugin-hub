@@ -5,8 +5,7 @@ const rules = require('../../index').rules;
 
 const ruleTester = new RuleTester({
   languageOptions: {
-    ecmaVersion: 2022, // Or 2020, or "latest". Using 2022 to be consistent with other parts of the project.
-    // sourceType: "module", // You might add this if your test snippets use ES modules, though often not needed for simple tests
+    ecmaVersion: 2022,
   },
 });
 
@@ -37,7 +36,7 @@ ruleTester.run('fixed-loop-bounds', rules['fixed-loop-bounds'], {
       options: [{ disallowExternalFlagLoops: true }],
     },
     {
-      code: 'let active = true; while(active) { active = checkStatus(); }', // Assumed checkStatus could return false
+      // Assumed checkStatus could return false
       options: [{ disallowExternalFlagLoops: true }],
     },
     // Break in a nested block but for the correct loop
