@@ -1,5 +1,5 @@
 const { RuleTester } = require('eslint');
-const rules = require('../../index').rules; // Assuming your plugin exports rules correctly
+const rules = require('../../index').rules;
 
 const ruleTester = new RuleTester({
   languageOptions: {
