@@ -1,1 +1,1211 @@
-qwertyuio
+# Node
+
+## Node Plugin Configuration
+
+To enhance code quality, maintainability, and enforce best practices in your Node projects, the Eslint Plugin Hub provides several Node.js-focused rules. These rules help manage code complexity and promote efficient memory usage patterns critical for server-side applications.
+
+### Node Rules
+
+| Rule Name                       | Description                                                                                                                                                                     |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `minimize-complexflows`         | Enforces simplified control flow by limiting recursion and nesting depth, and detecting direct or lexically scoped recursion to improve readability and reduce error potential. |
+| `avoid-runtime-heap-allocation` | Discourages heap allocation of common data structures (arrays, objects, Maps, Sets) within function bodies, especially in loops, to promote reuse and reduce GC pressure.       |
+| `limit-reference-depth` | Restricts the depth of chained property access and enforces optional chaining to prevent runtime errors, improve null safety, and encourage safer access patterns in deeply nested data structures.       |
+| `keep-functions-concise` | Enforces a maximum number of lines per function, with options to skip blank lines and comments, to promote readability, maintainability, and concise logic blocks.       |
+### Configuration
+
+After installing the plugin (`npm install @mindfiredigital/eslint-plugin-hub --save-dev`), you'll need to add the Node.js-specific rules or configurations from `@mindfiredigital/eslint-plugin-hub` to your ESLint configuration file (e.g., `eslintrc.config.js`,`.eslintrc.json`, `.eslintrc.js`, or `.eslintrc.yaml`).
+
+ESLint v9+ uses `eslint.config.js` (flat config). Older versions use `.eslintrc.js` (or `.json`, `.yaml`).
+
+**For Flat Config (e.g., `eslint.config.js`):**
+
+You can extend a pre-defined Node.js configuration from the plugin or configure rules manually.
+
+```javascript
+// eslint.config.js
+import hub from '@mindfiredigital/eslint-plugin-hub';
+
+export default [
+  {
+    files: ['**/*.js', '**/*.ts'], // Or more specific files like 'src/**/*.ts'
+    plugins: {
+      hub: hub, // 'hub' is the prefix for your rules
+    },
+    languageOptions: {
+      globals: {
+        ...globals.node, // Recommended for Node.js projects
+      },
+      parserOptions: {
+        ecmaVersion: 2022, // Or your target ECMAScript version
+        sourceType: 'module',
+      },
+    },
+    rules: {
+      'hub/minimize-complexflows': [
+        'warn',
+        {
+          /* options */
+        },
+      ],
+      'hub/avoid-runtime-heap-allocation': [
+        'warn',
+        {
+          /* options */
+        },
+      ],
+      'hub/limit-reference-depth': [
+        'warn',
+        {
+          /* options */
+        },
+      ],
+       'hub/keep-functions-concise': [
+        'warn',
+        {
+          /* options */
+        },
+      ],
+      // ... any additional rule overrides or additions
+    },
+  },
+];
+```
+
+### `minimize-complexflows`
+
+**Description**: Excessive complexity in how a program flows from one instruction to another significantly increases the risk of introducing logic errors that can be hard to find. When code paths become convoluted due to deeply nested structures (like multiple if statements inside each other) or complicated recursive calls, the code becomes much more difficult for developers to read, understand, and mentally trace.
+
+**Rationale**: This difficulty directly impacts maintainability; making changes or adding new features to overly complex code is a challenging and error-prone task. Furthermore, testing all possible paths in such code becomes exponentially harder, leading to less reliable software.
+
+By promoting simpler, more linear, or well-structured control flows, this rule aims to make your code easier to verify, debug, and test. Code that is straightforward in its execution path is generally more robust and less prone to hidden bugs, leading to higher overall software quality and a more efficient development process. Limiting recursion to scenarios with clear, bounded termination conditions also helps prevent stack overflows and makes the recursive logic easier to reason about.
+
+**Options**: The rule accepts a single object with the following properties:
+
+`maxNestingDepth`
+
+Type: number
+Description: Specifies the maximum allowed depth of nested control structures (like if, for, while, switch). Nesting beyond this depth will be flagged.
+Default: 3
+Constraint: Must be a minimum of 1.
+Example Usage:
+JavaScript
+
+```js
+{
+rules: { "hub/minimize-complexflows": ["warn", { "maxNestingDepth": 4 }]
+}
+}
+```
+
+This would allow nesting up to 4 levels deep.
+
+`allowRecursion`
+
+Type: boolean
+Description: Determines whether recursive function calls (both direct and lexical) are permitted. If set to false, the rule will flag instances of recursion. If true, recursion checks are disabled.
+Default: false (meaning recursion is flagged by default)
+Example Usage:
+JavaScript
+
+```js
+{
+    rules: { "hub/minimize-complexflows": ["warn", { "allowRecursion": true }]
+            }
+}
+This would allow recursive functions without ESLint warnings from this rule.
+Example of Full Configuration in eslint.config.js:
+
+JavaScript
+
+// eslint.config.js
+// ... other imports and configurations ...
+{
+  plugins: {
+    "hub": hub,
+  },
+  rules: {
+    "hub/minimize-complexflows": ["warn", {
+      "maxNestingDepth": 2,     // Stricter nesting
+      "allowRecursion": true    // Allow recursion
+    }],
+    // ... other rules
+  }
+}
+// ...
+```
+
+These two options (maxNestingDepth and allowRecursion) give you control over how strictly the minimize-complex-flows rule operates in your project.
+
+**Example:**
+
+`"hub/minimize-complexflows": [{ "maxNestingDepth": 3, "allowRecursion": false }]`
+
+Valid: Nesting up to 3 levels
+
+```javascript
+function processOrder(order) {
+  if (order) {
+    // Level 1
+    if (order.items && order.items.length > 0) {
+      // Level 2
+      for (const item of order.items) {
+        // Level 3
+        console.log(item.name);
+      }
+    }
+  }
+}
+```
+
+Valid: No recursion
+
+```javascript
+function calculateSum(numbers) {
+  let sum = 0;
+  for (const num of numbers) {
+    sum += num;
+  }
+  return sum;
+}
+```
+
+Invalid: Nesting depth of 4 (exceeds maxNestingDepth: 3)
+
+```javascript
+function checkPermissions(user, resource, action) {
+  if (user) {
+    // Level 1
+    if (user.roles) {
+      // Level 2
+      if (user.roles.includes('admin')) {
+        // Level 3
+        if (resource.isProtected && action === 'delete') {
+          // Level 4 - ERROR
+          console.log('Admin delete allowed');
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+```
+
+ESLint Warning: Avoid nesting control structures deeper than 3 levels. Current depth: 4.
+
+Invalid: Direct recursion (allowRecursion: false)
+
+```javascript
+function countdown(n) {
+  if (n <= 0) {
+    console.log('Blast off!');
+    return;
+  }
+  console.log(n);
+  countdown(n - 1); // ERROR: Direct recursion
+}
+```
+
+ESLint Warning: Direct recursion detected in function `countdown`.
+
+Invalid: Lexical recursion (allowRecursion: false)
+
+```javascript
+function outerTask(value) {
+  console.log('Outer task:', value);
+  function innerTask(innerValue) {
+    if (innerValue > 0) {
+      console.log('Inner task, calling outer:', innerValue);
+      outerTask(innerValue - 1); // ERROR: Lexical recursion
+    }
+  }
+  if (value > 0) {
+    innerTask(value);
+  }
+}
+```
+
+ESLint Warning: Lexical recursion: function `outerTask` is called from an inner scope of `innerTask`
+
+`"hub/minimize-complexflows": ["warn", { "maxNestingDepth": 2, "allowRecursion": false }]`
+
+Valid: Nesting up to 2 levels
+
+```javascript
+function checkAccess(user) {
+  if (user) {
+    // Level 1
+    if (user.isActive) {
+      // Level 2
+      return true;
+    }
+  }
+  return false;
+}
+```
+
+Invalid: Nesting depth of 3 (exceeds maxNestingDepth: 2)
+
+```javascript
+function processOrder(order) {
+  if (order) {
+    // Level 1
+    if (order.items && order.items.length > 0) {
+      // Level 2
+      for (const item of order.items) {
+        // Level 3 - ERROR
+        console.log(item.name);
+      }
+    }
+  }
+}
+```
+
+ESLint Warning: Avoid nesting control structures deeper than 2 levels. Current depth: 3.
+
+`"hub/minimize-complex-flows": ["warn", { "maxNestingDepth": 3, "allowRecursion": true }]`
+
+Valid: Direct recursion is now allowed
+
+```javascript
+function factorial(n) {
+  if (n <= 1) {
+    return 1;
+  }
+  return n * factorial(n - 1); // OK, recursion allowed
+}
+```
+
+Valid: Lexical recursion is now allowed
+
+```javascript
+function outerWithAllowedRecursion(value) {
+  function innerCallOuter(innerValue) {
+    if (innerValue > 0) {
+      outerWithAllowedRecursion(innerValue - 1); // OK, recursion allowed
+    }
+  }
+  if (value > 0) {
+    innerCallOuter(value);
+  }
+}
+```
+
+Valid: Nesting still respects maxNestingDepth
+
+```javascript
+function normalNestingWithRecursionAllowed(data) {
+  if (data) {
+    // Level 1
+    if (data.value > 0) {
+      // Level 2
+      console.log(data.value);
+    }
+  }
+}
+```
+
+Invalid: Nesting depth of 4 (exceeds maxNestingDepth: 3), even if recursion is allowed
+
+```javascript
+function deeplyNestedButRecursionAllowed(user) {
+  if (user) {
+    // Level 1
+    if (user.profile) {
+      // Level 2
+      if (user.profile.settings) {
+        // Level 3
+        if (user.profile.settings.isActive) {
+          // Level 4 - ERROR
+          console.log('User is active');
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+```
+
+ESLint Warning: Avoid nesting control structures deeper than 3 levels. Current depth: 4.
+
+### `avoid-runtime-heap-allocation`
+
+**Description**: Description:
+Encourages efficient memory management by discouraging the creation of new common data structures (arrays [], objects {}, new Map(), new Set(), etc.) directly within function bodies, and especially inside loops. This practice helps to reduce garbage collection pressure and improve performance.
+
+Okay, I understand! You want the documentation for avoid-runtime-heap-allocation formatted precisely like the Docusaurus-style Markdown you provided for the minimize-complex-flows rule.
+
+Here's the documentation for node/avoid-runtime-heap-allocation in that format:
+
+node/avoid-runtime-heap-allocation
+Description:
+Encourages efficient memory management by discouraging the creation of new common data structures (arrays [], objects {}, new Map(), new Set(), etc.) directly within function bodies, and especially inside loops. This practice helps to reduce garbage collection pressure and improve performance.
+
+**Rationale**: Frequent dynamic memory allocations and deallocations during an application's runtime can lead to several performance issues. These include general performance degradation due to the overhead of memory management, excessive garbage collection (GC) cycles which can pause application execution, and memory fragmentation. Over time, fragmentation can make it difficult for the system to find contiguous blocks of memory, even if sufficient total memory is free. Keeping memory usage predictable and minimizing runtime allocations are crucial for long-running, resource-intensive, or real-time applications, ensuring smoother operation and stability. This rule promotes pre-allocation and reuse of data structures where feasible.
+
+**Options**: The rule accepts a single object with the following properties:
+
+`checkLoopsOnly`
+
+Type: boolean
+Description: If set to true, the rule will only flag allocations that occur inside loops within functions. If false (default), it flags any such allocation found anywhere inside a function body (outside of module scope).
+Default: false
+Example Usage:
+JSON
+
+In your ESLint config rules section:
+
+```js
+{
+rules: {"hub/avoid-runtime-heap-allocation": ["warn", { "checkLoopsOnly": true }]
+}
+}
+```
+
+`allowedConstructs`
+
+Type: array of string
+Description: A list of constructor names that should be exempt from this rule, allowing their allocation at runtime without warning.
+Default: [] (empty array, meaning all targeted constructs are checked by default)
+Enum Values: 'Array', 'Object', 'Map', 'Set', 'WeakMap', 'WeakSet'
+Example Usage:
+JSON
+
+// In your ESLint config rules section:
+
+```js
+{
+ rules: { "hub/avoid-runtime-heap-allocation":    ["warn", { "allowedConstructs": ["Map", "Set"] }]
+}
+}
+```
+
+Example of Full Configuration in eslint.config.js:
+
+```JavaScript
+// eslint.config.js
+// Assuming 'hubPlugin' is your imported plugin '@mindfiredigital/eslint-plugin-hub'
+// ... other imports and configurations ...
+{
+plugins: {
+"hub": hubPlugin,
+},
+rules: {
+"hub/avoid-runtime-heap-allocation": ["warn", {
+"checkLoopsOnly": false, // Example: check everywhere in functions
+"allowedConstructs": ["Set"] // Example: Allow 'new Set()'
+}],
+// ... other rules
+}
+}
+// ...
+```
+
+These two options (checkLoopsOnly and allowedConstructs) give you control over how strictly the avoid-runtime-heap-allocation rule operates in your project.
+
+**Example:**
+
+`"hub/avoid-runtime-heap-allocation": ["warn"] which implies { "checkLoopsOnly": false, "allowedConstructs": [] }`
+
+Valid (Should NOT produce warnings from this rule):
+
+```javascript
+// Module-scope allocations are fine
+const globalArray = [];
+const globalObject = {};
+
+function usesGlobalArray(data) {
+  globalArray.length = 0; // Modifying, not re-allocating
+  globalArray.push(...data);
+}
+
+// Empty array/object as default parameter (ignored by rule heuristic)
+function processItems(items = []) {
+  console.log(items);
+}
+```
+
+Invalid (Should PRODUCE warnings from this rule):
+
+```javascript
+// Allocation in a function
+function processData(data) {
+  const tempResults = []; // Invalid: allocationInFunction
+  data.forEach(item => tempResults.push(item * 2));
+  return tempResults;
+}
+```
+
+ESLint Warning: Runtime allocation of 'Array' ([]) detected in function processData. Consider pre-allocating and reusing, especially if this function is called frequently or is performance-sensitive.
+
+```JavaScript
+function createConfig() {
+  const config = { active: true, mode: 'test' }; // Invalid: allocationInFunction
+  return config;
+}
+```
+
+`ESLint Warning: Runtime allocation of 'Object' ({ active: true, mode: '...}) detected in function createConfig. Consider pre-allocating and reusing, especially if this function is called frequently or is performance-sensitive.`
+
+```javaScript
+// Allocation in a loop within a function
+function processBatch(batch) {
+  for (let i = 0; i < batch.length; i++) {
+    const itemSpecificData = [batch[i].id, batch[i].value]; // Invalid: allocationInLoop
+  }
+}
+```
+
+`ESLint Warning: Runtime allocation of 'Array' ([batch[i].id, batch[i]...]) detected inside a loop within function processBatch. This can severely impact performance. Pre-allocate and reuse this structure.`
+
+Scenario 2: Option checkLoopsOnly: true
+`("hub/avoid-runtime-heap-allocation": ["warn", { "checkLoopsOnly": true }])`
+
+Valid (Should NOT produce warnings from this rule):
+
+```javaScript
+// Allocation in a function, but NOT in a loop, is now VALID
+function processData(data) {
+  const tempResults = []; // Valid with checkLoopsOnly: true
+  data.forEach(item => tempResults.push(item * 2));
+  return tempResults;
+}
+Invalid (Should PRODUCE warnings from this rule):
+```
+
+```javaScript
+// Allocation in a loop within a function is still INVALID
+function processBatchWithLoopCheck(batch) {
+  const initialItems = []; // This is VALID with checkLoopsOnly: true
+  for (let i = 0; i < batch.length; i++) {
+    const itemSpecificData = { id: batch[i].id }; // Invalid: allocationInLoop
+  }
+}
+```
+
+`ESLint Warning: Runtime allocation of 'Object' ({ id: batch[i].id }) detected inside a loop within function processBatchWithLoopCheck. This can severely impact performance. Pre-allocate and reuse this structure.`
+
+`Scenario 3: Option allowedConstructs: ['Map']
+("hub/node/avoid-runtime-heap-allocation": ["warn", { "allowedConstructs": ["Map"] }])`
+
+Valid (Should NOT produce warnings from this rule for Map):
+
+```javaScript
+function useAllowedTypes() {
+  const myMap = new Map(); // Valid: Map is in allowedConstructs
+
+  for (let i = 0; i < 2; i++) {
+    const mapInLoop = new Map(); // Valid: Map is in allowedConstructs
+  }
+}
+```
+
+Invalid (Should PRODUCE warnings from this rule for Array/Object):
+
+```javaScript
+function useMixedTypes() {
+  const myMap = new Map(); // Valid: Map is in allowedConstructs
+  const myArray = [];      // Invalid: allocationInFunction for Array
+
+  for (let i = 0; i < 2; i++) {
+    const objInLoop = { index: i }; // Invalid: allocationInLoop for Object
+  }
+}
+```
+
+`ESLint Warning: Runtime allocation of 'Array' ([]) detected in function useMixedTypes. Consider pre-allocating and reusing, especially if this function is called frequently or is performance-sensitive. ESLint Warning: Runtime allocation of 'Object' ({ index: i }) detected inside a loop within function useMixedTypes. This can severely impact performance. Pre-allocate and reuse this structure.`
+
+
+
+
+
+### `hub/limit-reference-depth`
+
+**Description**: Limits the depth of chained property access and enforces optional chaining to prevent runtime errors. This rule helps avoid brittle code that can crash when encountering null or undefined values in property chains, encouraging safer access patterns and better error handling.
+
+**Rationale**: Deep chains of property access (e.g., `obj.a.b.c.d.e`) without proper validation are error-prone and lead to brittle code. Null or undefined values anywhere in the chain can cause runtime crashes, especially in large codebases or when dealing with unpredictable data shapes (e.g., JSON APIs, external configurations). This rule enforces safer patterns by limiting chain depth and requiring optional chaining (`?.`) or proper null checks, reducing `TypeError: Cannot read property 'x' of undefined` issues and making code more maintainable.
+
+**Options**: The rule accepts a single object with the following properties:
+
+#### `maxDepth`
+- **Type**: `number`
+- **Description**: Maximum allowed depth for property access chains. A depth of 1 means `obj.prop`, depth of 2 means `obj.prop.subprop`, etc.
+- **Default**: `3`
+- **Example Usage**:
+```javascript
+{
+  "rules": {
+    "hub/limit-reference-depth": ["warn", { "maxDepth": 2 }]
+  }
+}
+```
+
+#### `requireOptionalChaining`
+- **Type**: `boolean`
+- **Description**: When `true`, requires the use of optional chaining (`?.`) for all property access beyond the first level.
+- **Default**: `true`
+- **Example Usage**:
+```javascript
+{
+  "rules": {
+    "hub/limit-reference-depth": ["warn", { "requireOptionalChaining": false }]
+  }
+}
+```
+
+#### `allowSinglePropertyAccess`
+- **Type**: `boolean`
+- **Description**: When `true`, allows single-level property access without optional chaining (e.g., `obj.prop` is allowed, but `obj.prop.subprop` still requires `obj.prop?.subprop`).
+- **Default**: `false`
+- **Example Usage**:
+```javascript
+{
+  "rules": {
+    "hub/limit-reference-depth": ["warn", { "allowSinglePropertyAccess": true }]
+  }
+}
+```
+
+#### `ignoredBases`
+- **Type**: `array of string`
+- **Description**: Array of base identifier names that should be exempt from this rule's checks.
+- **Default**: `[]`
+- **Example Usage**:
+```javascript
+{
+  "rules": {
+    "hub/limit-reference-depth": ["warn", { "ignoredBases": ["config", "env"] }]
+  }
+}
+```
+
+#### `ignoreCallExpressions`
+- **Type**: `boolean`
+- **Description**: When `true`, ignores property chains that end with function calls.
+- **Default**: `true`
+- **Example Usage**:
+```javascript
+{
+  "rules": {
+    "hub/limit-reference-depth": ["warn", { "ignoreCallExpressions": false }]
+  }
+}
+```
+
+#### `ignoreImportedModules`
+- **Type**: `boolean`
+- **Description**: When `true`, ignores property access on imported/required modules.
+- **Default**: `true`
+- **Example Usage**:
+```javascript
+{
+  "rules": {
+    "hub/limit-reference-depth": ["warn", { "ignoreImportedModules": false }]
+  }
+}
+```
+
+#### `ignoreGlobals`
+- **Type**: `boolean`
+- **Description**: When `true`, ignores property access on global objects like `Math`, `JSON`, `console`, etc.
+- **Default**: `true`
+- **Example Usage**:
+```javascript
+{
+  "rules": {
+    "hub/limit-reference-depth": ["warn", { "ignoreGlobals": false }]
+  }
+}
+```
+
+#### `ignoreCommonPatterns`
+- **Type**: `boolean`
+- **Description**: When `true`, ignores common safe patterns like `this`, `super`, `module`, `exports`, etc.
+- **Default**: `true`
+- **Example Usage**:
+```javascript
+{
+  "rules": {
+    "hub/limit-reference-depth": ["warn", { "ignoreCommonPatterns": false }]
+  }
+}
+```
+
+#### Example Configuration
+
+#### Full Configuration in `eslint.config.js`:
+```javascript
+// eslint.config.js
+// Assuming 'hubPlugin' is your imported plugin '@mindfiredigital/eslint-plugin-hub'
+{
+  plugins: {
+    "hub": hubPlugin,
+  },
+  rules: {
+    "hub/limit-reference-depth": ["warn", {
+      "maxDepth": 2,
+      "requireOptionalChaining": true,
+      "allowSinglePropertyAccess": false,
+      "ignoredBases": ["config"],
+      "ignoreCallExpressions": true,
+      "ignoreImportedModules": true,
+      "ignoreGlobals": true,
+      "ignoreCommonPatterns": true
+    }],
+    // ... other rules
+  }
+}
+```
+
+#### Examples
+
+#### Scenario 1: Default Configuration
+`"hub/limit-reference-depth": ["warn"]` (implies all default options)
+
+#### ✅ Valid (Should NOT produce warnings):
+
+```javascript
+// Optional chaining from the start
+const name = item?.details?.name;
+const value = obj?.a?.b?.c; // Within maxDepth of 3
+
+// Computed properties with optional chaining
+const prop = obj?.[key]?.[subkey];
+
+// Function calls with optional chaining
+const result = getUser()?.profile?.name;
+
+// Global objects (ignored by default)
+const pi = Math.PI;
+const data = JSON.parse(str);
+
+// Import/require usage (ignored by default)
+import lodash from 'lodash';
+const result = lodash.get(obj, 'path');
+
+// Common patterns (ignored by default)
+const value = this.property;
+const exp = module.exports;
+```
+
+#### ❌ Invalid (Should PRODUCE warnings):
+
+```javascript
+// Missing optional chaining
+const name = item.details.name;
+// ESLint Warning: Optional chaining (?.) should be used for accessing property 'details' in 'item.details'.
+
+// Exceeding maxDepth
+const deep = obj?.a?.b?.c?.d; // depth 4 > maxDepth 3
+// ESLint Warning: Property access chain 'obj?.a?.b?.c?.d' (depth 4) exceeds the maximum allowed depth of 3.
+
+// Mixed optional and non-optional chaining
+const mixed = obj?.a.b?.c;
+// ESLint Warning: Optional chaining (?.) should be used for accessing property 'b' in 'obj?.a.b'.
+
+// Function calls without optional chaining
+const result = getUser().profile.name;
+// ESLint Warning: Optional chaining (?.) should be used for accessing property 'profile' in 'getUser().profile'.
+```
+
+#### Scenario 2: Relaxed Optional Chaining
+`"hub/limit-reference-depth": ["warn", { "requireOptionalChaining": false }]`
+
+#### ✅ Valid (Should NOT produce warnings):
+
+```javascript
+// Regular property access allowed
+const name = item.details.name;
+const value = obj.a.b.c; // Still within maxDepth
+
+// Mixed patterns allowed
+const mixed = obj.a?.b.c;
+```
+
+#### ❌ Invalid (Should PRODUCE warnings):
+
+```javascript
+// Still enforces maxDepth
+const deep = obj.a.b.c.d; // depth 4 > maxDepth 3
+// ESLint Warning: Property access chain 'obj.a.b.c.d' (depth 4) exceeds the maximum allowed depth of 3.
+```
+
+#### Scenario 3: Allow Single Property Access
+`"hub/limit-reference-depth": ["warn", { "allowSinglePropertyAccess": true }]`
+
+#### ✅ Valid (Should NOT produce warnings):
+
+```javascript
+// Single property access without optional chaining
+const value = obj.prop;
+
+// But deeper access still requires optional chaining
+const name = item.details?.name;
+```
+
+#### ❌ Invalid (Should PRODUCE warnings):
+
+```javascript
+// Second level and beyond still need optional chaining
+const name = item.details.name;
+// ESLint Warning: Optional chaining (?.) should be used for accessing property 'name' in 'item.details.name'.
+```
+
+#### Scenario 4: Custom maxDepth
+`"hub/limit-reference-depth": ["warn", { "maxDepth": 2 }]`
+
+#### ✅ Valid (Should NOT produce warnings):
+
+```javascript
+// Within maxDepth of 2
+const value = obj?.a?.b;
+```
+
+#### ❌ Invalid (Should PRODUCE warnings):
+
+```javascript
+// Exceeds maxDepth of 2
+const deep = obj?.a?.b?.c; // depth 3 > maxDepth 2
+// ESLint Warning: Property access chain 'obj?.a?.b?.c' (depth 3) exceeds the maximum allowed depth of 2.
+```
+
+#### Scenario 5: Custom Ignored Bases
+`"hub/limit-reference-depth": ["warn", { "ignoredBases": ["config", "env"] }]`
+
+#### ✅ Valid (Should NOT produce warnings):
+
+```javascript
+// Ignored bases can have deep access
+const setting = config.database.connection.host;
+const path = env.NODE_ENV.development.settings;
+```
+
+#### ❌ Invalid (Should PRODUCE warnings):
+
+```javascript
+// Non-ignored bases still follow rules
+const value = data.nested.deep.property;
+// ESLint Warning: Optional chaining (?.) should be used for accessing property 'nested' in 'data.nested'.
+```
+
+#### Best Practices
+
+#### ✅ Recommended Patterns:
+
+```javascript
+// Use optional chaining for safe access
+function getItemName(item) {
+  return item?.details?.name || 'Unnamed Item';
+}
+
+// Destructuring with defaults
+const { name = 'Unknown' } = item?.details ?? {};
+
+// Early validation
+function processUser(user) {
+  if (!user?.profile?.settings) {
+    throw new Error('Invalid user data');
+  }
+  return user.profile.settings.theme;
+}
+
+// Utility functions for complex access
+function getNestedValue(obj, path, defaultValue) {
+  return path.split('.').reduce((current, key) => 
+    current?.[key], obj) ?? defaultValue;
+}
+```
+
+#### ❌ Patterns to Avoid:
+
+```javascript
+// Deep chains without safety
+return item.details.name.value.label; // Brittle, can crash
+
+// Long chains even with optional chaining
+return config?.env?.settings?.meta?.internal?.key?.value; // Too complex
+
+// Mixed safe/unsafe patterns
+return user?.profile.settings.theme; // Inconsistent safety
+```
+
+### `hub/keep-functions-concise`
+
+**Description**: Enforces a maximum number of lines per function to promote clean, modular code and better maintainability. This rule helps prevent monolithic functions that are hard to read, test, and debug by encouraging developers to break down large functions into smaller, focused, and reusable helper functions.
+
+**Rationale**: Large, monolithic functions are a common source of technical debt and bugs. They often mix multiple responsibilities, making them difficult to understand, test, and maintain. Functions that span dozens or hundreds of lines become cognitive burdens that slow down development and increase the likelihood of errors. This rule enforces a configurable line limit to encourage separation of concerns, improve code readability, and make functions more testable and maintainable.
+
+**Options**: The rule accepts a single object with the following properties:
+
+#### `maxLines`
+- **Type**: `number`
+- **Description**: Maximum allowed number of lines per function (including function declarations, arrow functions, and function expressions).
+- **Default**: `60`
+- **Minimum**: `0`
+- **Example Usage**:
+```javascript
+{
+  "rules": {
+    "hub/keep-functions-concise": ["warn", { "maxLines": 50 }]
+  }
+}
+```
+
+#### `skipBlankLines`
+- **Type**: `boolean`
+- **Description**: When `true`, blank lines are not counted toward the line limit.
+- **Default**: `false`
+- **Example Usage**:
+```javascript
+{
+  "rules": {
+    "hub/keep-functions-concise": ["warn", { "skipBlankLines": true }]
+  }
+}
+```
+
+#### `skipComments`
+- **Type**: `boolean`
+- **Description**: When `true`, comment-only lines are not counted toward the line limit. This includes single-line comments (`//`) and single-line block comments (`/* */`).
+- **Default**: `false`
+- **Example Usage**:
+```javascript
+{
+  "rules": {
+    "hub/keep-functions-concise": ["warn", { "skipComments": true }]
+  }
+}
+```
+
+#### Example Configuration
+
+#### Full Configuration in `eslint.config.js`:
+```javascript
+// eslint.config.js
+// Assuming 'hubPlugin' is your imported plugin '@mindfiredigital/eslint-plugin-hub'
+{
+  plugins: {
+    "hub": hubPlugin,
+  },
+  rules: {
+    "hub/keep-functions-concise": ["warn", {
+      "maxLines": 60,
+      "skipBlankLines": true,
+      "skipComments": true
+    }],
+    // ... other rules
+  }
+}
+```
+
+#### Examples
+
+#### Scenario 1: Default Configuration
+`"hub/keep-functions-concise": ["warn"]` (implies `maxLines: 60`, `skipBlankLines: false`, `skipComments: false`)
+
+#### ✅ Valid (Should NOT produce warnings):
+
+```javascript
+// Function within line limit
+function validateUserData(user) {
+  if (!user || !user.name) {
+    return false;
+  }
+  
+  if (typeof user.name !== 'string') {
+    return false;
+  }
+  
+  if (user.name.trim().length === 0) {
+    return false;
+  }
+  
+  return true;
+}
+
+// Arrow function within limit
+const transformUserData = (user) => {
+  return {
+    id: user.id,
+    name: user.name.toUpperCase(),
+    email: user.email?.toLowerCase(),
+    createdAt: new Date().toISOString()
+  };
+};
+
+// Concise arrow function (single expression)
+const getUserId = (user) => user?.id || null;
+
+// Function expression within limit
+const processUser = function(user) {
+  const isValid = validateUserData(user);
+  if (!isValid) {
+    throw new Error('Invalid user data');
+  }
+  
+  const transformed = transformUserData(user);
+  return saveUser(transformed);
+};
+```
+
+#### ❌ Invalid (Should PRODUCE warnings):
+
+```javascript
+// Function exceeding line limit (assumes > 60 lines)
+function processUserWithEverything(user) {
+  // Validation logic (15 lines)
+  if (!user) throw new Error('User is required');
+  if (!user.name) throw new Error('Name is required');
+  if (!user.email) throw new Error('Email is required');
+  if (typeof user.name !== 'string') throw new Error('Name must be string');
+  if (typeof user.email !== 'string') throw new Error('Email must be string');
+  if (user.name.trim().length === 0) throw new Error('Name cannot be empty');
+  if (!user.email.includes('@')) throw new Error('Invalid email format');
+  
+  // Transformation logic (20 lines)
+  const normalizedName = user.name.trim().toLowerCase();
+  const normalizedEmail = user.email.trim().toLowerCase();
+  const slug = normalizedName.replace(/\s+/g, '-');
+  const initials = normalizedName.split(' ').map(n => n[0]).join('').toUpperCase();
+  
+  // Persistence logic (15 lines)
+  const existingUser = database.users.findByEmail(normalizedEmail);
+  if (existingUser) {
+    database.users.update(existingUser.id, {
+      name: normalizedName,
+      slug: slug,
+      initials: initials,
+      updatedAt: new Date()
+    });
+  } else {
+    database.users.create({
+      name: normalizedName,
+      email: normalizedEmail,
+      slug: slug,
+      initials: initials,
+      createdAt: new Date()
+    });
+  }
+  
+  // Logging and cleanup (10+ more lines)...
+}
+// ESLint Warning: Function "processUserWithEverything" has 85 lines (max 60 allowed). (no lines skipped by options)
+```
+
+#### Scenario 2: Skip Blank Lines
+`"hub/keep-functions-concise": ["warn", { "skipBlankLines": true }]`
+
+#### ✅ Valid (Should NOT produce warnings):
+
+```javascript
+// Function with many blank lines for readability
+function calculateTotalPrice(items) {
+  let subtotal = 0;
+
+  for (const item of items) {
+    subtotal += item.price * item.quantity;
+  }
+
+  
+  const taxRate = 0.08;
+  const tax = subtotal * taxRate;
+
+  
+  const shippingCost = subtotal > 100 ? 0 : 10;
+
+  
+  return {
+    subtotal,
+    tax,
+    shipping: shippingCost,
+    total: subtotal + tax + shippingCost
+  };
+}
+// Blank lines are not counted, so this stays within limits
+```
+
+#### Scenario 3: Skip Comments
+`"hub/keep-functions-concise": ["warn", { "skipComments": true }]`
+
+#### ✅ Valid (Should NOT produce warnings):
+
+```javascript
+// Well-documented function with many comment lines
+function complexBusinessLogic(data) {
+  // Step 1: Validate input data
+  // This is critical for preventing downstream errors
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid input data');
+  }
+  
+  // Step 2: Initialize processing variables
+  // We need these for the calculation loop
+  let result = 0;
+  let processed = 0;
+  
+  // Step 3: Process each item in the data
+  // The algorithm here implements the XYZ business rule
+  for (const item of data.items) {
+    // Skip invalid items to prevent corruption
+    if (!item.value || item.value < 0) {
+      continue;
+    }
+    
+    // Apply the business transformation
+    // This formula was provided by the business team
+    result += item.value * 1.5;
+    processed++;
+  }
+  
+  // Step 4: Apply final adjustments
+  // These adjustments are required by regulation ABC
+  if (processed > 10) {
+    result *= 0.95; // Volume discount
+  }
+  
+  /* Final validation before return */
+  return Math.round(result * 100) / 100;
+}
+// Comment lines are not counted toward the limit
+```
+
+#### Scenario 4: Combined Options
+`"hub/keep-functions-concise": ["warn", { "maxLines": 30, "skipBlankLines": true, "skipComments": true }]`
+
+#### ✅ Valid (Should NOT produce warnings):
+
+```javascript
+// Shorter limit but with generous skipping
+function moderateFunction(input) {
+  // This function has a lower line limit
+  // but comments and blank lines don't count
+  
+  const step1 = processStep1(input);
+
+  // Intermediate processing
+  const step2 = processStep2(step1);
+
+  // Final transformation
+  return finalizeResult(step2);
+}
+```
+
+#### Scenario 5: Zero Line Limit (Extreme)
+`"hub/keep-functions-concise": ["error", { "maxLines": 0 }]`
+
+#### ✅ Valid (Should NOT produce warnings):
+
+```javascript
+// Only concise arrow functions allowed
+const add = (a, b) => a + b;
+const getName = (user) => user?.name || 'Anonymous';
+const isValid = (data) => data && data.length > 0;
+```
+
+#### ❌ Invalid (Should PRODUCE warnings):
+
+```javascript
+// Any function with a block body violates maxLines: 0
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+// ESLint Warning: Function "greet" has 1 lines (max 0 allowed). (no lines skipped by options)
+
+const multiply = (a, b) => {
+  return a * b;
+};
+// ESLint Warning: Function "[anonymous_function]" has 1 lines (max 0 allowed). (no lines skipped by options)
+```
+
+#### Best Practices
+
+#### ✅ Recommended Patterns:
+
+```javascript
+// Break down large functions into focused helpers
+function validateUser(user) {
+  if (!user) throw new Error('User is required');
+  if (!user.name) throw new Error('Name is required');
+  if (!user.email) throw new Error('Email is required');
+  return true;
+}
+
+function transformUser(user) {
+  return {
+    name: user.name.trim().toLowerCase(),
+    email: user.email.trim().toLowerCase(),
+    slug: user.name.replace(/\s+/g, '-')
+  };
+}
+
+function saveUser(userData) {
+  return database.users.create({
+    ...userData,
+    createdAt: new Date()
+  });
+}
+
+// Main function orchestrates the helpers
+function processUser(user) {
+  validateUser(user);
+  const transformed = transformUser(user);
+  return saveUser(transformed);
+}
+
+// Use meaningful function names that describe purpose
+function calculateShippingCost(subtotal, location) {
+  if (subtotal > 100) return 0;
+  return location === 'domestic' ? 10 : 25;
+}
+
+// Extract complex conditions into named functions
+function isEligibleForDiscount(user, order) {
+  return user.isPremium && order.total > 200;
+}
+
+function processOrder(user, order) {
+  if (isEligibleForDiscount(user, order)) {
+    order.total *= 0.9;
+  }
+  return order;
+}
+```
+
+#### ❌ Patterns to Avoid:
+
+```javascript
+// Monolithic function doing everything
+function handleUserRegistration(userData) {
+  // 50+ lines of validation logic
+  // 30+ lines of data transformation
+  // 20+ lines of database operations
+  // 15+ lines of email sending
+  // 10+ lines of logging and cleanup
+  // This function is doing too many things!
+}
+
+// Overly long functions even with good structure
+function complexCalculation(input) {
+  // Even if well-organized, 100+ lines in one function
+  // is usually a sign that it should be broken down
+  // into smaller, testable pieces
+}
+
+// Functions with unclear responsibilities
+function doEverything(data) {
+  // When the function name doesn't clearly indicate
+  // what it does, it's often too complex
+}
+```
+
+#### Benefits
+
+- **Improved Readability**: Shorter functions are easier to understand at a glance
+- **Better Testability**: Small functions with single responsibilities are easier to unit test
+- **Reduced Bugs**: Less code per function means fewer places for bugs to hide
+- **Enhanced Maintainability**: Changes to small functions have limited blast radius
+- **Code Reusability**: Well-factored helper functions can often be reused elsewhere
+- **Easier Code Reviews**: Reviewers can more easily understand and verify small functions
+- **Better Separation of Concerns**: Forces developers to think about function responsibilities
