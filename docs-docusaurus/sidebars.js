@@ -10,7 +10,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Rules',
-      items: ['general', 'react', 'angular'],
+      items: ['general', 'react', 'angular','node'],
     },
     {
       type: 'category',
