@@ -1752,7 +1752,7 @@ function doEverything(data) {
 - **Easier Code Reviews**: Reviewers can more easily understand and verify small functions
 - **Better Separation of Concerns**: Forces developers to think about function responsibilities
 
-### 8. check-return-values
+### 10. check-return-values
 
 **Description**: Enforces handling of return values from non-void functions. If a function's return value is intentionally not used, it should be explicitly ignored via void operator, assignment to an underscore (\_), or a specific comment. This rule helps prevent bugs caused by unintentionally overlooking important results from function calls, such as error flags, success statuses, or computed data. It exempts standard console.\* method calls.
 
@@ -1867,7 +1867,7 @@ console.warn('Warning message'); // Still OK, console calls are exempt
 
 **Note**: When requireExplicitIgnore is false, the rule becomes much less strict. Its primary utility is when requireExplicitIgnore is true, encouraging deliberate handling or acknowledgment of all function return values.
 
-### 9. no-build-env-in-source
+### 11. no-build-env-in-source
 
 **Description**: Discourages direct conditional branching (i.e., if statements) on process.env variables that are typically set or controlled by the build process or deployment environment (e.g., NODE_ENV, DEBUG). This rule promotes centralizing environment-specific logic into dedicated configuration modules or using runtime flags, leading to cleaner, more testable, and maintainable code.
 
