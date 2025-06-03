@@ -6,16 +6,18 @@ To enhance code quality, maintainability, and enforce best practices in your Nod
 
 ### Node Rules
 
-| Rule Name                       | Description                                                                                                                                                                                         |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `minimize-complexflows`         | Enforces simplified control flow by limiting recursion and nesting depth, and detecting direct or lexically scoped recursion to improve readability and reduce error potential.                     |
-| `avoid-runtime-heap-allocation` | Discourages heap allocation of common data structures (arrays, objects, Maps, Sets) within function bodies, especially in loops, to promote reuse and reduce GC pressure.                           |
-| `limit-reference-depth`         | Restricts the depth of chained property access and enforces optional chaining to prevent runtime errors, improve null safety, and encourage safer access patterns in deeply nested data structures. |
-| `keep-functions-concise`        | Enforces a maximum number of lines per function, with options to skip blank lines and comments, to promote readability, maintainability, and concise logic blocks.                                  |
-| `fixed-loop-bounds`             | Enforces that loops have clearly defined termination conditions to prevent infinite loops.                                                                                                          |
-| `no-disable-important-rules`    | Discourages disabling all rules or specific "important" ESLint rules, promoting proactive resolution of linter/compiler warnings.                                                                   |
-| `limit-data-scope`              | Enforces best practices for data scoping, such as avoiding global object modification and preferring narrower variable scopes.                                                                      |
-|                                 |
+| Rule Name                           | Description                                                                                                                                                                                            |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `minimize-complex-flows`            | Enforces simplified control flow by limiting recursion and nesting depth, and detecting direct or lexically scoped recursion to improve readability and reduce error potential.                        |
+| `avoid-runtime-heap-allocation`     | Discourages heap allocation of common data structures (arrays, objects, Maps, Sets) within function bodies, especially in loops, to promote reuse and reduce GC pressure.                              |
+| `limit-reference-depth`             | Restricts the depth of chained property access and enforces optional chaining to prevent runtime errors, improve null safety, and encourage safer access patterns in deeply nested data structures.    |
+| `keep-functions-concise`            | Enforces a maximum number of lines per function, with options to skip blank lines and comments, to promote readability, maintainability, and concise logic blocks.                                     |
+| `fixed-loop-bounds`                 | Enforces that loops have clearly defined termination conditions to prevent infinite loops.                                                                                                             |
+| `no-disable-important-rules`        | Discourages disabling all rules or specific "important" ESLint rules, promoting proactive resolution of linter/compiler warnings.                                                                      |
+| `limit-data-scope`                  | Enforces several best practices for data scoping: disallows global object modification, suggests moving variables to their narrowest functional scope, and discourages `var` usage.                    |
+| `use-runtime-assertions`            | Enforces the presence of a minimum number of runtime assertions in functions to validate inputs and critical intermediate values, promoting early error detection and contract-based programming.      |
+| `minimize-deep-asynchronous-chains` | Limits the depth of Promise chains (`.then`/`.catch`/`.finally`) and the number of `await` expressions within async functions to improve readability and manage complexity in asynchronous operations. |
+|                                     |                                                                                                                                                                                                        |
 
 ### Configuration
 
@@ -87,6 +89,21 @@ export default [
         'warn',
         {
           /* options */
+        },
+      ],
+      'hub/use-runtime-assertions': [
+        'warn',
+        {
+          minAssertions: 2,
+          assertionUtilityNames: ['assert', 'invariant', 'check'],
+          ignoreEmptyFunctions: true,
+        },
+      ],
+      'hub/minimize-deep-asynchronous-chains': [
+        'warn',
+        {
+          maxPromiseChainLength: 3,
+          maxAwaitExpressions: 3,
         },
       ],
       // ... any additional rule overrides or additions
@@ -754,8 +771,6 @@ processData(importantData); // Actually using the variable
 **When Not To Use It:**
 This rule might be overly restrictive during initial project scaffolding or large refactors. In such cases, it can be temporarily set to "warn" or disabled, but should be re-enabled as soon as possible.
 
-### 5. limit-data-scope
-
 **Description:**
 Enforces best practices for data scoping, such as avoiding global object modification and preferring narrower variable scopes.
 
@@ -788,6 +803,238 @@ const config = {
   myVariable: 'value',
 };
 ```
+
+### 5. limit-data-scope
+
+**Description**: Enforces several best practices for data scoping to improve code maintainability and prevent common JavaScript pitfalls. This rule helps developers write cleaner, more organized code by discouraging global object modifications, encouraging proper variable scoping, and promoting modern variable declarations.
+
+**Rationale**: Poor data scoping practices lead to hard-to-maintain code, namespace pollution, and subtle bugs. Global object modifications can cause conflicts between different parts of an application or third-party libraries. Variables declared in overly broad scopes create unnecessary coupling and make code harder to understand and refactor. The `var` keyword's function-scoping behavior is often counterintuitive and can lead to hoisting-related bugs.
+
+**This rule enforces three key practices:**
+
+1. **No Global Object Modification**: Prevents direct modification of global objects like `window`, `global`, and `globalThis`
+2. **Narrowest Scope**: Suggests moving variables to their most restrictive scope when they're only used within a single function
+3. **Modern Variable Declarations**: Discourages `var` usage in favor of `let` and `const`
+
+#### Examples
+
+#### ✅ Valid Code (Should NOT produce warnings)
+
+#### No Global Object Modification
+
+```javascript
+// Reading from global objects is allowed
+const config = window.location || {};
+console.log(global.process);
+const val = globalThis.crypto;
+
+// Modifying local objects is fine
+const myVar = {};
+myVar.prop = 1;
+
+// Shadowed global variables are allowed
+function foo() {
+  let window = {};
+  window.bar = 1; // This 'window' is local, not global
+}
+```
+
+#### Proper Variable Scoping
+
+```javascript
+// Variable used in multiple functions - correctly at module level
+const sharedVar = 10;
+function funcA() {
+  console.log(sharedVar);
+}
+function funcB() {
+  console.log(sharedVar);
+}
+
+// Variable used at module scope - correctly placed
+const moduleVar = 20;
+console.log(moduleVar); // Used at module scope
+function useIt() {
+  console.log(moduleVar);
+}
+
+// Variable already in narrowest scope
+function doSomething() {
+  const localVar = 30; // Already in narrowest scope
+  console.log(localVar);
+}
+```
+
+#### Modern Variable Declarations
+
+```javascript
+// Use let and const instead of var
+let x = 1;
+const y = 2;
+for (let i = 0; i < 5; i++) {}
+
+function test() {
+  const local = 1;
+  return local;
+}
+```
+
+#### ❌ Invalid Code (Should PRODUCE warnings)
+
+#### Global Object Modification
+
+```javascript
+// ESLint Error: Avoid modifying the global object "window". "myCustomProperty" should not be added globally.
+window.myCustomProperty = 123;
+
+// ESLint Error: Avoid modifying the global object "global". "debug" should not be added globally.
+global.debug = true;
+
+// ESLint Error: Avoid modifying the global object "globalThis". "newProperty" should not be added globally.
+globalThis['newProperty'] = 'value';
+
+// ESLint Error: Avoid modifying the global object "window". "customHandler" should not be added globally.
+function setup() {
+  window.customHandler = function () {};
+}
+```
+
+#### Variables in Overly Broad Scope
+
+```javascript
+// ESLint Warning: Variable 'onlyInFuncA' is declared in module scope but appears to be used only within the 'funcA' function scope. Consider moving its declaration into the 'funcA' scope.
+const onlyInFuncA = 100;
+function funcA() {
+  console.log(onlyInFuncA); // Only used here
+}
+function funcB() {
+  /* does not use onlyInFuncA */
+}
+
+// ESLint Warning: Variable 'configValue' is declared in module scope but appears to be used only within the 'initialize' function scope. Consider moving its declaration into the 'initialize' scope.
+let configValue;
+function initialize() {
+  configValue = { setting: true };
+  console.log(configValue);
+}
+```
+
+#### Using var Instead of let/const
+
+```javascript
+// ESLint Warning: Prefer 'let' or 'const' over 'var' for variable 'z'.
+var z = 3;
+
+// ESLint Warning: Prefer 'let' or 'const' over 'var' for variable 'count'.
+function oldStyle() {
+  var count = 0;
+  return count;
+}
+
+// ESLint Warning: Prefer 'let' or 'const' over 'var' for variable 'i'.
+for (var i = 0; i < 10; i++) {
+  console.log(i);
+}
+```
+
+#### Combined Violations
+
+```javascript
+// Multiple violations in one code block
+var utilityData = { helper: true }; // var usage violation
+function doWork() {
+  window.workResult = utilityData.helper; // global modification + scope violation
+}
+// ESLint Warnings:
+// 1. Prefer 'let' or 'const' over 'var' for variable 'utilityData'
+// 2. Variable 'utilityData' should be moved to narrower scope
+// 3. Avoid modifying the global object "window"
+```
+
+#### When to Disable
+
+Consider disabling this rule in specific cases:
+
+```javascript
+/* eslint-disable hub/limit-data-scope */
+// Legitimate polyfill or library initialization
+if (!window.customLibrary) {
+  window.customLibrary = {
+    version: '1.0.0',
+    init: function () {
+      /* ... */
+    },
+  };
+}
+/* eslint-enable hub/limit-data-scope */
+```
+
+#### Recommended Patterns
+
+#### ✅ Instead of Global Modifications
+
+```javascript
+// Use proper module exports/imports
+export const myUtility = {
+  customProperty: 123,
+  debug: true,
+};
+
+// Or use proper configuration patterns
+const config = {
+  apiUrl: process.env.API_URL || 'https://api.example.com',
+  debug: process.env.NODE_ENV !== 'production',
+};
+```
+
+#### ✅ Instead of Broad Scoping
+
+```javascript
+// Move variables to narrowest scope
+function processData() {
+  const localData = { processed: false }; // Declared where used
+
+  if (someCondition) {
+    localData.processed = true;
+    console.log(localData);
+  }
+
+  return localData;
+}
+
+// Use function parameters instead of outer variables
+function processItem(item) {
+  // Parameter instead of module-level variable
+  return item.value * 2;
+}
+```
+
+#### ✅ Instead of var
+
+```javascript
+// Use const for values that won't be reassigned
+const PI = 3.14159;
+const users = [];
+
+// Use let for values that will be reassigned
+let counter = 0;
+let currentUser = null;
+
+// Use proper block scoping
+if (condition) {
+  const blockScoped = getValue(); // Won't leak outside block
+  processValue(blockScoped);
+}
+```
+
+#### Benefits
+
+- **Prevents Namespace Pollution**: Avoids conflicts with other code and libraries
+- **Improves Code Organization**: Encourages proper scoping and separation of concerns
+- **Reduces Bugs**: Eliminates var-related hoisting issues and accidental global modifications
+- **Enhances Maintainability**: Makes code easier to understand and refactor
+- **Promotes Modern JavaScript**: Encourages use of ES6+ features and best practices
+- **Better IDE Support**: Modern variable declarations provide better IntelliSense and error detection
 
 ### 6. limit-reference-depth
 
@@ -1512,6 +1759,848 @@ function doEverything(data) {
 - **Code Reusability**: Well-factored helper functions can often be reused elsewhere
 - **Easier Code Reviews**: Reviewers can more easily understand and verify small functions
 - **Better Separation of Concerns**: Forces developers to think about function responsibilities
+
+### 8. use-runtime-assertions
+
+**Description**: Enforces the presence of a minimum number of runtime assertions in functions to validate inputs and critical intermediate values. This rule helps prevent bugs by encouraging defensive programming practices and proper input validation.
+
+**Rationale**: Functions without proper input validation are a common source of runtime errors and security vulnerabilities. Unvalidated inputs can lead to unexpected behavior, crashes, or even security exploits. Runtime assertions serve as guardrails that catch invalid data early, making code more robust and easier to debug. They also serve as executable documentation that clarifies the expected behavior and constraints of functions.
+
+**This rule enforces:**
+
+- Minimum number of runtime assertions per function
+- Support for various assertion patterns (if-throw, console.assert, custom utilities)
+- Configurable assertion requirements based on function complexity
+
+#### Example Configuration
+
+```javascript
+{
+  "rules": {
+    "hub/use-runtime-assertions": ["warn", {
+      "minAssertions": 2,
+      "assertionUtilityNames": ["assert", "invariant", "check"],
+      "ignoreEmptyFunctions": true
+    }]
+  }
+}
+```
+
+#### Recognized Assertion Patterns
+
+The rule recognizes these patterns as runtime assertions:
+
+1. **If-throw statements**: `if (condition) throw new Error(...)`
+2. **Direct throw statements**: `throw new Error(...)`
+3. **Console assertions**: `console.assert(condition, message)` (when 'assert' is in `assertionUtilityNames`)
+4. **Custom assertion utilities**: Any function call matching names in `assertionUtilityNames`
+
+#### Examples
+
+##### ✅ Valid Code (Should NOT produce warnings)
+
+#### Default Configuration (minAssertions: 2)
+
+```javascript
+// Function with proper input validation
+function calculate(price, rate) {
+  if (typeof price !== 'number') throw new Error('Invalid price');
+  if (typeof rate !== 'number') throw new Error('Invalid rate');
+  return price * rate;
+}
+
+// Mixed assertion types
+function processData(data) {
+  console.assert(data !== null, 'Data cannot be null');
+  if (!data.id) {
+    throw new Error('Data must have an ID');
+  }
+  return data.processed;
+}
+
+// Nested if-throw patterns
+function checkUser(user) {
+  if (!user) throw new Error('User undefined');
+  console.assert(user.active, 'User must be active');
+}
+
+// Arrow function with assertions
+const arrowAssert = val => {
+  if (!val) throw new Error('No val');
+  console.assert(val > 0, 'Val not positive');
+  return val * 2;
+};
+
+// Function expression with assertions
+const exprAssert = function (val) {
+  if (!val) throw new Error('No val');
+  console.assert(val > 0, 'Val not positive');
+  return val;
+};
+
+// Empty function (ignored by default)
+function noBody() {}
+
+// Arrow function with implicit return
+const implicit = a => a + 1;
+```
+
+#### Custom minAssertions: 1
+
+```javascript
+// Single assertion is sufficient
+function simpleCheck(value) {
+  if (value < 0) throw new Error('Value must be non-negative');
+  return Math.sqrt(value);
+}
+```
+
+#### Custom Assertion Utilities
+
+```javascript
+// Using custom assertion utility
+function customAssertTest(a, b) {
+  myCustomAssert(typeof a === 'string', 'A must be a string');
+  if (b < 0) {
+    throw new Error('B must be positive');
+  }
+  return a.repeat(b);
+}
+```
+
+#### Complex Nested Assertions
+
+```javascript
+// Nested if-throw counts as assertion
+function nestedIfThrow(value) {
+  if (value === null) {
+    if (true) {
+      // nested condition
+      throw new Error('Value is critically null');
+    }
+  }
+  if (value < 0) {
+    throw new Error('Value is negative');
+  }
+  return value;
+}
+```
+
+#### ❌ Invalid Code (Should PRODUCE warnings)
+
+#### Default Configuration (minAssertions: 2)
+
+```javascript
+// ESLint Error: Function "calculate" should have at least 2 runtime assertions, but found 1.
+function calculate(price, rate) {
+  if (typeof price !== 'number') throw new Error('Invalid price');
+  // Only one assertion - needs another
+  return price * rate;
+}
+
+// ESLint Error: Function "noAsserts" should have at least 2 runtime assertions, but found 0.
+function noAsserts(value) {
+  return value * 2;
+}
+
+// ESLint Error: Function "calculateDiscount" should have at least 2 runtime assertions, but found 0.
+function calculateDiscount(price, discountRate) {
+  // No input or output validation
+  return price - price * discountRate;
+}
+```
+
+#### Custom minAssertions: 3
+
+```javascript
+// ESLint Error: Function "needsThree" should have at least 3 runtime assertions, but found 2.
+function needsThree(a, b, c) {
+  if (!a) throw new Error('a is required');
+  console.assert(b, 'b is required');
+  // Only two assertions, but needs three
+  return a + b + c;
+}
+```
+
+#### Custom Assertion Utilities Not Recognized
+
+```javascript
+// When assertionUtilityNames: ['myOrgChecker'] (doesn't include 'assert')
+// ESLint Error: Function "usesWrongAssert" should have at least 2 runtime assertions, but found 1.
+function usesWrongAssert(value) {
+  // console.assert not counted because 'assert' not in assertionUtilityNames
+  console.assert(value, 'Value is present');
+  if (value < 0) throw new Error('Negative'); // Only this counts
+  return value;
+}
+```
+
+#### Arrow Functions
+
+```javascript
+// ESLint Error: Function "arrowNoAssert" should have at least 2 runtime assertions, but found 0.
+const arrowNoAssert = val => {
+  return val;
+};
+```
+
+#### Empty Functions (when ignoreEmptyFunctions: false)
+
+```javascript
+// ESLint Error: Function "empty" should have at least 2 runtime assertions, but found 0.
+function empty() {}
+```
+
+#### Configuration Examples
+
+#### Strict Validation (3+ assertions)
+
+```javascript
+{
+  "rules": {
+    "hub/use-runtime-assertions": ["error", {
+      "minAssertions": 3,
+      "assertionUtilityNames": ["assert", "invariant", "check"],
+      "ignoreEmptyFunctions": true
+    }]
+  }
+}
+```
+
+#### Minimal Validation (1 assertion)
+
+```javascript
+{
+  "rules": {
+    "hub/use-runtime-assertions": ["warn", {
+      "minAssertions": 1,
+      "assertionUtilityNames": ["assert"],
+      "ignoreEmptyFunctions": true
+    }]
+  }
+}
+```
+
+#### Custom Assertion Libraries
+
+```javascript
+{
+  "rules": {
+    "hub/use-runtime-assertions": ["warn", {
+      "minAssertions": 2,
+      "assertionUtilityNames": ["invariant", "check", "validate", "ensure"],
+      "ignoreEmptyFunctions": true
+    }]
+  }
+}
+```
+
+#### No Empty Function Exceptions
+
+```javascript
+{
+  "rules": {
+    "hub/use-runtime-assertions": ["warn", {
+      "minAssertions": 2,
+      "assertionUtilityNames": ["assert"],
+      "ignoreEmptyFunctions": false
+    }]
+  }
+}
+```
+
+#### Recommended Patterns
+
+#### ✅ Input Validation
+
+```javascript
+function processUser(user, options) {
+  // Validate required parameters
+  if (!user) throw new Error('User is required');
+  if (typeof user.id !== 'string') throw new Error('User ID must be string');
+
+  // Validate optional parameters
+  if (options && typeof options !== 'object') {
+    throw new Error('Options must be object');
+  }
+
+  return {
+    id: user.id,
+    name: user.name,
+    settings: options || {},
+  };
+}
+```
+
+#### ✅ Boundary Checking
+
+```javascript
+function calculatePercentage(value, total) {
+  if (typeof value !== 'number' || typeof total !== 'number') {
+    throw new Error('Both value and total must be numbers');
+  }
+  if (total === 0) throw new Error('Total cannot be zero');
+  if (value < 0 || total < 0) throw new Error('Values must be non-negative');
+
+  return (value / total) * 100;
+}
+```
+
+#### ✅ State Validation
+
+```javascript
+function withdrawFunds(account, amount) {
+  if (!account) throw new Error('Account is required');
+  if (typeof amount !== 'number' || amount <= 0) {
+    throw new Error('Amount must be positive number');
+  }
+  if (account.balance < amount) {
+    throw new Error('Insufficient funds');
+  }
+
+  account.balance -= amount;
+  return account.balance;
+}
+```
+
+#### ✅ Using Custom Assertion Utilities
+
+```javascript
+// With custom assertion utility
+function complexCalculation(data) {
+  invariant(data && typeof data === 'object', 'Data must be object');
+  invariant(Array.isArray(data.items), 'Data.items must be array');
+  check(data.items.length > 0, 'Items array cannot be empty');
+
+  return data.items.reduce((sum, item) => sum + item.value, 0);
+}
+```
+
+#### When to Disable
+
+Consider disabling this rule for:
+
+```javascript
+/* eslint-disable hub/use-runtime-assertions */
+// Simple utility functions with obvious behavior
+function add(a, b) {
+  return a + b;
+}
+
+// Functions that are already validated by TypeScript
+function typedFunction(value: NonNullable<string>): string {
+  return value.toUpperCase();
+}
+
+// Test helper functions
+function createMockUser() {
+  return { id: '123', name: 'Test User' };
+}
+/* eslint-enable hub/use-runtime-assertions */
+```
+
+#### Alternative Approaches
+
+Instead of disabling the rule, consider:
+
+#### Lower minAssertions for Simple Functions
+
+```javascript
+{
+  "rules": {
+    "hub/use-runtime-assertions": ["warn", { "minAssertions": 1 }]
+  }
+}
+```
+
+#### Use Type Checking + Runtime Validation
+
+```javascript
+function processData(data: unknown) {
+  // Runtime validation for dynamic data
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid data format');
+  }
+
+  if (!('id' in data) || typeof data.id !== 'string') {
+    throw new Error('Missing or invalid ID');
+  }
+
+  return data as { id: string };
+}
+```
+
+#### Benefits
+
+- **Early Error Detection**: Catches invalid inputs before they cause problems
+- **Better Debugging**: Clear error messages help identify issues quickly
+- **Executable Documentation**: Assertions serve as live documentation of function requirements
+- **Defensive Programming**: Encourages thinking about edge cases and error conditions
+- **Runtime Safety**: Provides guardrails that TypeScript can't offer for dynamic data
+- **Improved Reliability**: Reduces likelihood of silent failures and unexpected behavior
+- **Better Testing**: Assertions help identify test cases and boundary conditions
+
+### 9. minimize-deep-asynchronous-chains
+
+**Description**: Limits the depth of Promise chains and the number of await expressions in async functions to prevent overly complex asynchronous code that is difficult to read, debug, and maintain.
+
+**Rationale**: Deep Promise chains and functions with excessive await expressions create several problems: they are harder to understand and debug, make error handling more complex, can lead to callback hell-like patterns even with modern async/await syntax, and often indicate that code should be refactored into smaller, more focused functions. By limiting chain depth and await count, this rule encourages better code organization and maintainability.
+
+**This rule enforces:**
+
+- Maximum number of chained Promise methods (.then, .catch, .finally)
+- Maximum number of await expressions per async function
+- Configurable limits for both Promise chains and await expressions
+
+#### Default Configuration
+
+- `maxPromiseChainLength`: 3 (maximum chained .then/.catch/.finally calls)
+- `maxAwaitExpressions`: 3 (maximum await expressions per async function)
+
+#### Examples
+
+##### ✅ Valid Code (Should NOT produce warnings)
+
+#### Default Configuration (maxPromiseChainLength: 3, maxAwaitExpressions: 3)
+
+```javascript
+// Single .then() call
+fetch().then(res => res.json());
+
+// Two chained .then() calls
+fetch()
+  .then(res => res.json())
+  .then(data => console.log(data));
+
+// Mixed .then(), .catch(), .finally() - exactly at limit
+fetch().then().catch().finally();
+
+// Promise with .then() and .catch()
+promise.then(a => a).catch(err => console.error(err));
+
+// new Promise with chain
+new Promise(resolve => resolve()).then(x => x).finally(() => {});
+
+// Nested promise chains within limits
+functionA()
+  .then(() => {
+    return functionB().then(res => res); // Inner chain length 1
+  })
+  .then(final => console.log(final)); // Outer chain length 2
+
+// Single await
+async function foo() {
+  await p1;
+}
+
+// Two awaits
+async function foo() {
+  await p1;
+  await p2;
+}
+
+// Three awaits - at limit
+async function foo() {
+  await p1;
+  await p2;
+  await p3;
+}
+
+// Conditional await within limits
+async function bar() {
+  await step1();
+  if (condition) {
+    await step2(); // Still in same function scope
+  }
+  await step3();
+}
+
+// Nested async functions - each within limits
+async function outer() {
+  await p1(); // 1 for outer
+
+  async function inner() {
+    await p2(); // 1 for inner (separate function)
+    await p3(); // 2 for inner
+    await p4(); // 3 for inner
+  }
+
+  await inner(); // 2 for outer
+  await something(); // 3 for outer
+}
+
+// Async arrow function with 3 awaits
+const asyncArrow = async () => {
+  const a = await op1();
+  const b = await op2(a);
+  return await op3(b);
+};
+
+// Awaits with intermediate variables
+async function test() {
+  const promise = createPromise();
+  // await in different statements
+  const a = await promise;
+  const b = await processA(a);
+  const c = await processB(b);
+}
+
+// Non-promise method chaining should be ignored
+func1().func2().func3().func4();
+```
+
+#### Custom Configuration Examples
+
+```javascript
+// Chain of 4 allowed with custom config
+// maxPromiseChainLength: 4
+fetch().then().then().then().then();
+
+// 4 awaits allowed with custom config
+// maxAwaitExpressions: 4
+async function foo() {
+  await p1;
+  await p2;
+  await p3;
+  await p4;
+}
+
+// Different limits for promises vs awaits
+// maxPromiseChainLength: 5, maxAwaitExpressions: 1
+fetch().then().then();
+```
+
+##### ❌ Invalid Code (Should PRODUCE warnings)
+
+#### Default Configuration (maxPromiseChainLength: 3, maxAwaitExpressions: 3)
+
+```javascript
+// ESLint Error: Promise chain starting at fetch() has 4 .then/.catch/.finally calls, exceeding the maximum of 3.
+fetch().then().then().then().then();
+
+// ESLint Error: Promise chain starting at myPromise has 4 .then/.catch/.finally calls, exceeding the maximum of 3.
+myPromise.then(a).catch(b).then(c).finally(d);
+
+// ESLint Error: Promise chain starting at getData() has 4 .then/.catch/.finally calls, exceeding the maximum of 3.
+api.getData().then().then().then().catch();
+
+// ESLint Error: Promise chain starting at new Promise() has 4 .then/.catch/.finally calls, exceeding the maximum of 3.
+new Promise(resolve => resolve(1)).then().then().then().finally();
+
+// ESLint Error: Async function "foo" has 4 await expressions, exceeding the maximum of 3.
+async function foo() {
+  await p1;
+  await p2;
+  await p3;
+  await p4;
+}
+
+// ESLint Error: Async function "bar" has 5 await expressions, exceeding the maximum of 3.
+const bar = async () => {
+  await s1;
+  let x = await s2;
+  if (x) {
+    await s3;
+  }
+  await s4;
+  try {
+    await s5;
+  } catch (e) {}
+};
+
+// ESLint Error: Async function "processData" has 5 await expressions, exceeding the maximum of 3.
+async function processData(data) {
+  const validated = await validateData(data);
+  const transformed = await transformData(validated);
+  const enriched = await enrichData(transformed);
+  const saved = await saveData(enriched);
+  const notification = await sendNotification(saved);
+  return notification;
+}
+
+// ESLint Error: Async function "originalProblem" has 5 await expressions, exceeding the maximum of 3.
+async function originalProblem(id) {
+  const r1 = await op1(id);
+  const r2 = await op2(r1);
+  const r3 = await op3(r2);
+  const r4 = await op4(r3);
+  const r5 = await op5(r4);
+  return r5;
+}
+
+// ESLint Error: Promise chain starting at fetch() has 4 .then/.catch/.finally calls, exceeding the maximum of 3.
+fetch('/api/complex-data')
+  .then(response => response.json())
+  .then(data => firstProcessing(data))
+  .then(intermediate => secondProcessing(intermediate))
+  .then(finalData => displayResult(finalData));
+```
+
+#### Custom Configuration Violations
+
+```javascript
+// maxPromiseChainLength: 2
+// ESLint Error: Promise chain starting at fetch() has 3 .then/.catch/.finally calls, exceeding the maximum of 2.
+fetch().then().then().then();
+
+// maxAwaitExpressions: 2
+// ESLint Error: Async function "foo" has 3 await expressions, exceeding the maximum of 2.
+async function foo() {
+  await p1;
+  await p2;
+  await p3;
+}
+
+// maxPromiseChainLength: 10, maxAwaitExpressions: 3
+// ESLint Error: Async function "complexFlow" has 4 await expressions, exceeding the maximum of 3.
+async function complexFlow() {
+  await step1();
+  await step2();
+  await step3();
+  await step4();
+}
+```
+
+#### Mixed Violations (Both Types in Same Function)
+
+```javascript
+// ESLint Error: Async function "mixedViolations" has 4 await expressions, exceeding the maximum of 3.
+// ESLint Error: Promise chain starting at fetch() has 4 .then/.catch/.finally calls, exceeding the maximum of 3.
+async function mixedViolations() {
+  // This function has too many awaits
+  await step1();
+  await step2();
+  await step3();
+  await step4();
+
+  // And also creates a long promise chain
+  return fetch('/data')
+    .then(res => res.json())
+    .then(data => process1(data))
+    .then(result => process2(result))
+    .then(final => final);
+}
+```
+
+#### Configuration Examples
+
+#### Strict Limits (2 max for both)
+
+```javascript
+{
+  "rules": {
+    "hub/minimize-deep-asynchronous-chains": ["error", {
+      "maxPromiseChainLength": 2,
+      "maxAwaitExpressions": 2
+    }]
+  }
+}
+```
+
+#### Relaxed Limits (5 max for both)
+
+```javascript
+{
+  "rules": {
+    "hub/minimize-deep-asynchronous-chains": ["warn", {
+      "maxPromiseChainLength": 5,
+      "maxAwaitExpressions": 5
+    }]
+  }
+}
+```
+
+#### Mixed Limits (Different for promises vs awaits)
+
+```javascript
+{
+  "rules": {
+    "hub/minimize-deep-asynchronous-chains": ["warn", {
+      "maxPromiseChainLength": 4,
+      "maxAwaitExpressions": 2
+    }]
+  }
+}
+```
+
+#### Only Check Promise Chains
+
+```javascript
+{
+  "rules": {
+    "hub/minimize-deep-asynchronous-chains": ["warn", {
+      "maxPromiseChainLength": 3,
+      "maxAwaitExpressions": 999
+    }]
+  }
+}
+```
+
+#### Recommended Patterns
+
+#### ✅ Refactor Long Promise Chains
+
+```javascript
+// Instead of this (violates rule):
+fetch('/api/data')
+  .then(response => response.json())
+  .then(data => validateData(data))
+  .then(validData => processData(validData))
+  .then(processedData => saveData(processedData));
+
+// Do this:
+async function handleDataFlow() {
+  const response = await fetch('/api/data');
+  const data = await response.json();
+  const validData = await validateData(data);
+  const processedData = await processData(validData);
+  return await saveData(processedData);
+}
+
+// Or extract helper functions:
+async function fetchAndParseData() {
+  const response = await fetch('/api/data');
+  return await response.json();
+}
+
+async function processAndSaveData(data) {
+  const validData = await validateData(data);
+  const processedData = await processData(validData);
+  return await saveData(processedData);
+}
+
+async function handleDataFlow() {
+  const data = await fetchAndParseData();
+  return await processAndSaveData(data);
+}
+```
+
+#### ✅ Break Down Complex Async Functions
+
+```javascript
+// Instead of this (violates rule):
+async function complexOperation(id) {
+  const user = await fetchUser(id);
+  const profile = await fetchProfile(user.profileId);
+  const settings = await fetchSettings(user.settingsId);
+  const permissions = await fetchPermissions(user.roleId);
+  const activities = await fetchActivities(user.id);
+  return { user, profile, settings, permissions, activities };
+}
+
+// Do this:
+async function fetchUserData(id) {
+  const user = await fetchUser(id);
+  const profile = await fetchProfile(user.profileId);
+  const settings = await fetchSettings(user.settingsId);
+  return { user, profile, settings };
+}
+
+async function fetchUserMetadata(user) {
+  const permissions = await fetchPermissions(user.roleId);
+  const activities = await fetchActivities(user.id);
+  return { permissions, activities };
+}
+
+async function complexOperation(id) {
+  const userData = await fetchUserData(id);
+  const metadata = await fetchUserMetadata(userData.user);
+  return { ...userData, ...metadata };
+}
+```
+
+#### ✅ Use Promise.all for Parallel Operations
+
+```javascript
+// Instead of sequential awaits:
+async function fetchAllData(ids) {
+  const results = [];
+  for (const id of ids) {
+    const result = await fetchData(id);
+    results.push(result);
+  }
+  return results;
+}
+
+// Use parallel execution:
+async function fetchAllData(ids) {
+  const promises = ids.map(id => fetchData(id));
+  return await Promise.all(promises);
+}
+```
+
+#### When to Disable
+
+Consider disabling this rule for:
+
+```javascript
+/* eslint-disable hub/minimize-deep-asynchronous-chains */
+// Complex orchestration functions that legitimately need many async operations
+async function orchestrateComplexWorkflow(data) {
+  // This function coordinates a complex multi-step process
+  const validated = await validateInput(data);
+  const prepared = await prepareData(validated);
+  const processed = await processStep1(prepared);
+  const enhanced = await processStep2(processed);
+  const finalized = await processStep3(enhanced);
+  const result = await finalizeResult(finalized);
+  return result;
+}
+
+// Legacy code migration where immediate refactoring isn't feasible
+fetch('/legacy-api')
+  .then(response => response.json())
+  .then(data => legacyTransform1(data))
+  .then(data => legacyTransform2(data))
+  .then(data => legacyTransform3(data))
+  .then(data => legacyOutput(data));
+/* eslint-enable hub/minimize-deep-asynchronous-chains */
+```
+
+#### Alternative Approaches
+
+Instead of disabling the rule, consider:
+
+#### Higher Limits for Specific Cases
+
+```javascript
+{
+  "rules": {
+    "hub/minimize-deep-asynchronous-chains": ["warn", {
+      "maxPromiseChainLength": 5,
+      "maxAwaitExpressions": 6
+    }]
+  }
+}
+```
+
+#### Functional Composition
+
+```javascript
+// Use functional composition for complex transformations
+const pipe =
+  (...fns) =>
+  value =>
+    fns.reduce((acc, fn) => fn(acc), value);
+
+const processData = pipe(validateData, transformData, enrichData);
+
+async function handleData(rawData) {
+  const processed = await processData(rawData);
+  return await saveData(processed);
+}
+```
+
+#### Benefits
+
+- **Improved Readability**: Shorter chains and functions are easier to understand
+- **Better Error Handling**: Fewer nested operations make error handling clearer
+- **Enhanced Debugging**: Smaller async operations are easier to debug and test
+- **Encourages Composition**: Promotes breaking down complex operations into smaller, reusable functions
+- **Prevents Callback Hell**: Even with modern async/await, excessive nesting creates similar problems
+- **Better Maintainability**: Smaller, focused async functions are easier to modify and extend
+- **Performance Awareness**: Encourages thinking about whether operations can be parallelized
+- **Code Organization**: Forces developers to think about proper function boundaries and responsibilities
 
 ## Best Practices for Node.js Project Reliability
 
