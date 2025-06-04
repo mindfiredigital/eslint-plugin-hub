@@ -1,5 +1,6 @@
 // test/general/use-runtime-assertions.test.js
 const { RuleTester } = require('eslint');
+// Adjust the path to your rule file
 const rule = require('../../lib/rules/node/plugin/use-runtime-assertions')
   .rules['use-runtime-assertions'];
 
@@ -57,21 +58,23 @@ ruleTester.run('use-runtime-assertions', rule, {
           }
         }
       `,
-      options: [{ assertionUtilityNames: ['myCustomAssert'] }],
+      options: [
+        { assertionUtilityNames: ['myCustomAssert'], minAssertions: 2 },
+      ],
     },
     {
       code: `
         function nestedIfThrow(value) {
           if (value === null) {
             if (true) { // simplified nested
-                throw new Error('Value is critically null');
+                throw new Error('Value is critically null'); // Assertion 1
             }
           }
           if (value < 0) {
-            throw new Error('Value is negative');
+            throw new Error('Value is negative'); // Assertion 2
           }
         }
-      `, // This counts as 2: the outer if-containing-a-throw, and the second direct if-throw
+      `, // Counts 2
     },
     {
       // Arrow function
@@ -92,11 +95,17 @@ ruleTester.run('use-runtime-assertions', rule, {
         `,
     },
     {
-      code: `function noBody() {}`, // Valid: empty function should be ignored by default
+      code: `function noBody() {}`, // Valid: empty function, ignoreEmptyFunctions=true (default), minAssertions=2 (default)
+      options: [{ ignoreEmptyFunctions: true }], // Explicit for clarity, matches default
+    },
+    {
+      code: `function noBodyMinZero() {}`,
+      options: [{ minAssertions: 0, ignoreEmptyFunctions: true }],
     },
     {
       // Arrow function with implicit return
       code: `const implicit = (a) => a + 1;`,
+      options: [{ minAssertions: 0 }], // Valid because minAssertions is 0
     },
     {
       // Function with only return statement - this should be valid only if minAssertions is 0
@@ -104,16 +113,66 @@ ruleTester.run('use-runtime-assertions', rule, {
       options: [{ minAssertions: 0 }],
     },
     {
-      // Empty functions should be ignored when ignoreEmptyFunctions is false but minAssertions is 0
-      code: `function empty() {}`,
+      // Empty functions should be valid when ignoreEmptyFunctions is false but minAssertions is 0
+      code: `function emptyMinZeroNoIgnore() {}`,
       options: [{ minAssertions: 0, ignoreEmptyFunctions: false }],
+    },
+    // NEW TEST CASE for nested custom assertion
+    {
+      code: `
+        function readFileWithOptions_Good(options) {
+          customAppAssert(
+            typeof options.filePath === 'string' && options.filePath.length > 0,
+            'filePath must be a non-empty string.',
+          ); // Assertion 1
+
+          if (options.encoding !== undefined) {
+            customAppAssert(
+              options.encoding === 'utf-8' || options.encoding === 'ascii',
+              'Unsupported encoding specified.',
+            ); // Assertion 2
+          }
+        }
+      `,
+      options: [
+        { assertionUtilityNames: ['customAppAssert'], minAssertions: 2 },
+      ],
+    },
+    {
+      // Test case with a try-catch where assertion is in try
+      code: `
+        function tryCatchAssert(data) {
+          try {
+            if (!data) throw new Error("Data is required in try"); // Assertion 1
+            console.assert(data.value > 0, "Data value must be positive"); // Assertion 2
+          } catch (e) {
+            // handle error
+          }
+        }
+      `,
+      // Default minAssertions: 2. Both should be found.
+    },
+    {
+      // Test case with a switch statement
+      code: `
+        function switchAssert(value) {
+          switch(value) {
+            case 1:
+              if (value !== 1) throw new Error("Impossible"); // Assertion 1
+              break;
+            default:
+              console.assert(value > 1, "Value should be greater than 1 or not 1"); // Assertion 2
+          }
+        }
+      `,
+      // Default minAssertions: 2. Both should be found.
     },
   ],
   invalid: [
     // Default minAssertions: 2
     {
       code: `
-        function calculate(price, rate) {
+        function calculateOne(price, rate) {
           if (typeof price !== 'number') throw new Error('Invalid price');
           // Only one assertion
           return price * rate;
@@ -122,7 +181,7 @@ ruleTester.run('use-runtime-assertions', rule, {
       errors: [
         {
           messageId: 'missingAssertions',
-          data: { functionName: 'calculate', minCount: 2, foundCount: 1 },
+          data: { functionName: 'calculateOne', minCount: 2, foundCount: 1 },
         },
       ],
     },
@@ -143,8 +202,8 @@ ruleTester.run('use-runtime-assertions', rule, {
     {
       code: `
         function needsThree(a, b, c) {
-          if (!a) throw new Error('a is required');
-          console.assert(b, 'b is required');
+          if (!a) throw new Error('a is required'); // 1
+          console.assert(b, 'b is required');    // 2
           // Only two assertions
         }
       `,
@@ -160,23 +219,20 @@ ruleTester.run('use-runtime-assertions', rule, {
     {
       code: `
         function usesWrongAssert(value) {
-          // console.assert would be counted if 'assert' is in utility names (default)
-          // but if we override and don't include 'assert', it won't.
-          console.assert(value, 'Value is present');
-          if (value < 0) throw new Error('Negative');
+          console.assert(value, 'Value is present'); // Not counted
+          if (value < 0) throw new Error('Negative');   // Counted (1)
         }
       `,
-      // Here, 'assert' is not in assertionUtilityNames, so console.assert isn't counted.
       options: [{ assertionUtilityNames: ['myOrgChecker'], minAssertions: 2 }],
       errors: [
         {
           messageId: 'missingAssertions',
-          data: { functionName: 'usesWrongAssert', minCount: 2, foundCount: 1 }, // Only the 'throw' is counted
+          data: { functionName: 'usesWrongAssert', minCount: 2, foundCount: 1 },
         },
       ],
     },
     {
-      // Arrow function
+      // Arrow function with block body and no asserts
       code: `
         const arrowNoAssert = (val) => {
           return val;
@@ -190,7 +246,17 @@ ruleTester.run('use-runtime-assertions', rule, {
       ],
     },
     {
-      // Your example from the proposal
+      // Arrow function with implicit return and minAssertions > 0
+      code: `const implicitFail = (a) => a + 1;`,
+      options: [{ minAssertions: 1 }],
+      errors: [
+        {
+          messageId: 'missingAssertions',
+          data: { functionName: 'implicitFail', minCount: 1, foundCount: 0 },
+        },
+      ],
+    },
+    {
       code: `
         function calculateDiscount(price, discountRate) {
           // No input or output validation
@@ -209,11 +275,10 @@ ruleTester.run('use-runtime-assertions', rule, {
       ],
     },
     {
-      // Your example from the proposal - slightly modified to have one assertion
       code: `
         function calculateDiscountOne(price, discountRate) {
           if (typeof price !== 'number' || price <= 0) {
-            throw new Error('Price must be a positive number');
+            throw new Error('Price must be a positive number'); // 1
           }
           return price - (price * discountRate);
         }
@@ -229,14 +294,44 @@ ruleTester.run('use-runtime-assertions', rule, {
         },
       ],
     },
-    // Test case where empty functions should trigger error when ignoreEmptyFunctions is false
     {
-      code: `function empty() {}`,
-      options: [{ ignoreEmptyFunctions: false }],
+      code: `function emptyFail() {}`,
+      options: [{ ignoreEmptyFunctions: false, minAssertions: 2 }],
       errors: [
         {
           messageId: 'missingAssertions',
-          data: { functionName: 'empty', minCount: 2, foundCount: 0 },
+          data: { functionName: 'emptyFail', minCount: 2, foundCount: 0 },
+        },
+      ],
+    },
+    {
+      code: `function emptyFailOneAssert() {}`,
+      options: [{ ignoreEmptyFunctions: false, minAssertions: 1 }],
+      errors: [
+        {
+          messageId: 'missingAssertions',
+          data: {
+            functionName: 'emptyFailOneAssert',
+            minCount: 1,
+            foundCount: 0,
+          },
+        },
+      ],
+    },
+    {
+      // Test with a For loop that doesn't contain assertions
+      code: `
+        function loopNoAssert(arr) {
+          for (let i = 0; i < arr.length; i++) {
+            console.log(arr[i]);
+          }
+        }
+      `,
+      options: [{ minAssertions: 1 }],
+      errors: [
+        {
+          messageId: 'missingAssertions',
+          data: { functionName: 'loopNoAssert', minCount: 1, foundCount: 0 },
         },
       ],
     },
