@@ -110,12 +110,19 @@ This plugin provides the following rules:
 
 ### Advanced Rules
 
-| Rule Name                       | Description                                                                                                                                                                                                           |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `avoid-runtime-heap-allocation` | Discourages heap allocation of common data structures (arrays, objects, Maps, Sets) within function bodies, especially in loops, to promote reuse of pre-allocated structures and reduce garbage collection pressure. |
-| `minimize-complexflows`         | Enforces simplified control flow by limiting recursion and nesting depth, and detecting direct or lexically scoped recursion.                                                                                         |
-| `check-return-values`           | Enforces handling of return values from non-void functions. If the return value is intentionally not used, it should be explicitly ignored.                                                                           |
-| `no-build-env-in-source`        | Discourages direct conditional branching on `process.env` variables commonly used as build flags within source code, promoting configuration-driven behavior.                                                         |
+| Rule Name                           | Description                                                                                                                                                                                                          |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `avoid-runtime-heap-allocation`     | Discourages heap allocation of common data structures (arrays, objects, Maps, Sets) within function bodies, especially in loops, to promote reuse of pre-allocated structures and reduce garbage collection pressure |
+| `minimize-complexflows`             | Enforces simplified control flow by limiting recursion and nesting depth, and detecting direct or lexically scoped recursion                                                                                         |
+| `check-return-values`               | Enforces handling of return values from non-void functions. If the return value is intentionally not used, it should be explicitly ignored                                                                           |
+| `no-build-env-in-source`            | Discourages direct conditional branching on process.env variables commonly used as build flags within source code, promoting configuration-driven behavior                                                           |
+| `fixed-loop-bounds`                 | Enforces that loops have clearly defined bounds or deterministic exit conditions to prevent potentially infinite loops                                                                                               |
+| `no-disable-important-rules`        | Discourages disabling all rules or specific "important" ESLint rules (e.g., `no-unused-vars`, `no-console`), promoting proactive resolution of linter/compiler warnings                                              |
+| `use-runtime-assertions`            | Enforces the presence of a minimum number of runtime assertions in functions to validate inputs and critical intermediate values                                                                                     |
+| `minimize-deep-asynchronous-chains` | Limits the depth of Promise chains and the number of `await` expressions in async functions                                                                                                                          |
+| `limit-data-scope`                  | Enforces several best practices for data scoping: disallows global object modification, suggests moving variables to their narrowest functional scope, and discourages `var` usage.                                  |
+| `limit-reference-depth`             | Restricts the depth of chained property access and enforces optional chaining to prevent runtime errors, improve null safety, and encourage safer access patterns in deeply nested data structures.                  |
+| `keep-functions-concise`            | Enforces a maximum number of lines per function, with options to skip blank lines and comments, to promote readability, maintainability, and concise logic blocks.                                                   |
 
 ## Usage
 
