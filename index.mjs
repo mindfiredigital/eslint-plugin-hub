@@ -2,7 +2,7 @@
 import generalRules from './lib/rules/general/index.js';
 import reactRules from './lib/rules/react/index.js';
 import angularRules from './lib/rules/angular/index.js';
-import nodeRules from './lib/rules/node/index.js';
+import advancedRules from './lib/rules/advanced/index.js';
 import flatConfigBase from './configs/flat-config-base.mjs';
 import legacyConfigBase from './configs/legacy-config-base.mjs';
 import { fileURLToPath } from 'url';
@@ -73,7 +73,7 @@ const hub = {
     ...generalRules.rules,
     ...reactRules.rules,
     ...angularRules.rules,
-    ...nodeRules.rules,
+    ...advancedRules.rules,
   },
 };
 
@@ -84,7 +84,7 @@ const configs = {
   general: createConfig(convertRulesToLegacyConfig(generalRules.rules)),
   react: createConfig(convertRulesToLegacyConfig(reactRules.rules)),
   angular: createConfig(convertRulesToLegacyConfig(angularRules.rules)),
-  node: createConfig(convertRulesToLegacyConfig(nodeRules.rules)),
+  advanced: createConfig(convertRulesToLegacyConfig(advancedRules.rules)),
   mern: createConfig(mernRecommendedRulesLegacy),
 
   // Flat format configurations
@@ -101,7 +101,7 @@ const configs = {
     convertRulesToFlatConfig(angularRules.rules),
     'hub/flat/angular'
   ),
-  'flat/node': createConfig(convertRulesToFlatConfig(nodeRules.rules), 'hub/flat/node'),
+  'flat/advanced': createConfig(convertRulesToFlatConfig(advancedRules.rules), 'hub/flat/advanced'),
   'flat/mern': createConfig(mernRecommendedRulesFlat, 'hub/flat/mern'),
 };
 

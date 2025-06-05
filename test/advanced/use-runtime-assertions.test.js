@@ -1,6 +1,6 @@
 // test/general/use-runtime-assertions.test.js
 const { RuleTester } = require('eslint');
-const rule = require('../../lib/rules/node/plugin/use-runtime-assertions')
+const rule = require('../../lib/rules/advanced/plugin/use-runtime-assertions')
   .rules['use-runtime-assertions'];
 
 const ruleTester = new RuleTester({

@@ -1,7 +1,7 @@
 // test/general/minimize-deep-asynchronous-chains.test.js
 const { RuleTester } = require('eslint');
 const rule =
-  require('../../lib/rules/node/plugin/minimize-deep-asynchronous-chains')
+  require('../../lib/rules/advanced/plugin/minimize-deep-asynchronous-chains')
     .rules['minimize-deep-asynchronous-chains'];
 
 const ruleTester = new RuleTester({
