@@ -20,80 +20,58 @@ ruleTester.run(ruleName, rule, {
     // Value used
     {
       code: 'const result = someFunction();',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'let success; success = anotherFunction();',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'if (checkStatus()) { console.log("OK"); }',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'const arr = [getValue(), 1];',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'const obj = { prop: getProp() };',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'function main() { return process(); }',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'const val = () => returnsSomething();',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'console.log(formatData());',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'const x = 1 + calculate();',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'const y = ok() && notOk();',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'const z = !isDisabled();',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'async function f() { await asyncCall(); }',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'async function f2() { const res = await asyncCall(); }',
-      options: [{ requireExplicitIgnore: true }],
     },
-    { code: 'void Math.random();', options: [{ requireExplicitIgnore: true }] },
+    { code: 'void Math.random();' },
     {
       code: 'const result = Math.random();',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'void db.logAuditTrail();',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: '_ = db.performSideEffect();',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: '// return value intentionally ignored\ndb.update(record);',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'db.update(record); // return value intentionally ignored',
-      options: [{ requireExplicitIgnore: true }],
-    },
-    {
-      code: 'db.update(record);',
-      options: [{ requireExplicitIgnore: false }],
     },
     {
       code: `function updateRecordInDB(record) {
@@ -102,45 +80,35 @@ ruleTester.run(ruleName, rule, {
            console.error('Update failed for record:', record.id);
          }
        }`,
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'const res = obj.method1().method2();',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'const resultOfLongChain = obj.method1().method2.method3();',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'new MyClass(arg1, constructorCall());',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'const template = `value: ${getTemplateValue()}`;',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'async function test() { await someAsyncFunction(); }',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'function* gen() { yield getValue(); }',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'const arrSpread = [...getArray()];',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'const objSpread = { ...getObject() };',
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: `
         /* return value intentionally ignored */
         service.call();`,
-      options: [{ requireExplicitIgnore: true }],
     },
   ],
   invalid: [
@@ -152,7 +120,6 @@ ruleTester.run(ruleName, rule, {
           data: { functionName: 'someFunction' },
         },
       ],
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'db.update(record);',
@@ -162,7 +129,6 @@ ruleTester.run(ruleName, rule, {
           data: { functionName: 'db.update' },
         },
       ],
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'Math.random();',
@@ -172,7 +138,6 @@ ruleTester.run(ruleName, rule, {
           data: { functionName: 'Math.random' },
         },
       ],
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: `
@@ -184,7 +149,6 @@ ruleTester.run(ruleName, rule, {
           data: { functionName: 'anotherFunction' },
         },
       ],
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: `function updateRecordInDB(record) {
@@ -196,7 +160,6 @@ ruleTester.run(ruleName, rule, {
           data: { functionName: 'db.update' },
         },
       ],
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'obj.method1().method2();',
@@ -206,7 +169,6 @@ ruleTester.run(ruleName, rule, {
           data: { functionName: 'obj.method1().method2' },
         },
       ],
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: 'obj.method1().method2.method3();',
@@ -216,7 +178,6 @@ ruleTester.run(ruleName, rule, {
           data: { functionName: 'obj.method1().method2.method3' },
         },
       ],
-      options: [{ requireExplicitIgnore: true }],
     },
     {
       code: `
@@ -228,7 +189,6 @@ ruleTester.run(ruleName, rule, {
           data: { functionName: 'service.call' },
         },
       ],
-      options: [{ requireExplicitIgnore: true }],
     },
   ],
 });
