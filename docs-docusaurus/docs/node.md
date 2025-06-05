@@ -107,7 +107,7 @@ export default [
           maxAwaitExpressions: 3,
         },
       ],
-      'hub/check-return-values': ['warn', { requireExplicitIgnore: true }],
+      'hub/check-return-values': ['warn'],
       'hub/no-build-env-in-source': [
         'warn',
         {
@@ -2617,19 +2617,12 @@ async function handleData(rawData) {
 
 **Rationale**: Neglecting to check or use the return value of a function can lead to silent failures or missed opportunities to act on critical information. For instance, a function that updates a database might return a success/failure status; ignoring this status means the application might proceed unaware of an error. This rule encourages developers to be deliberate about function outcomes, improving code robustness and reliability.
 
-**Options**: The rule accepts a single object with the following property:
-
-#### `requireExplicitIgnore`
-
-- **Type**: `boolean`
-- **Description**: If true (default), any function call whose return value is not used must be explicitly marked as ignored (e.g., void func();, \_ = func();, or via a comment // return value intentionally ignored). If false, function calls whose return values are not used will not be flagged, effectively disabling the core check of this rule for explicit ignores.
-- **Default**: `true`
 - **Example Usage**:
 
 ```javascript
 {
   "rules": {
-    "hub/check-return-values": ["warn", { "requireExplicitIgnore": false }]
+    "hub/check-return-values": ["warn"]
   }
 }
 ```
@@ -2644,13 +2637,7 @@ export default [
   {
     plugins: { hub: hub },
     rules: {
-      'hub/check-return-values': [
-        'error',
-        {
-          // Using "error" severity
-          requireExplicitIgnore: true,
-        },
-      ],
+      'hub/check-return-values': ['error'],
       // ... other rules
     },
   },
@@ -2706,25 +2693,6 @@ function doSomething() {
 
 doSomething(); // Value not used
 ```
-
-#### Scenario 2: requireExplicitIgnore: false
-
-`"hub/check-return-values": ["warn", { "requireExplicitIgnore": false }]`
-
-#### ✅ Valid:
-
-```javascript
-function doSomething() {
-  return true;
-}
-doSomething(); // OK, explicit ignore not required
-
-const result = doSomething(); // Still OK (value used)
-
-console.warn('Warning message'); // Still OK, console calls are exempt
-```
-
-**Note**: When requireExplicitIgnore is false, the rule becomes much less strict. Its primary utility is when requireExplicitIgnore is true, encouraging deliberate handling or acknowledgment of all function return values.
 
 ### 11. no-build-env-in-source
 
