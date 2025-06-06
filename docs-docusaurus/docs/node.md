@@ -18,7 +18,6 @@ To enhance code quality, maintainability, and enforce best practices in your Nod
 | `use-runtime-assertions`            | Enforces the presence of a minimum number of runtime assertions in functions to validate inputs and critical intermediate values, promoting early error detection and contract-based programming.      |
 | `minimize-deep-asynchronous-chains` | Limits the depth of Promise chains (`.then`/`.catch`/`.finally`) and the number of `await` expressions within async functions to improve readability and manage complexity in asynchronous operations. |
 | `check-return-values`               | Enforces handling of return values from non-void functions. Ignored values should be explicitly marked via `void`, underscore assignment, or a specific comment.                                       |
-| `no-build-env-in-source`            | Discourages direct conditional branching on `process.env` variables commonly used as build flags, promoting configuration-driven behavior.                                                             |
 
 ### Configuration
 
@@ -108,13 +107,6 @@ export default [
         },
       ],
       'hub/check-return-values': ['warn'],
-      'hub/no-build-env-in-source': [
-        'warn',
-        {
-          disallowedEnvVariables: ['NODE_ENV', 'DEBUG'],
-          allowedComparisons: { NODE_ENV: ['production'] },
-        },
-      ],
       // ... any additional rule overrides or additions
     },
   },
@@ -2692,142 +2684,6 @@ function doSomething() {
 }
 
 doSomething(); // Value not used
-```
-
-### 11. no-build-env-in-source
-
-**Description**: Discourages direct conditional branching (i.e., if statements) on process.env variables that are typically set or controlled by the build process or deployment environment (e.g., NODE_ENV, DEBUG). This rule promotes centralizing environment-specific logic into dedicated configuration modules or using runtime flags, leading to cleaner, more testable, and maintainable code.
-
-**Rationale**: Scattering if (process.env.SOME_FLAG === 'value') checks throughout an application makes it difficult to manage environment-specific behavior and can lead to inconsistencies. It also makes the core application logic harder to test without extensive mocking of process.env. By encouraging the use of a configuration layer, this rule helps separate concerns and makes the application's behavior more predictable across different environments.
-
-**Options**: The rule accepts a single object with the following properties:
-
-#### `disallowedEnvVariables`
-
-- **Type**: `array of string`
-- **Description**: A list of process.env variable names (e.g., 'NODE_ENV', 'DEBUG') whose direct use in if statement conditions is discouraged.
-- **Default**: `['NODE_ENV', 'DEBUG']`
-- **Example Usage:**
-
-```javascript
-// In your ESLint config rules section:
-{
-  rules: { "hub/no-build-env-in-source": ["warn", { "disallowedEnvVariables": ["API_STAGE", "MOCK_MODE"] }] }
-}
-```
-
-#### `allowedComparisons`
-
-- **Type**: `object`
-- **Description**: An object where keys are environment variable names (from disallowedEnvVariables) and values are arrays of strings representing allowed comparison values. For example, {"NODE_ENV"- ["production"]} would allow if (process.env.NODE_ENV === 'production') but flag other comparisons involving NODE_ENV. Direct boolean usage (e.g., if (process.env.NODE_ENV)) is generally disallowed if the variable is in disallowedEnvVariables, regardless of this option, unless the intent is to allow its truthiness/falsiness as a general condition (which this rule discourages for "build flags").
-- **Default**: `{}`
-- **Example Usage:**
-
-```javascript
-// In your ESLint config rules section:
-{
-  rules: {
-    "hub/no-build-env-in-source": ["warn", {
-      "disallowedEnvVariables": ["NODE_ENV"],
-      "allowedComparisons": { "NODE_ENV": ["production", "test"] }
-    }]
-  }
-}
-```
-
-#### `suggestAlternative`
-
-- **Type**: `string`
-- **Description**: A custom message string to be included in the ESLint warning, suggesting an alternative approach.
-- **Default**: "Consider using a dedicated configuration module or runtime flags instead of branching directly on this build/environment variable."
-- **Example Usage:**
-
-```javascript
-// In your ESLint config rules section:
-{
-  rules: {
-    "hub/no-build-env-in-source": ["warn", {
-      "suggestAlternative": "Please use the global AppConfig object for environment checks."
-    }]
-  }
-}
-```
-
-Example of Full Configuration in eslint.config.js:
-
-```javascript
-// eslint.config.js
-import hub from '@mindfiredigital/eslint-plugin-hub';
-
-export default [
-  {
-    plugins: { hub: hub },
-    rules: {
-      'hub/no-build-env-in-source': [
-        'warn',
-        {
-          disallowedEnvVariables: ['NODE_ENV', 'FEATURE_FLAG_XYZ'],
-          allowedComparisons: { NODE_ENV: ['production'] },
-          suggestAlternative:
-            'Use `config.isProduction` or `config.featureFlags.XYZ` instead.',
-        },
-      ],
-      // ... other rules
-    },
-  },
-];
-```
-
-#### Examples:
-
-(Using the full example configuration above for these scenarios)
-
-#### ✅ Valid:
-
-```javascript
-// Checking an allowed comparison for a disallowed variable
-if (process.env.NODE_ENV === 'production') {
-  enableProdOptimizations();
-}
-
-// Using a process.env variable not in the 'disallowedEnvVariables' list
-const port = process.env.PORT || 3000;
-if (process.env.LOG_LEVEL === 'verbose') {
-  /* Assuming LOG_LEVEL is not disallowed */
-  setupVerboseLogging();
-}
-
-// Accessing process.env outside of an 'if' condition's test
-const currentEnv = process.env.NODE_ENV;
-function getDbConfig(envName = process.env.NODE_ENV) {
-  /* ... */
-}
-
-// Using a configuration module (recommended pattern)
-// Assume config.js: export default { isProduction: process.env.NODE_ENV === 'production', ... }
-import config from './config';
-if (config.isProduction) {
-  // This is fine as the direct process.env check is encapsulated
-}
-```
-
-#### ❌ Invalid:
-
-```javascript
-// Checking NODE_ENV for a non-allowed value ('development')
-if (process.env.NODE_ENV === 'development') {
-  // Flagged by default and with example config
-  setupDevEnvironment();
-}
-```
-
-**ESLint Warning:** Use config.isProduction or config.featureFlags.XYZ instead. (found: process.env.NODE_ENV === (or !==) 'development').
-
-```javascript
-// Direct usage of a disallowed variable (DEBUG is disallowed by default)
-if (process.env.DEBUG) {
-  enableVerboseLogging();
-}
 ```
 
 ## Best Practices for Node.js Project Reliability
