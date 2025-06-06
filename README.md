@@ -21,6 +21,7 @@ The `@mindfiredigital/eslint-plugin-hub` aims to help maintain consistent code q
   - [General Rules](#general-rules)
   - [React Rules](#react-rules)
   - [Angular Rules](#angular-rules)
+  - [Advanced Rules](#advanced-rules)
 - [Usage](#usage)
   - [Flat Configuration (`eslint.config.js`)](#flat-configuration-eslintconfigjs)
     - [For ES Module](#for-es-module)
@@ -106,6 +107,20 @@ This plugin provides the following rules:
 | `angular-no-direct-dom-manipulation` | Disallows direct DOM manipulation in Angular components.        |
 | `angular-limit-input`                | Enforces a limit on the number of inputs in Angular components. |
 | `angular-filenaming`                 | Enforces consistent naming conventions for Angular files.       |
+
+### Advanced Rules
+
+| Rule Name                           | Description                                                                                                                                                                                                          |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `avoid-runtime-heap-allocation`     | Discourages heap allocation of common data structures (arrays, objects, Maps, Sets) within function bodies, especially in loops, to promote reuse of pre-allocated structures and reduce garbage collection pressure |
+| `minimize-complexflows`             | Enforces simplified control flow by limiting recursion and nesting depth, and detecting direct or lexically scoped recursion                                                                                         |
+| `check-return-values`               | Enforces handling of return values from non-void functions. If the return value is intentionally not used, it should be explicitly ignored                                                                           |
+| `fixed-loop-bounds`                 | Enforces that loops have clearly defined bounds or deterministic exit conditions to prevent potentially infinite loops                                                                                               |
+| `use-runtime-assertions`            | Enforces the presence of a minimum number of runtime assertions in functions to validate inputs and critical intermediate values                                                                                     |
+| `minimize-deep-asynchronous-chains` | Limits the depth of Promise chains and the number of `await` expressions in async functions                                                                                                                          |
+| `limit-data-scope`                  | Enforces several best practices for data scoping: disallows global object modification, suggests moving variables to their narrowest functional scope, and discourages `var` usage.                                  |
+| `limit-reference-depth`             | Restricts the depth of chained property access and enforces optional chaining to prevent runtime errors, improve null safety, and encourage safer access patterns in deeply nested data structures.                  |
+| `keep-functions-concise`            | Enforces a maximum number of lines per function, with options to skip blank lines and comments, to promote readability, maintainability, and concise logic blocks.                                                   |
 
 ## Usage
 
