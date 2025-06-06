@@ -13,12 +13,10 @@ To enhance code quality, maintainability, and enforce best practices in your Nod
 | `limit-reference-depth`             | Restricts the depth of chained property access and enforces optional chaining to prevent runtime errors, improve null safety, and encourage safer access patterns in deeply nested data structures.    |
 | `keep-functions-concise`            | Enforces a maximum number of lines per function, with options to skip blank lines and comments, to promote readability, maintainability, and concise logic blocks.                                     |
 | `fixed-loop-bounds`                 | Enforces that loops have clearly defined termination conditions to prevent infinite loops.                                                                                                             |
-| `no-disable-important-rules`        | Discourages disabling all rules or specific "important" ESLint rules, promoting proactive resolution of linter/compiler warnings.                                                                      |
 | `limit-data-scope`                  | Enforces several best practices for data scoping: disallows global object modification, suggests moving variables to their narrowest functional scope, and discourages `var` usage.                    |
 | `use-runtime-assertions`            | Enforces the presence of a minimum number of runtime assertions in functions to validate inputs and critical intermediate values, promoting early error detection and contract-based programming.      |
 | `minimize-deep-asynchronous-chains` | Limits the depth of Promise chains (`.then`/`.catch`/`.finally`) and the number of `await` expressions within async functions to improve readability and manage complexity in asynchronous operations. |
 | `check-return-values`               | Enforces handling of return values from non-void functions. Ignored values should be explicitly marked via `void`, underscore assignment, or a specific comment.                                       |
-| `no-build-env-in-source`            | Discourages direct conditional branching on `process.env` variables commonly used as build flags, promoting configuration-driven behavior.                                                             |
 
 ### Configuration
 
@@ -68,12 +66,6 @@ export default [
           /* options */
         },
       ],
-      'hub/no-disable-important-rules': [
-        'warn',
-        {
-          /* options */
-        },
-      ],
       'hub/limit-data-scope': [
         'warn',
         {
@@ -108,13 +100,6 @@ export default [
         },
       ],
       'hub/check-return-values': ['warn'],
-      'hub/no-build-env-in-source': [
-        'warn',
-        {
-          disallowedEnvVariables: ['NODE_ENV', 'DEBUG'],
-          allowedComparisons: { NODE_ENV: ['production'] },
-        },
-      ],
       // ... any additional rule overrides or additions
     },
   },
@@ -684,136 +669,7 @@ while (true) {
 **When Not To Use It:**
 You might consider disabling `disallowExternalFlagLoops` if you have loops where the controlling flag is intentionally modified by asynchronous operations or in a deeply nested utility function whose side effects on the flag are not easily detectable by static analysis (though this is generally an anti-pattern for loop control).
 
-### 4. no-disable-important-rules
-
-**Description:**
-This rule discourages the use of ESLint disable comments (`/* eslint-disable */`, `// eslint-disable-line`, `// eslint-disable-next-line`) in two scenarios:
-
-1. When they are used to disable all rules (blanket disable).
-2. When they are used to disable a specific set of predefined "important" rules.
-
-The default important rules are: `no-unused-vars`, `no-console`, `no-undef`, and `eqeqeq`.
-
-**Rationale:**
-Warnings from linters and compilers often highlight potential bugs, performance issues, or security vulnerabilities. Disabling these warnings without addressing the underlying issue can lead to technical debt and more significant problems later. This rule encourages developers to fix warnings or, if a disable is truly necessary, to be specific and provide justification.
-
-**Options:**
-The rule accepts an object with the following optional property:
-
-- `importantRules` (array of strings): Allows you to override the default list of "important" rule names that should not be disabled.
-  - **Default important rules:** `['no-unused-vars', 'no-console', 'no-undef', 'eqeqeq']`
-  - Example: `importantRules: ["no-debugger", "my-plugin/my-critical-rule"]`
-
-**Supported Disable Directives:**
-The rule detects and analyzes the following ESLint disable comment patterns:
-
-- `/* eslint-disable */` - Blanket disable (always flagged)
-- `/* eslint-disable-line */` - Blanket disable for current line (always flagged)
-- `/* eslint-disable-next-line */` - Blanket disable for next line (always flagged)
-- `/* eslint-disable rule-name */` - Specific rule disable (flagged if rule is "important")
-- `/* eslint-disable rule-a, rule-b */` - Multiple specific rules (each checked individually)
-
-**Examples of Incorrect Code:**
-
-```javascript
-/* eslint-disable */ // INCORRECT: Blanket disable of all rules
-function messyCode() {
-  var x = 10; // Would normally warn for 'no-unused-vars'
-  console.log('Debug message left in code'); // Would normally warn for 'no-console'
-}
-
-// eslint-disable-next-line
-const anotherBlanket = true; // INCORRECT: Blanket disable for the next line
-
-// eslint-disable-line
-const yetAnother = false; // INCORRECT: Blanket disable for current line
-
-// eslint-disable-next-line no-unused-vars
-const myVar = 'I am actually used later'; // INCORRECT: Disabling an important rule
-
-/* eslint-disable no-console, no-undef */ // INCORRECT: Disabling multiple important rules
-console.info('This should be logged via a proper logger');
-someUndefinedVariable = value;
-/* eslint-enable no-console, no-undef */
-
-// eslint-disable-next-line eqeqeq
-if (value == 'test') {
-  // INCORRECT: Disabling important rule 'eqeqeq'
-  doSomething();
-}
-```
-
-**Examples of Correct Code:**
-
-```javascript
-// Correct: No disable comments, addressing issues directly
-function cleanCode() {
-  const x = 10;
-  logger.info('Using proper logging instead of console'); // Fixed instead of disabled
-  return x; // Using the variable instead of leaving it unused
-}
-
-// Correct: Disabling a specific, non-important rule with justification
-// eslint-disable-next-line some-other-plugin/some-specific-rule -- Justification for this specific case
-doSomethingSpecific();
-
-// Correct: Using strict equality instead of disabling eqeqeq
-if (value === 'test') {
-  // Fixed the == vs === issue
-  doSomething();
-}
-
-// Correct: Properly declaring variables instead of disabling no-undef
-const someVariable = 'defined value'; // Declared instead of leaving undefined
-
-// Correct: Using the variable instead of disabling no-unused-vars
-const importantData = fetchData();
-processData(importantData); // Actually using the variable
-```
-
-**Best Practices:**
-
-- **Strict ESLint/TS Compiler Setups:** Projects should aim for the strictest possible ESLint configurations and TypeScript compiler options (e.g., `strict: true` in `tsconfig.json`).
-- **Address Warnings Early:** Treating warnings as errors forces developers to address them immediately, preventing technical debt.
-- **Document Disable Reasons:** Any `eslint-disable` comment should be accompanied by a clear explanation of why it's necessary.
-
-**When Not To Use It:**
-This rule might be overly restrictive during initial project scaffolding or large refactors. In such cases, it can be temporarily set to "warn" or disabled, but should be re-enabled as soon as possible.
-
-**Description:**
-Enforces best practices for data scoping, such as avoiding global object modification and preferring narrower variable scopes.
-
-**Rationale:**
-Proper data scoping helps prevent naming conflicts, makes code more maintainable, and reduces the risk of unintended side effects.
-
-**Examples of Incorrect Code:**
-
-```javascript
-// Incorrect: Modifying global objects
-global.myVariable = 'value';
-
-// Incorrect: Using var in block scope where let/const would be better
-if (condition) {
-  var result = processData();
-}
-```
-
-**Examples of Correct Code:**
-
-```javascript
-// Correct: Using appropriate scoping
-if (condition) {
-  const result = processData();
-  // Use result within this scope
-}
-
-// Correct: Avoiding global modifications
-const config = {
-  myVariable: 'value',
-};
-```
-
-### 5. limit-data-scope
+### 4. limit-data-scope
 
 **Description**: Enforces several best practices for data scoping to improve code maintainability and prevent common JavaScript pitfalls. This rule helps developers write cleaner, more organized code by discouraging global object modifications, encouraging proper variable scoping, and promoting modern variable declarations.
 
@@ -1045,7 +901,7 @@ if (condition) {
 - **Promotes Modern JavaScript**: Encourages use of ES6+ features and best practices
 - **Better IDE Support**: Modern variable declarations provide better IntelliSense and error detection
 
-### 6. limit-reference-depth
+### 5. limit-reference-depth
 
 **Description**: Limits the depth of chained property access and enforces optional chaining to prevent runtime errors. This rule helps avoid brittle code that can crash when encountering null or undefined values in property chains, encouraging safer access patterns and better error handling.
 
@@ -1379,7 +1235,7 @@ return config?.env?.settings?.meta?.internal?.key?.value; // Too complex
 return user?.profile.settings.theme; // Inconsistent safety
 ```
 
-### 7. keep-functions-concise
+### 6. keep-functions-concise
 
 **Description**: Enforces a maximum number of lines per function to promote clean, modular code and better maintainability. This rule helps prevent monolithic functions that are hard to read, test, and debug by encouraging developers to break down large functions into smaller, focused, and reusable helper functions.
 
@@ -1769,7 +1625,7 @@ function doEverything(data) {
 - **Easier Code Reviews**: Reviewers can more easily understand and verify small functions
 - **Better Separation of Concerns**: Forces developers to think about function responsibilities
 
-### 8. use-runtime-assertions
+### 7. use-runtime-assertions
 
 **Description**: Enforces the presence of a minimum number of runtime assertions in functions to validate inputs and critical intermediate values. This rule helps prevent bugs by encouraging defensive programming practices and proper input validation.
 
@@ -2149,7 +2005,7 @@ function processData(data: unknown) {
 - **Improved Reliability**: Reduces likelihood of silent failures and unexpected behavior
 - **Better Testing**: Assertions help identify test cases and boundary conditions
 
-### 9. minimize-deep-asynchronous-chains
+### 8. minimize-deep-asynchronous-chains
 
 **Description**: Limits the depth of Promise chains and the number of await expressions in async functions to prevent overly complex asynchronous code that is difficult to read, debug, and maintain.
 
@@ -2611,7 +2467,7 @@ async function handleData(rawData) {
 - **Performance Awareness**: Encourages thinking about whether operations can be parallelized
 - **Code Organization**: Forces developers to think about proper function boundaries and responsibilities
 
-### 10. check-return-values
+### 9. check-return-values
 
 **Description**: Enforces handling of return values from non-void functions. If a function's return value is intentionally not used, it should be explicitly ignored via void operator, assignment to an underscore (\_), or a specific comment. This rule helps prevent bugs caused by unintentionally overlooking important results from function calls, such as error flags, success statuses, or computed data. It exempts standard console.\* method calls.
 
@@ -2692,142 +2548,6 @@ function doSomething() {
 }
 
 doSomething(); // Value not used
-```
-
-### 11. no-build-env-in-source
-
-**Description**: Discourages direct conditional branching (i.e., if statements) on process.env variables that are typically set or controlled by the build process or deployment environment (e.g., NODE_ENV, DEBUG). This rule promotes centralizing environment-specific logic into dedicated configuration modules or using runtime flags, leading to cleaner, more testable, and maintainable code.
-
-**Rationale**: Scattering if (process.env.SOME_FLAG === 'value') checks throughout an application makes it difficult to manage environment-specific behavior and can lead to inconsistencies. It also makes the core application logic harder to test without extensive mocking of process.env. By encouraging the use of a configuration layer, this rule helps separate concerns and makes the application's behavior more predictable across different environments.
-
-**Options**: The rule accepts a single object with the following properties:
-
-#### `disallowedEnvVariables`
-
-- **Type**: `array of string`
-- **Description**: A list of process.env variable names (e.g., 'NODE_ENV', 'DEBUG') whose direct use in if statement conditions is discouraged.
-- **Default**: `['NODE_ENV', 'DEBUG']`
-- **Example Usage:**
-
-```javascript
-// In your ESLint config rules section:
-{
-  rules: { "hub/no-build-env-in-source": ["warn", { "disallowedEnvVariables": ["API_STAGE", "MOCK_MODE"] }] }
-}
-```
-
-#### `allowedComparisons`
-
-- **Type**: `object`
-- **Description**: An object where keys are environment variable names (from disallowedEnvVariables) and values are arrays of strings representing allowed comparison values. For example, {"NODE_ENV"- ["production"]} would allow if (process.env.NODE_ENV === 'production') but flag other comparisons involving NODE_ENV. Direct boolean usage (e.g., if (process.env.NODE_ENV)) is generally disallowed if the variable is in disallowedEnvVariables, regardless of this option, unless the intent is to allow its truthiness/falsiness as a general condition (which this rule discourages for "build flags").
-- **Default**: `{}`
-- **Example Usage:**
-
-```javascript
-// In your ESLint config rules section:
-{
-  rules: {
-    "hub/no-build-env-in-source": ["warn", {
-      "disallowedEnvVariables": ["NODE_ENV"],
-      "allowedComparisons": { "NODE_ENV": ["production", "test"] }
-    }]
-  }
-}
-```
-
-#### `suggestAlternative`
-
-- **Type**: `string`
-- **Description**: A custom message string to be included in the ESLint warning, suggesting an alternative approach.
-- **Default**: "Consider using a dedicated configuration module or runtime flags instead of branching directly on this build/environment variable."
-- **Example Usage:**
-
-```javascript
-// In your ESLint config rules section:
-{
-  rules: {
-    "hub/no-build-env-in-source": ["warn", {
-      "suggestAlternative": "Please use the global AppConfig object for environment checks."
-    }]
-  }
-}
-```
-
-Example of Full Configuration in eslint.config.js:
-
-```javascript
-// eslint.config.js
-import hub from '@mindfiredigital/eslint-plugin-hub';
-
-export default [
-  {
-    plugins: { hub: hub },
-    rules: {
-      'hub/no-build-env-in-source': [
-        'warn',
-        {
-          disallowedEnvVariables: ['NODE_ENV', 'FEATURE_FLAG_XYZ'],
-          allowedComparisons: { NODE_ENV: ['production'] },
-          suggestAlternative:
-            'Use `config.isProduction` or `config.featureFlags.XYZ` instead.',
-        },
-      ],
-      // ... other rules
-    },
-  },
-];
-```
-
-#### Examples:
-
-(Using the full example configuration above for these scenarios)
-
-#### ✅ Valid:
-
-```javascript
-// Checking an allowed comparison for a disallowed variable
-if (process.env.NODE_ENV === 'production') {
-  enableProdOptimizations();
-}
-
-// Using a process.env variable not in the 'disallowedEnvVariables' list
-const port = process.env.PORT || 3000;
-if (process.env.LOG_LEVEL === 'verbose') {
-  /* Assuming LOG_LEVEL is not disallowed */
-  setupVerboseLogging();
-}
-
-// Accessing process.env outside of an 'if' condition's test
-const currentEnv = process.env.NODE_ENV;
-function getDbConfig(envName = process.env.NODE_ENV) {
-  /* ... */
-}
-
-// Using a configuration module (recommended pattern)
-// Assume config.js: export default { isProduction: process.env.NODE_ENV === 'production', ... }
-import config from './config';
-if (config.isProduction) {
-  // This is fine as the direct process.env check is encapsulated
-}
-```
-
-#### ❌ Invalid:
-
-```javascript
-// Checking NODE_ENV for a non-allowed value ('development')
-if (process.env.NODE_ENV === 'development') {
-  // Flagged by default and with example config
-  setupDevEnvironment();
-}
-```
-
-**ESLint Warning:** Use config.isProduction or config.featureFlags.XYZ instead. (found: process.env.NODE_ENV === (or !==) 'development').
-
-```javascript
-// Direct usage of a disallowed variable (DEBUG is disallowed by default)
-if (process.env.DEBUG) {
-  enableVerboseLogging();
-}
 ```
 
 ## Best Practices for Node.js Project Reliability
