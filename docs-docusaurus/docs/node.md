@@ -568,6 +568,31 @@ The rule accepts an object with the following optional properties:
 - `disallowInfiniteWhile` (boolean, default: `true`): If true, flags `while(true)`, `do...while(true)`, `for(;;)`, and `for(;true;)` loops that do not have an effective break statement within their body.
 - `disallowExternalFlagLoops` (boolean, default: `true`): If true, flags `while` or `do...while` loops whose condition is an identifier (or its negation like `!flag`) that is not reassigned or updated within the loop's body.
 
+**Configuration Example:**
+
+```javascript
+// eslint.config.js
+import hubPlugin from '@mindfiredigital/eslint-plugin-hub';
+
+export default [
+  {
+    plugins: {
+      hub: hubPlugin,
+    },
+    rules: {
+      // Enable with default options (recommended for critical issues like infinite loops)
+      'hub/fixed-loop-bounds': 'error',
+
+      // Or, enable with custom options:
+      'hub/fixed-loop-bounds': ['error', {
+        disallowInfiniteWhile: true,       // Default: true
+        disallowExternalFlagLoops: false   // Example: Allow external flag loops
+      }],
+    },
+  },
+];
+```
+
 **Important Implementation Details:**
 
 - The rule performs static analysis to detect `break` statements that effectively terminate the loop
