@@ -1,7 +1,6 @@
-// test/general/use-runtime-assertions.test.js
 const { RuleTester } = require('eslint');
-// Adjust the path to your rule file
-const rule = require('../../lib/rules/advanced/plugin/use-runtime-assertions').rules['use-runtime-assertions'];
+const rule = require('../../lib/rules/advanced/plugin/use-runtime-assertions')
+  .rules['use-runtime-assertions'];
 
 const ruleTester = new RuleTester({
   languageOptions: { ecmaVersion: 2020, sourceType: 'module' },
@@ -116,7 +115,6 @@ ruleTester.run('use-runtime-assertions', rule, {
       code: `function emptyMinZeroNoIgnore() {}`,
       options: [{ minAssertions: 0, ignoreEmptyFunctions: false }],
     },
-    // NEW TEST CASE for nested custom assertion
     {
       code: `
         function readFileWithOptions_Good(options) {
