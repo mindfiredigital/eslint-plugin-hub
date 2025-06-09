@@ -1,4 +1,3 @@
-// eslint-plugin-hub/test/general/limit-data-scope.test.js
 const { RuleTester } = require('eslint');
 const rules = require('../../index').rules;
 
@@ -25,17 +24,16 @@ const ruleTester = new RuleTester({
 
 ruleTester.run('limit-data-scope', rules['limit-data-scope'], {
   valid: [
-    // === Section 1: Valid for "No Global Object Modification" ===
+    // Valid for "No Global Object Modification"
     { code: 'const myVar = {}; myVar.prop = 1;' },
     { code: 'function foo() { let window = {}; window.bar = 1; }' },
     { code: 'function bar() { let global = {}; global.test = 2; }' },
     { code: 'const obj = { window: {} }; obj.window.prop = 1;' },
     { code: 'let globalThis = {}; globalThis.custom = true;' },
-    { code: 'const config = window.location || {};' }, // Reading is OK
-    { code: 'console.log(global.process);' }, // Reading is OK
-    { code: 'const val = globalThis.crypto;' }, // Reading is OK
+    { code: 'const config = window.location || {};' },
+    { code: 'console.log(global.process);' },
+    { code: 'const val = globalThis.crypto;' },
 
-    // === Section 2: Valid for "Narrowest Scope" ===
     {
       // Variable used in multiple functions - should stay at module level
       code: `
@@ -101,7 +99,7 @@ ruleTester.run('limit-data-scope', rules['limit-data-scope'], {
       `,
     },
 
-    // === Section 3: Valid for "Discourage var" (i.e., uses let/const) ===
+    // Valid for "Discourage var" (i.e., uses let/const) ===
     { code: 'let x = 1;' },
     { code: 'const y = 2;' },
     { code: 'for (let i = 0; i < 5; i++) {}' },
@@ -110,7 +108,7 @@ ruleTester.run('limit-data-scope', rules['limit-data-scope'], {
   ],
 
   invalid: [
-    // === Section 1: Invalid for "No Global Object Modification" ===
+    // Invalid for "No Global Object Modification" ===
     {
       code: 'window.myCustomProperty = 123;',
       errors: [
@@ -175,7 +173,7 @@ ruleTester.run('limit-data-scope', rules['limit-data-scope'], {
       ],
     },
 
-    // === Section 2: Invalid for "Narrowest Scope" ===
+    // Invalid for "Narrowest Scope" ===
     {
       code: `
         const onlyInFuncA = 100; // Declared at module scope
@@ -336,7 +334,7 @@ ruleTester.run('limit-data-scope', rules['limit-data-scope'], {
       ],
     },
 
-    // === Section 3: Invalid for "Discourage var" ===
+    // Invalid for "Discourage var" ===
     {
       code: 'var z = 3;',
       errors: [{ messageId: 'useLetConst', data: { variableName: 'z' } }],

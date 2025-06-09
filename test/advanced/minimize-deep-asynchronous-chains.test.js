@@ -1,4 +1,3 @@
-// test/general/minimize-deep-asynchronous-chains.test.js
 const { RuleTester } = require('eslint');
 const rule =
   require('../../lib/rules/advanced/plugin/minimize-deep-asynchronous-chains')
@@ -268,7 +267,6 @@ ruleTester.run('minimize-deep-asynchronous-chains', rule, {
       name: 'Only await limit violated with mixed config',
     },
 
-    // Real-world examples from the specification
     {
       code: `
         async function originalProblem(id) {
