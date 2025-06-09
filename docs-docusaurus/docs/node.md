@@ -706,6 +706,16 @@ You might consider disabling `disallowExternalFlagLoops` if you have loops where
 2. **Narrowest Scope**: Suggests moving variables to their most restrictive scope when they're only used within a single function
 3. **Modern Variable Declarations**: Discourages `var` usage in favor of `let` and `const`
 
+#### configuration
+ 
+```js
+{
+  rules: {
+    'hub/limit-data-scope': 'warn'
+  }
+}
+```
+
 #### Examples
 
 #### ✅ Valid Code (Should NOT produce warnings)
