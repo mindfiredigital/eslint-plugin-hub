@@ -1,10 +1,10 @@
-# Node
+# Advanced
 
-## Node Plugin Configuration
+## Advanced Plugin Configuration
 
-To enhance code quality, maintainability, and enforce best practices in your Node projects, the Eslint Plugin Hub provides several Node.js-focused rules. These rules help manage code complexity and promote efficient memory usage patterns critical for server-side applications.
+To enhance code quality, maintainability, and enforce best practices in your projects, the Eslint Plugin Hub provides several advanced rules. These rules help manage code complexity and promote efficient memory usage patterns critical for server-side applications.
 
-### Node Rules
+### Advanced Rules
 
 | Rule Name                           | Description                                                                                                                                                                                            |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -26,7 +26,7 @@ ESLint v9+ uses `eslint.config.js` (flat config). Older versions use `.eslintrc.
 
 **For Flat Config (e.g., `eslint.config.js`):**
 
-You can extend a pre-defined Node.js configuration from the plugin or configure rules manually.
+You can extend a pre-defined advanced configuration from the plugin or configure rules manually.
 
 ```javascript
 // eslint.config.js
@@ -106,7 +106,7 @@ export default [
 ];
 ```
 
-## Node.js Rule Details
+## Advanced Rule Details
 
 ### 1. minimize-complexflows
 
@@ -374,9 +374,9 @@ Encourages efficient memory management by discouraging the creation of new commo
 
 Okay, I understand! You want the documentation for avoid-runtime-heap-allocation formatted precisely like the Docusaurus-style Markdown you provided for the minimize-complex-flows rule.
 
-Here's the documentation for node/avoid-runtime-heap-allocation in that format:
+Here's the documentation for advanced/avoid-runtime-heap-allocation in that format:
 
-node/avoid-runtime-heap-allocation
+advanced/avoid-runtime-heap-allocation
 Description:
 Encourages efficient memory management by discouraging the creation of new common data structures (arrays [], objects {}, new Map(), new Set(), etc.) directly within function bodies, and especially inside loops. This practice helps to reduce garbage collection pressure and improve performance.
 
@@ -525,7 +525,7 @@ function processBatchWithLoopCheck(batch) {
 `ESLint Warning: Runtime allocation of 'Object' ({ id: batch[i].id }) detected inside a loop within function processBatchWithLoopCheck. This can severely impact performance. Pre-allocate and reuse this structure.`
 
 `Scenario 3: Option allowedConstructs: ['Map']
-("hub/node/avoid-runtime-heap-allocation": ["warn", { "allowedConstructs": ["Map"] }])`
+("hub/advanced/avoid-runtime-heap-allocation": ["warn", { "allowedConstructs": ["Map"] }])`
 
 Valid (Should NOT produce warnings from this rule for Map):
 
@@ -584,10 +584,13 @@ export default [
       'hub/fixed-loop-bounds': 'error',
 
       // Or, enable with custom options:
-      'hub/fixed-loop-bounds': ['error', {
-        disallowInfiniteWhile: true,       // Default: true
-        disallowExternalFlagLoops: false   // Example: Allow external flag loops
-      }],
+      'hub/fixed-loop-bounds': [
+        'error',
+        {
+          disallowInfiniteWhile: true, // Default: true
+          disallowExternalFlagLoops: false, // Example: Allow external flag loops
+        },
+      ],
     },
   },
 ];
@@ -707,7 +710,7 @@ You might consider disabling `disallowExternalFlagLoops` if you have loops where
 3. **Modern Variable Declarations**: Discourages `var` usage in favor of `let` and `const`
 
 #### configuration
- 
+
 ```js
 {
   rules: {
