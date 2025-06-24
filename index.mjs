@@ -3,8 +3,12 @@ import generalRules from './lib/rules/general/index.js';
 import reactRules from './lib/rules/react/index.js';
 import angularRules from './lib/rules/angular/index.js';
 import advancedRules from './lib/rules/advanced/index.js';
+
+import expressRules from './lib/rules/node/express/open-api-spec/index.js';
+
 import flatConfigBase from './configs/flat-config-base.mjs';
 import legacyConfigBase from './configs/legacy-config-base.mjs';
+
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { readFileSync } from 'fs';
@@ -74,6 +78,7 @@ const hub = {
     ...reactRules.rules,
     ...angularRules.rules,
     ...advancedRules.rules,
+    ...expressRules.rules,
   },
 };
 
@@ -85,6 +90,7 @@ const configs = {
   react: createConfig(convertRulesToLegacyConfig(reactRules.rules)),
   angular: createConfig(convertRulesToLegacyConfig(angularRules.rules)),
   advanced: createConfig(convertRulesToLegacyConfig(advancedRules.rules)),
+  express: createConfig(convertRulesToLegacyConfig(expressRules.rules)),
   mern: createConfig(mernRecommendedRulesLegacy),
 
   // Flat format configurations
@@ -102,6 +108,9 @@ const configs = {
     'hub/flat/angular'
   ),
   'flat/advanced': createConfig(convertRulesToFlatConfig(advancedRules.rules), 'hub/flat/advanced'),
+
+  'flat/express': createConfig(convertRulesToFlatConfig(expressRules.rules), 'hub/flat/express'),
+  
   'flat/mern': createConfig(mernRecommendedRulesFlat, 'hub/flat/mern'),
 };
 

@@ -4,6 +4,7 @@ const angularRules = require('./lib/rules/angular/index.js');
 const advancedRules = require('./lib/rules/advanced/index.js');
 const flatConfigBase = require('./configs/flat-config-base.js');
 const legacyConfigBase = require('./configs/legacy-config-base.js');
+const expressRules = require('./lib/rules/node/express/open-api-spec/index.js');
 const { name, version } = require('./package.json');
 
 // Helper function to convert rule definitions to rule configurations for legacy config
@@ -65,6 +66,7 @@ const hub = {
     ...reactRules.rules,
     ...angularRules.rules,
     ...advancedRules.rules,
+    ...expressRules.rules,
   },
 };
 
@@ -76,6 +78,7 @@ const configs = {
   react: createConfig(convertRulesToLegacyConfig(reactRules.rules)),
   angular: createConfig(convertRulesToLegacyConfig(angularRules.rules)),
   advanced: createConfig(convertRulesToLegacyConfig(advancedRules.rules)),
+  express: createConfig(convertRulesToLegacyConfig(expressRules.rules)),
   mern: createConfig(mernRecommendedRulesLegacy),
 
   // Flat format configurations
@@ -96,6 +99,12 @@ const configs = {
     convertRulesToFlatConfig(advancedRules.rules),
     'hub/flat/advanced'
   ),
+
+  'flat/express': createConfig(
+    convertRulesToFlatConfig(expressRules.rules),
+    'hub/flat/express'
+  ),
+
   'flat/mern': createConfig(mernRecommendedRulesFlat, 'hub/flat/mern'),
 };
 
