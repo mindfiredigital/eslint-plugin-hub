@@ -122,6 +122,12 @@ This plugin provides the following rules:
 | `limit-reference-depth`             | Restricts the depth of chained property access and enforces optional chaining to prevent runtime errors, improve null safety, and encourage safer access patterns in deeply nested data structures.                  |
 | `keep-functions-concise`            | Enforces a maximum number of lines per function, with options to skip blank lines and comments, to promote readability, maintainability, and concise logic blocks.                                                   |
 
+### Express Rules
+
+| Rule Name          | Description                                                                    |
+| ------------------ | ------------------------------------------------------------------------------ |
+| `verb-consistency` | Enforces standard REST verbs (GET, POST, PUT, DELETE, PATCH) in Express routes |
+
 ## Usage
 
 You can enable the plugin and configure the rules using either flat or legacy configurations.
