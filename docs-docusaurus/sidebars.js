@@ -7,10 +7,11 @@ const sidebars = {
     'intro',
     'installation',
     'configuration',
+    'eslint-report',
     {
       type: 'category',
       label: 'Rules',
-      items: ['general', 'react', 'angular', 'advanced'],
+      items: ['general', 'react', 'angular', 'advanced', 'node-express'],
     },
     {
       type: 'category',
