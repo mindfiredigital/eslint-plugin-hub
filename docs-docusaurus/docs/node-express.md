@@ -11,7 +11,7 @@ To ensure consistent coding standards and best practices in Angular projects, th
 | `consistent-route-format`      | Enforce consistent formatting for Express route paths: always start with a leading slash and disallow trailing slashes (unless it\'s the root "/").                  |
 | `http-status-code`           | Ensure that Express.js route handlers use appropriate HTTP status codes based on the HTTP method.                  |
 | `plural-resource-paths` | Enforce plural naming for resource paths in Express routes to promote RESTful API design.        |
-| `verb-consistency`                | Ensure Express routes use standard REST verbs only (GET, POST, PUT, DELETE, PATCH). |
+| `verb-consistency`       | Ensure Express routes use standard REST verbs only (GET, POST, PUT, DELETE, PATCH). |
 
 
 ### Configuration

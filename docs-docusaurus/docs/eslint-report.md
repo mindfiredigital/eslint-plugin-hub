@@ -35,7 +35,7 @@ For local development across multiple projects, you can use npm link:
 # In your eslint-plugin-hub project directory
 npm link
 
-# In your target project directory (e.g., mern-ecom-api)
+# In your target project directory
 npm link eslint-plugin-hub
 
 For a single project or in a CI/CD environment, install it as a development dependency:
@@ -46,7 +46,7 @@ Running the Report Generator
 Once installed, you can run the report generator from the root of your project. The command accepts an optional path to the project you want to analyze. If no path is provided, it will analyze the current directory.
 
 # Run on the current project
-npx eslint-report .
+npx eslint-plugin-hub .
 
 # Or run on a different project using a relative path
 npx eslint-report ../path/to/another-project
@@ -58,7 +58,7 @@ For easier use, it is highly recommended to add the command to the scripts secti
 {
   "scripts": {
     "lint": "eslint . --fix",
-    "lint:report": "eslint-report ."
+    "lint:report": "eslint-api-checker ."
   }
 }
 ```
@@ -66,9 +66,6 @@ For easier use, it is highly recommended to add the command to the scripts secti
 You can then generate a report at any time by running:
 
 npm run lint:report
-
-Including the Logo
-For the PDF report to correctly display your company logo, you must ensure the static folder is included when the eslint-plugin-hub package is published or linked. Add the following "files" array to your eslint-plugin-hub/package.json:
 
 ```json
 {
