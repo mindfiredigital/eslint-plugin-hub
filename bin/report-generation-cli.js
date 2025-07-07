@@ -143,45 +143,40 @@ async function createPdfReport(issues, reportDir) {
 
   try {
     const logoPath = path.join(__dirname, '..', 'static', 'img', 'logo.png');
-    const titleText = 'ESLint Issues Report';
-    const logoHeight = 40;
     const logoWidth = 40;
-    const spacing = 10;
-
-    doc.fontSize(20).font('Helvetica-Bold');
-    const titleWidth = doc.widthOfString(titleText);
-    const headerBlockWidth = logoWidth + spacing + titleWidth;
+    const logoHeight = 40;
     const pageWidth =
       doc.page.width - doc.page.margins.left - doc.page.margins.right;
-    const startX = doc.page.margins.left + (pageWidth - headerBlockWidth) / 2;
-    const startY = doc.y;
+    const logoX = doc.page.margins.left + pageWidth - logoWidth;
+    const logoY = doc.page.margins.top;
 
     if (fs.existsSync(logoPath)) {
-      doc.image(logoPath, startX, startY, {
+      doc.image(logoPath, logoX, logoY, {
         width: logoWidth,
         height: logoHeight,
       });
     }
 
-    const textHeight = doc.heightOfString(titleText);
-    const textY = startY + (logoHeight - textHeight) / 2;
+    const titleText = 'ESLint Plugin Hub Issues Report';
+    doc.fontSize(20).font('Helvetica-Bold');
+    const titleWidth = doc.widthOfString(titleText);
+    const titleX = doc.page.margins.left + (pageWidth - titleWidth) / 2;
+    const titleY =
+      doc.page.margins.top + (logoHeight - doc.heightOfString(titleText)) / 2;
 
-    doc
-      .fillColor('red')
-      .font('Helvetica-Bold')
-      .fontSize(20)
-      .text(titleText, startX + logoWidth + spacing, textY);
+    doc.fillColor('red').text(titleText, titleX, titleY);
 
-    doc.y = startY + logoHeight;
-    doc.moveDown(0.5);
-
+    const belowHeaderY = doc.page.margins.top + logoHeight + 5;
     const dateText = `Generated on: ${new Date().toLocaleString()}`;
     doc
       .fontSize(10)
       .font('Helvetica')
       .fillColor('black')
-      .text(dateText, { align: 'center' });
-    doc.moveDown(2);
+      .text(dateText, doc.page.margins.left, belowHeaderY, {
+        align: 'center',
+        width: pageWidth,
+      });
+    doc.y = belowHeaderY + doc.heightOfString(dateText) + 10;
 
     if (issues.length === 0) {
       doc
@@ -198,7 +193,7 @@ async function createPdfReport(issues, reportDir) {
           'Severity',
           'File Path',
           'Location',
-          'Rule ID',
+          'Rule Name',
           'Message',
         ],
         columns: [
