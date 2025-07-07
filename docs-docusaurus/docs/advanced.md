@@ -372,13 +372,6 @@ ESLint Warning: Avoid nesting control structures deeper than 3 levels. Current d
 **Description:**
 Encourages efficient memory management by discouraging the creation of new common data structures (arrays [], objects {}, new Map(), new Set(), etc.) directly within function bodies, and especially inside loops. This practice helps to reduce garbage collection pressure and improve performance.
 
-Okay, I understand! You want the documentation for avoid-runtime-heap-allocation formatted precisely like the Docusaurus-style Markdown you provided for the minimize-complex-flows rule.
-
-Here's the documentation for advanced/avoid-runtime-heap-allocation in that format:
-
-advanced/avoid-runtime-heap-allocation
-Description:
-Encourages efficient memory management by discouraging the creation of new common data structures (arrays [], objects {}, new Map(), new Set(), etc.) directly within function bodies, and especially inside loops. This practice helps to reduce garbage collection pressure and improve performance.
 
 **Rationale**: Frequent dynamic memory allocations and deallocations during an application's runtime can lead to several performance issues. These include general performance degradation due to the overhead of memory management, excessive garbage collection (GC) cycles which can pause application execution, and memory fragmentation. Over time, fragmentation can make it difficult for the system to find contiguous blocks of memory, even if sufficient total memory is free. Keeping memory usage predictable and minimizing runtime allocations are crucial for long-running, resource-intensive, or real-time applications, ensuring smoother operation and stability. This rule promotes pre-allocation and reuse of data structures where feasible.
 
