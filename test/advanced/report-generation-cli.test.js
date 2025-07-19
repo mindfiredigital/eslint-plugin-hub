@@ -69,29 +69,65 @@ describe('ESLint Report CLI', () => {
           ],
         },
       ]);
-
       exec.mockImplementation((command, options, callback) => {
         callback(null, mockEslintOutput, '');
       });
-
       const results = await runEslintInProject('/fake/project');
       expect(results).toHaveLength(1);
       expect(results[0].filePath).toBe('test-file.js');
       expect(exec).toHaveBeenCalledWith(
-        expect.stringContaining('eslint.cmd" --format json'),
+        expect.stringContaining('eslint'),
         expect.any(Object),
         expect.any(Function)
       );
     });
 
-    it('should resolve with an empty array when no issues are found', async () => {
-      // Mock `exec` to simulate a successful run with no output
-      exec.mockImplementation((command, options, callback) => {
-        callback(null, '[]', '');
-      });
+    it('should reject if ESLint executable is missing', async () => {
+      fs.existsSync.mockImplementation((p) => false);
+      await expect(runEslintInProject('/missing/project')).rejects.toThrow(
+        'Could not find a local ESLint installation'
+      );
+    });
 
+    it('should reject if ESLint output is invalid JSON', async () => {
+      exec.mockImplementation((command, options, callback) => {
+        callback(null, 'not-json', '');
+      });
+      await expect(runEslintInProject('/fake/project')).rejects.toMatch(
+        /Failed to parse ESLint JSON output/
+      );
+    });
+
+    it('should resolve with an empty array if ESLint returns no messages', async () => {
+      const mockOutput = JSON.stringify([
+        { filePath: 'test-file.js', messages: [] },
+        { filePath: 'another.js', messages: [] },
+      ]);
+      exec.mockImplementation((command, options, callback) => {
+        callback(null, mockOutput, '');
+      });
       const results = await runEslintInProject('/fake/project');
       expect(results).toEqual([]);
+    });
+
+    it('should handle multiple files with issues', async () => {
+      const mockOutput = JSON.stringify([
+        {
+          filePath: 'file1.js',
+          messages: [{ ruleId: 'no-undef', severity: 2, line: 2, column: 3, message: 'Undef error' }],
+        },
+        {
+          filePath: 'file2.js',
+          messages: [{ ruleId: 'semi', severity: 1, line: 5, column: 10, message: 'Missing semicolon' }],
+        },
+      ]);
+      exec.mockImplementation((command, options, callback) => {
+        callback(null, mockOutput, '');
+      });
+      const results = await runEslintInProject('/fake/project');
+      expect(results).toHaveLength(2);
+      expect(results[0].filePath).toBe('file1.js');
+      expect(results[1].filePath).toBe('file2.js');
     });
 
     it('should reject when the eslint command fails', async () => {
@@ -100,10 +136,7 @@ describe('ESLint Report CLI', () => {
       exec.mockImplementation((command, options, callback) => {
         callback(error, '', stderr);
       });
-
-      await expect(runEslintInProject('/fake/project')).rejects.toContain(
-        stderr
-      );
+      await expect(runEslintInProject('/fake/project')).rejects.toContain(stderr);
     });
   });
 
@@ -127,37 +160,30 @@ describe('ESLint Report CLI', () => {
           message: 'message2',
         },
       ];
-
       await createPdfReport(issues, '/fake/report-dir');
-
       expect(pdfDocument).toHaveBeenCalled();
-
       expect(mockPdfDoc.text).toHaveBeenCalledWith(
-        'ESLint Issues Report',
+        'ESLint Plugin Hub Issues Report',
         expect.any(Number),
         expect.any(Number)
       );
-
       expect(mockPdfDoc.text).toHaveBeenCalledWith(
         expect.stringContaining('Errors (1)'),
         expect.any(Number),
         expect.any(Number),
         expect.objectContaining({ align: 'center' })
       );
-
       expect(mockPdfDoc.text).toHaveBeenCalledWith(
         expect.stringContaining('Warnings (1)'),
         expect.any(Number),
         expect.any(Number),
         expect.any(Object)
       );
-
       expect(mockPdfDoc.end).toHaveBeenCalled();
     });
 
     it('should generate a PDF stating no issues were found', async () => {
       await createPdfReport([], '/fake/report-dir');
-
       expect(mockPdfDoc.text).toHaveBeenCalledWith('No linting issues found.', {
         align: 'center',
       });
